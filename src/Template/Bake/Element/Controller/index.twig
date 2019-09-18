@@ -1,0 +1,71 @@
+{#
+/**
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://cakephp.org CakePHP(tm) Project
+ * @since         2.0.0
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ */
+#}
+{% set allAssociations = Bake.aliasExtractor(modelObj, 'BelongsTo') %}
+{% set allAssociations = allAssociations|merge(Bake.aliasExtractor(modelObj, 'BelongsToMany')) %}
+{% set allAssociations = allAssociations|merge(Bake.aliasExtractor(modelObj, 'HasOne')) %}
+{% set allAssociations = allAssociations|merge(Bake.aliasExtractor(modelObj, 'HasMany')) %}
+	var $navigation = [ 
+		[ 'label' => 'New {{ singularName }}', 'config' => [ 'controller' => '{{ currentModelName }}', 'action' => 'add' ]],
+		[ 'label' => 'List {{ singularName }}', 'config' => [ 'controller' => '{{ currentModelName }}', 'action' => 'index' ]],{{- "\n" }}
+{%- for assoc in allAssociations %}
+    {%- set name = Bake.getAssociatedTableAlias(modelObj, assoc) %}
+		[ 'label' => 'List {{ name }}', 'config' => ['controller' => '{{ name }}', 'action' => 'index' ]],
+		[ 'label' => 'Add {{ name }}', 'config' => ['controller' => '{{ name }}', 'action' => 'add' ]],
+{% endfor %}
+    ];
+	
+    /**
+     * Index method
+     *
+     * @return \Cake\Http\Response|void
+     */
+    public function index()
+    {
+{% set belongsTo = Bake.aliasExtractor(modelObj, 'BelongsTo') %}
+{% if belongsTo %}
+        $this->paginate = [
+            'contain' => [{{ Bake.stringifyList(belongsTo, {'indent': false})|raw }}]
+        ];
+{% endif %}
+        ${{ pluralName }} = $this->paginate($this->{{ currentModelName }});
+		
+		$navigation = $this->navigation;
+
+        $this->set(compact('{{ pluralName }}','navigation'));
+    }
+
+	public function ajax($function = false){
+		
+		$this->autoRender = false;
+		
+	    // Force le controller à rendre une réponse JSON.
+        $this->RequestHandler->renderAs($this, 'json');
+		
+        // Définit le type de réponse de la requete AJAX
+        $this->response->type('application/json');
+
+        // Chargement du layout AJAX
+        $this->viewBuilder()->layout('ajax');
+		
+		// Chargement des données
+		$json_data[] = ['id'=>2500,'title'=>'test','start'=>'2018-07-16 12:30:00','end'=>'2018-07-18 05:45:00','url'=>'http://localhost/crud/antennes/view/1'];
+		$json_data[] = ['id'=>2501,'title'=>'test','start'=>'2018-07-18 05:45:00','end'=>'2018-07-27'];//,'rendering'=>'background'
+
+		$response = $this->response->withType('json')->withStringBody(json_encode($json_data));
+		
+		// Retour des données encodées en JSON
+		return $response;
+	}

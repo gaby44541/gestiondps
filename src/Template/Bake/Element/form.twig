@@ -1,0 +1,112 @@
+{#
+/**
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://cakephp.org CakePHP(tm) Project
+ * @since         2.0.0
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ */
+#}
+{% set fields = Bake.filterFields(fields, schema, modelObject) %}
+<?php
+$this->prepend( 'script' , $this->Html->script('locales/bootstrap-datetimepicker.fr.js',['charset'=>'UTF8']) );
+$this->prepend( 'script' , $this->Html->script('bootstrap-datetimepicker',['charset'=>'UTF8']) );
+$this->prepend( 'css' , $this->Html->css('bootstrap-datetimepicker.min',['media'=>'screen']) );
+?>
+<div class="{{ pluralVar }} edit col-lg-12 col-md-12 columns content">
+	<h1>
+	<?= __('{{ action|humanize }} {{ singularHumanName }}') ?>
+	<?= $this->element('buttons',['controller'=>'{{ pluralVar }}','options'=>'index']) ?>
+	</h1>
+	<?php
+	$this->Form->setConfig('columns', [
+		'sm' => [
+			'label' => 4,
+			'input' => 8,
+			'error' => 0
+		],
+		'md' => [
+			'label' => 4,
+			'input' => 8,
+			'error' => 0
+		]
+	]);
+	?>
+    <?= $this->Form->create(${{ singularVar }}, ['horizontal' => true]) ?>
+    <fieldset>
+{% set counts = fields|length %}
+{% set counts = ( counts / 2 )|round %}
+{% set compteur = 0 %}        
+		<div class="col-lg-6 col-md-12 columns">
+		<h3><?= __('{{ singularVar }}') ?></h3>        
+        <?php
+
+{% for field in fields if field not in primaryKey %}
+    {%- if keyFields[field] %}
+        {%- set fieldData = Bake.columnData(field, schema) %}
+        {%- if fieldData.null %}
+            echo $this->Form->control('{{ field }}', ['options' => ${{ keyFields[field] }},'class' => 'form-control','empty' => true ,'help' => __('')]);
+            {{- "\n" }}
+        {%- else %}
+            echo $this->Form->control('{{ field }}', ['options' => ${{ keyFields[field] }},'class' => 'form-control','help' => __('')]);
+            {{- "\n" }}
+        {%- endif %}
+    {%- elseif field not in ['created', 'modified', 'updated'] %}
+        {%- set fieldData = Bake.columnData(field, schema) %}
+        {%- if fieldData.type in ['date', 'datetime', 'time'] and fieldData.null %}
+            echo $this->Form->control('{{ field }}', ['type'=>'datetimepicking','empty' => true,'class' => 'form-control','help' => __('')]);
+            {{- "\n" }}
+        {%- else %}
+            echo $this->Form->control('{{ field }}', ['class' => 'form-control','help' => __('')]);
+    {{- "\n" }}
+        {%- endif %}
+    {%- endif %}
+{% set compteur = compteur + 1 %}
+{% if compteur == counts %}
+		?>
+		</div>
+		<div class="col-lg-6 col-md-12 columns">
+		<h3><?= __('{{ singularVar }}') ?></h3>  
+		<?php
+{%- endif %}
+{%- endfor %}
+		
+{%- if associations.BelongsToMany %}
+    {%- for assocName, assocData in associations.BelongsToMany %}
+            echo $this->Form->control('{{ assocData.property }}._ids', ['options' => ${{ assocData.variable }}]);
+    {{- "\n" }}
+    {%- endfor %}
+{% endif %}
+
+{%- if associations.HasOne %}
+    {%- for assocName, assocData in associations.HasOne %}
+            echo $this->Form->control('{{ assocData.property }}._ids', ['options' => ${{ assocData.variable }}]);
+    {{- "\n" }}
+    {%- endfor %}
+{% endif %}
+        ?>
+		</div>
+    </fieldset>
+    <?= $this->Form->button(__('Submit'),['class' => 'btn btn-large btn-primary']) ?>
+    <?= $this->Form->end() ?>
+</div>
+
+<script type="text/javascript">
+    $('.datetimepicker').datetimepicker({
+        language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		forceParse: 0,
+        showMeridian: 0,
+		format:'yyyy-mm-dd hh:ii'
+    });
+</script>

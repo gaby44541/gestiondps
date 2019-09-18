@@ -1,0 +1,1378 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2018-07-18 10:25+0000\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: Controller/AntennesController.php:75;98
+msgid "The antenne has been saved."
+msgstr ""
+
+#: Controller/AntennesController.php:79;102
+msgid "The antenne could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/AntennesController.php:120
+msgid "The antenne has been deleted."
+msgstr ""
+
+#: Controller/AntennesController.php:122
+msgid "The antenne could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/ConfigDelaisController.php:63;87
+msgid "The config delai has been saved."
+msgstr ""
+
+#: Controller/ConfigDelaisController.php:67;91
+msgid "The config delai could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/ConfigDelaisController.php:108
+msgid "The config delai has been deleted."
+msgstr ""
+
+#: Controller/ConfigDelaisController.php:110
+msgid "The config delai could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/ConfigEnvironnementsController.php:63;87
+msgid "The config environnement has been saved."
+msgstr ""
+
+#: Controller/ConfigEnvironnementsController.php:67;91
+msgid "The config environnement could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/ConfigEnvironnementsController.php:108
+msgid "The config environnement has been deleted."
+msgstr ""
+
+#: Controller/ConfigEnvironnementsController.php:110
+msgid "The config environnement could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/ConfigEtatsController.php:63;87
+msgid "The config etat has been saved."
+msgstr ""
+
+#: Controller/ConfigEtatsController.php:67;91
+msgid "The config etat could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/ConfigEtatsController.php:108
+msgid "The config etat has been deleted."
+msgstr ""
+
+#: Controller/ConfigEtatsController.php:110
+msgid "The config etat could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/ConfigParametresController.php:61;85
+msgid "The config parametre has been saved."
+msgstr ""
+
+#: Controller/ConfigParametresController.php:65;89
+msgid "The config parametre could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/ConfigParametresController.php:106
+msgid "The config parametre has been deleted."
+msgstr ""
+
+#: Controller/ConfigParametresController.php:108
+msgid "The config parametre could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/ConfigPostesController.php:61;85
+msgid "The config poste has been saved."
+msgstr ""
+
+#: Controller/ConfigPostesController.php:65;89
+msgid "The config poste could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/ConfigPostesController.php:106
+msgid "The config poste has been deleted."
+msgstr ""
+
+#: Controller/ConfigPostesController.php:108
+msgid "The config poste could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/ConfigRecommandationsController.php:63;87
+msgid "The config recommandation has been saved."
+msgstr ""
+
+#: Controller/ConfigRecommandationsController.php:67;91
+msgid "The config recommandation could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/ConfigRecommandationsController.php:108
+msgid "The config recommandation has been deleted."
+msgstr ""
+
+#: Controller/ConfigRecommandationsController.php:110
+msgid "The config recommandation could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/ConfigTypepublicsController.php:63;87
+msgid "The config typepublic has been saved."
+msgstr ""
+
+#: Controller/ConfigTypepublicsController.php:67;91
+msgid "The config typepublic could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/ConfigTypepublicsController.php:108
+msgid "The config typepublic has been deleted."
+msgstr ""
+
+#: Controller/ConfigTypepublicsController.php:110
+msgid "The config typepublic could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/DemandesController.php:70;96
+msgid "The demande has been saved."
+msgstr ""
+
+#: Controller/DemandesController.php:74;100
+msgid "The demande could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/DemandesController.php:119
+msgid "The demande has been deleted."
+msgstr ""
+
+#: Controller/DemandesController.php:121
+msgid "The demande could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/DimensionnementsController.php:68;93
+msgid "The dimensionnement has been saved."
+msgstr ""
+
+#: Controller/DimensionnementsController.php:72;97
+msgid "The dimensionnement could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/DimensionnementsController.php:115
+msgid "The dimensionnement has been deleted."
+msgstr ""
+
+#: Controller/DimensionnementsController.php:117
+msgid "The dimensionnement could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/DispositifsController.php:74;102
+msgid "The dispositif has been saved."
+msgstr ""
+
+#: Controller/DispositifsController.php:78;106
+msgid "The dispositif could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/DispositifsController.php:127
+msgid "The dispositif has been deleted."
+msgstr ""
+
+#: Controller/DispositifsController.php:129
+msgid "The dispositif could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/EquipesController.php:63;88
+msgid "The equipe has been saved."
+msgstr ""
+
+#: Controller/EquipesController.php:67;92
+msgid "The equipe could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/EquipesController.php:110
+msgid "The equipe has been deleted."
+msgstr ""
+
+#: Controller/EquipesController.php:112
+msgid "The equipe could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/OrganisateursController.php:63;87
+msgid "The organisateur has been saved."
+msgstr ""
+
+#: Controller/OrganisateursController.php:67;91
+msgid "The organisateur could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/OrganisateursController.php:108
+msgid "The organisateur has been deleted."
+msgstr ""
+
+#: Controller/OrganisateursController.php:110
+msgid "The organisateur could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/PersonnelsController.php:65;91
+msgid "The personnel has been saved."
+msgstr ""
+
+#: Controller/PersonnelsController.php:69;95
+msgid "The personnel could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/PersonnelsController.php:114
+msgid "The personnel has been deleted."
+msgstr ""
+
+#: Controller/PersonnelsController.php:116
+msgid "The personnel could not be deleted. Please, try again."
+msgstr ""
+
+#: Template/Antennes/add.ctp:5
+msgid "Add Antenne"
+msgstr ""
+
+#: Template/Antennes/edit.ctp:4
+msgid "Modification"
+msgstr ""
+
+#: Template/Antennes/index.ctp:3
+#: Template/Personnels/view.ctp:82
+msgid "Antennes"
+msgstr ""
+
+#: Template/Antennes/index.ctp:10
+#: Template/Antennes/view.ctp:80;89
+#: Template/Config-typepublics/index.ctp:10
+#: Template/Config-typepublics/view.ctp:8
+#: Template/ConfigDelais/view.ctp:8;26
+#: Template/ConfigEnvironnements/index.ctp:10
+#: Template/ConfigEnvironnements/view.ctp:8;26
+#: Template/ConfigEtats/view.ctp:8
+#: Template/ConfigParametres/index.ctp:10
+#: Template/ConfigParametres/view.ctp:8
+#: Template/ConfigPostes/index.ctp:10
+#: Template/ConfigPostes/view.ctp:8
+#: Template/ConfigRecommandations/index.ctp:10
+#: Template/ConfigRecommandations/view.ctp:8;26
+#: Template/ConfigTypepublics/view.ctp:8;26
+#: Template/Demandes/view.ctp:8;38
+#: Template/Dimensionnements/index.ctp:10
+#: Template/Dimensionnements/view.ctp:8;182
+#: Template/Dispositifs/index.ctp:10
+#: Template/Dispositifs/view.ctp:8;122
+#: Template/Equipes/view.ctp:8;126
+#: Template/Organisateurs/view.ctp:8;86
+#: Template/Personnels/index.ctp:10
+#: Template/Personnels/view.ctp:8;86;121
+msgid "Id"
+msgstr ""
+
+#: Template/Antennes/index.ctp:11
+#: Template/Antennes/view.ctp:8;101
+#: Template/Personnels/view.ctp:56;87
+msgid "Antenne"
+msgstr ""
+
+#: Template/Antennes/index.ctp:12
+#: Template/Antennes/view.ctp:12
+#: Template/Organisateurs/index.ctp:14
+#: Template/Organisateurs/view.ctp:28
+#: Template/Personnels/view.ctp:88
+msgid "Adresse"
+msgstr ""
+
+#: Template/Antennes/index.ctp:13
+#: Template/Antennes/view.ctp:16
+#: Template/Organisateurs/index.ctp:15
+#: Template/Organisateurs/view.ctp:32
+#: Template/Personnels/view.ctp:89
+msgid "Adresse Suite"
+msgstr ""
+
+#: Template/Antennes/index.ctp:14
+#: Template/Antennes/view.ctp:20;95
+#: Template/Equipes/view.ctp:132
+#: Template/Organisateurs/view.ctp:36
+#: Template/Personnels/index.ctp:16
+#: Template/Personnels/view.ctp:32;90
+msgid "Code Postal"
+msgstr ""
+
+#: Template/Antennes/index.ctp:15
+#: Template/Antennes/view.ctp:24;96
+#: Template/Equipes/view.ctp:133
+#: Template/Organisateurs/view.ctp:40
+#: Template/Personnels/view.ctp:36;91
+msgid "Ville"
+msgstr ""
+
+#: Template/Antennes/index.ctp:16
+#: Template/Antennes/view.ctp:28;99
+#: Template/Organisateurs/view.ctp:44
+#: Template/Personnels/view.ctp:48;92
+msgid "Telephone"
+msgstr ""
+
+#: Template/Antennes/index.ctp:17
+#: Template/Antennes/view.ctp:107
+#: Template/Bake/Template/index.ctp:41
+#: Template/Bake/Template/view.ctp:134
+#: Template/Config-typepublics/index.ctp:12
+#: Template/ConfigDelais/index.ctp:12
+#: Template/ConfigDelais/view.ctp:34
+#: Template/ConfigEnvironnements/index.ctp:12
+#: Template/ConfigEnvironnements/view.ctp:34
+#: Template/ConfigEtats/index.ctp:12
+#: Template/ConfigEtats/view.ctp:32
+#: Template/ConfigParametres/index.ctp:15
+#: Template/ConfigPostes/index.ctp:14
+#: Template/ConfigRecommandations/index.ctp:12
+#: Template/ConfigRecommandations/view.ctp:34
+#: Template/ConfigTypepublics/index.ctp:12
+#: Template/ConfigTypepublics/view.ctp:34
+#: Template/Demandes/index.ctp:15
+#: Template/Demandes/view.ctp:46
+#: Template/Dimensionnements/index.ctp:17
+#: Template/Dimensionnements/view.ctp:190
+#: Template/Dispositifs/index.ctp:17
+#: Template/Dispositifs/view.ctp:130
+#: Template/Equipes/index.ctp:16
+#: Template/Equipes/view.ctp:134
+#: Template/Organisateurs/index.ctp:16
+#: Template/Organisateurs/view.ctp:92
+#: Template/Personnels/index.ctp:17
+#: Template/Personnels/view.ctp:94;129
+msgid "Actions"
+msgstr ""
+
+#: Template/Antennes/view.ctp:32;98
+#: Template/Organisateurs/view.ctp:48
+#: Template/Personnels/view.ctp:44;93
+msgid "Portable"
+msgstr ""
+
+#: Template/Antennes/view.ctp:36;100
+#: Template/Organisateurs/view.ctp:52
+#: Template/Personnels/view.ctp:52
+msgid "Mail"
+msgstr ""
+
+#: Template/Antennes/view.ctp:40
+msgid "Fax"
+msgstr ""
+
+#: Template/Antennes/view.ctp:44
+msgid "Rib Etablissemnt"
+msgstr ""
+
+#: Template/Antennes/view.ctp:48
+msgid "Rib Guichet"
+msgstr ""
+
+#: Template/Antennes/view.ctp:52
+msgid "Rib Compte"
+msgstr ""
+
+#: Template/Antennes/view.ctp:56
+msgid "Rib Rice"
+msgstr ""
+
+#: Template/Antennes/view.ctp:60
+msgid "Rib Domicile"
+msgstr ""
+
+#: Template/Antennes/view.ctp:64
+msgid "Rib Bic"
+msgstr ""
+
+#: Template/Antennes/view.ctp:68
+msgid "Rib Iban"
+msgstr ""
+
+#: Template/Antennes/view.ctp:72
+msgid "Cheque"
+msgstr ""
+
+#: Template/Antennes/view.ctp:76
+msgid "Etat"
+msgstr ""
+
+#: Template/Antennes/view.ctp:85
+msgid "Related Personnels"
+msgstr ""
+
+#: Template/Antennes/view.ctp:90
+#: Template/Equipes/view.ctp:127
+#: Template/Personnels/index.ctp:11
+#: Template/Personnels/view.ctp:12
+msgid "Prenom"
+msgstr ""
+
+#: Template/Antennes/view.ctp:91
+#: Template/Equipes/view.ctp:128
+#: Template/Organisateurs/index.ctp:12
+#: Template/Organisateurs/view.ctp:20
+#: Template/Personnels/index.ctp:12
+#: Template/Personnels/view.ctp:16
+msgid "Nom"
+msgstr ""
+
+#: Template/Antennes/view.ctp:92
+#: Template/Equipes/view.ctp:129
+#: Template/Personnels/index.ctp:13
+#: Template/Personnels/view.ctp:20
+msgid "Nom Naissance"
+msgstr ""
+
+#: Template/Antennes/view.ctp:93
+#: Template/Equipes/view.ctp:130
+#: Template/Personnels/index.ctp:14
+#: Template/Personnels/view.ctp:24
+msgid "Statut"
+msgstr ""
+
+#: Template/Antennes/view.ctp:94
+#: Template/Equipes/view.ctp:131
+#: Template/Personnels/index.ctp:15
+#: Template/Personnels/view.ctp:28
+msgid "Rue"
+msgstr ""
+
+#: Template/Antennes/view.ctp:97
+#: Template/Personnels/view.ctp:40
+msgid "Identifiant"
+msgstr ""
+
+#: Template/Antennes/view.ctp:102
+#: Template/Personnels/view.ctp:60
+msgid "Entreprise"
+msgstr ""
+
+#: Template/Antennes/view.ctp:103
+#: Template/Personnels/view.ctp:64
+msgid "Naissance Date"
+msgstr ""
+
+#: Template/Antennes/view.ctp:104
+#: Template/Personnels/view.ctp:68
+msgid "Naissance Lieu"
+msgstr ""
+
+#: Template/Antennes/view.ctp:105
+#: Template/Personnels/view.ctp:72
+msgid "Prevenir"
+msgstr ""
+
+#: Template/Antennes/view.ctp:106
+#: Template/Personnels/view.ctp:76
+msgid "Prevenir Telephone"
+msgstr ""
+
+#: Template/Antennes/view.ctp:130
+msgid "View"
+msgstr ""
+
+#: Template/Antennes/view.ctp:131
+msgid "Edit"
+msgstr ""
+
+#: Template/Antennes/view.ctp:132
+#: Template/Bake/Element/form.ctp:22
+msgid "Delete"
+msgstr ""
+
+#: Template/Antennes/view.ctp:132
+#: Template/Bake/Element/form.ctp:25
+#: Template/Element/actions.ctp:4
+#: Template/Element/buttons.ctp:23
+msgid "Are you sure you want to delete # {0}?"
+msgstr ""
+
+#: Template/Bake/Element/form.ctp:30
+msgid "List <%= $pluralHumanName %>"
+msgstr ""
+
+#: Template/Bake/Element/form.ctp:37
+msgid "List <%= $this->_pluralHumanName($alias) %>"
+msgstr ""
+
+#: Template/Bake/Element/form.ctp:38
+msgid "New <%= $this->_singularHumanName($alias) %>"
+msgstr ""
+
+#: Template/Bake/Element/form.ctp:54
+msgid "<%= Inflector::humanize($action) %> {0}"
+msgstr ""
+
+#: Template/Bake/Template/index.ctp:31
+msgid "<%= $pluralHumanName %>"
+msgstr ""
+
+#: Template/Bake/Template/index.ctp:39
+#: Template/Bake/Template/view.ctp:85;90;100;105;132
+msgid "<%= Inflector::humanize($field) %>"
+msgstr ""
+
+#: Template/Bake/Template/login.ctp:20
+msgid "Please enter your username and password"
+msgstr ""
+
+#: Template/Bake/Template/login.ctp:24
+msgid "Login"
+msgstr ""
+
+#: Template/Bake/Template/view.ctp:72
+msgid "<%= Inflector::humanize($singularVar) %>"
+msgstr ""
+
+#: Template/Bake/Template/view.ctp:80
+msgid "<%= Inflector::humanize($details["
+msgstr ""
+
+#: Template/Bake/Template/view.ctp:101
+#: Template/Dimensionnements/view.ctp:65;69;105;109;113;117;121;145;149;153;157
+#: Template/Equipes/view.ctp:117
+msgid "Yes"
+msgstr ""
+
+#: Template/Bake/Template/view.ctp:101
+#: Template/Dimensionnements/view.ctp:65;69;105;109;113;117;121;145;149;153;157
+#: Template/Equipes/view.ctp:117
+msgid "No"
+msgstr ""
+
+#: Template/Bake/Template/view.ctp:113
+msgid "<%= Inflector::humanize(Inflector::singularize(Inflector::underscore($alias))) %>"
+msgstr ""
+
+#: Template/Bake/Template/view.ctp:126
+msgid "<%= $otherPluralHumanName %>"
+msgstr ""
+
+#: Template/Config-typepublics/add.ctp:5
+#: Template/ConfigTypepublics/add.ctp:5
+msgid "Add Config Typepublic"
+msgstr ""
+
+#: Template/Config-typepublics/edit.ctp:5
+#: Template/ConfigTypepublics/edit.ctp:5
+msgid "Edit Config Typepublic"
+msgstr ""
+
+#: Template/Config-typepublics/index.ctp:3
+#: Template/ConfigTypepublics/index.ctp:3
+msgid "Config Typepublics"
+msgstr ""
+
+#: Template/Config-typepublics/index.ctp:11
+#: Template/Config-typepublics/view.ctp:12
+#: Template/ConfigDelais/index.ctp:10
+#: Template/ConfigDelais/view.ctp:12
+#: Template/ConfigEnvironnements/index.ctp:11
+#: Template/ConfigEnvironnements/view.ctp:12
+#: Template/ConfigRecommandations/index.ctp:11
+#: Template/ConfigRecommandations/view.ctp:12
+#: Template/ConfigTypepublics/index.ctp:10
+#: Template/ConfigTypepublics/view.ctp:12
+msgid "Indice"
+msgstr ""
+
+#: Template/Config-typepublics/view.ctp:16
+#: Template/ConfigDelais/index.ctp:11
+#: Template/ConfigDelais/view.ctp:16
+#: Template/ConfigEtats/index.ctp:10
+#: Template/ConfigEtats/view.ctp:12
+#: Template/ConfigTypepublics/index.ctp:11
+#: Template/ConfigTypepublics/view.ctp:16
+msgid "Designation"
+msgstr ""
+
+#: Template/ConfigDelais/add.ctp:5
+msgid "Add Config Delai"
+msgstr ""
+
+#: Template/ConfigDelais/edit.ctp:5
+msgid "Edit Config Delai"
+msgstr ""
+
+#: Template/ConfigDelais/index.ctp:3
+msgid "Config Delais"
+msgstr ""
+
+#: Template/ConfigDelais/view.ctp:22
+#: Template/ConfigEnvironnements/view.ctp:22
+#: Template/ConfigRecommandations/view.ctp:22
+#: Template/ConfigTypepublics/view.ctp:22
+#: Template/Dimensionnements/view.ctp:178
+#: Template/Dispositifs/index.ctp:3
+msgid "Dispositifs"
+msgstr ""
+
+#: Template/ConfigDelais/view.ctp:27
+#: Template/ConfigEnvironnements/view.ctp:27
+#: Template/ConfigRecommandations/view.ctp:27
+#: Template/ConfigTypepublics/view.ctp:27
+#: Template/Dimensionnements/view.ctp:183
+#: Template/Dispositifs/index.ctp:11
+msgid "Dimensionnement Id"
+msgstr ""
+
+#: Template/ConfigDelais/view.ctp:28
+#: Template/ConfigEnvironnements/view.ctp:28
+#: Template/ConfigRecommandations/view.ctp:28
+#: Template/ConfigTypepublics/view.ctp:28
+#: Template/Dimensionnements/view.ctp:184
+#: Template/Dispositifs/index.ctp:12
+#: Template/Dispositifs/view.ctp:16
+msgid "Lieu Manifestation"
+msgstr ""
+
+#: Template/ConfigDelais/view.ctp:29
+#: Template/ConfigEnvironnements/view.ctp:29
+#: Template/ConfigRecommandations/view.ctp:29
+#: Template/ConfigTypepublics/view.ctp:29
+#: Template/Dimensionnements/view.ctp:185
+#: Template/Dispositifs/index.ctp:13
+#: Template/Dispositifs/view.ctp:20
+msgid "Gestionnaire Identite"
+msgstr ""
+
+#: Template/ConfigDelais/view.ctp:30
+#: Template/ConfigEnvironnements/view.ctp:30
+#: Template/ConfigRecommandations/view.ctp:30
+#: Template/ConfigTypepublics/view.ctp:30
+#: Template/Dimensionnements/view.ctp:186
+#: Template/Dispositifs/index.ctp:14
+#: Template/Dispositifs/view.ctp:24
+msgid "Gestionnaire Mail"
+msgstr ""
+
+#: Template/ConfigDelais/view.ctp:31
+#: Template/ConfigEnvironnements/view.ctp:31
+#: Template/ConfigRecommandations/view.ctp:31
+#: Template/ConfigTypepublics/view.ctp:31
+#: Template/Dimensionnements/view.ctp:187
+#: Template/Dispositifs/index.ctp:15
+#: Template/Dispositifs/view.ctp:28
+msgid "Gestionnaire Telephone"
+msgstr ""
+
+#: Template/ConfigDelais/view.ctp:32
+#: Template/ConfigEnvironnements/view.ctp:32
+#: Template/ConfigRecommandations/view.ctp:32
+#: Template/ConfigTypepublics/view.ctp:32
+#: Template/Dimensionnements/view.ctp:188
+#: Template/Dispositifs/index.ctp:16
+msgid "Config Typepublic Id"
+msgstr ""
+
+#: Template/ConfigDelais/view.ctp:33
+#: Template/ConfigEnvironnements/view.ctp:33
+#: Template/ConfigRecommandations/view.ctp:33
+#: Template/ConfigTypepublics/view.ctp:33
+#: Template/Dimensionnements/view.ctp:189
+msgid "Config Environnement Id"
+msgstr ""
+
+#: Template/ConfigEnvironnements/add.ctp:5
+msgid "Add Config Environnement"
+msgstr ""
+
+#: Template/ConfigEnvironnements/edit.ctp:5
+msgid "Edit Config Environnement"
+msgstr ""
+
+#: Template/ConfigEnvironnements/index.ctp:3
+msgid "Config Environnements"
+msgstr ""
+
+#: Template/ConfigEnvironnements/view.ctp:16
+msgid "Environnement"
+msgstr ""
+
+#: Template/ConfigEtats/add.ctp:5
+msgid "Add Config Etat"
+msgstr ""
+
+#: Template/ConfigEtats/edit.ctp:5
+msgid "Edit Config Etat"
+msgstr ""
+
+#: Template/ConfigEtats/index.ctp:3
+msgid "Config Etats"
+msgstr ""
+
+#: Template/ConfigEtats/index.ctp:11
+#: Template/ConfigEtats/view.ctp:16
+msgid "Ordre"
+msgstr ""
+
+#: Template/ConfigEtats/view.ctp:3
+msgid "ConfigEtat"
+msgstr ""
+
+#: Template/ConfigEtats/view.ctp:22
+#: Template/Demandes/index.ctp:3
+#: Template/Organisateurs/view.ctp:82
+msgid "Demandes"
+msgstr ""
+
+#: Template/ConfigEtats/view.ctp:27
+#: Template/Demandes/index.ctp:10
+#: Template/Demandes/view.ctp:12
+#: Template/Organisateurs/view.ctp:87
+msgid "Manifestation"
+msgstr ""
+
+#: Template/ConfigEtats/view.ctp:28
+#: Template/Demandes/index.ctp:11
+#: Template/Organisateurs/view.ctp:88
+msgid "Organisateur Id"
+msgstr "Identifiant organisateur"
+
+#: Template/ConfigEtats/view.ctp:29
+#: Template/Demandes/index.ctp:12
+#: Template/Demandes/view.ctp:20
+#: Template/Organisateurs/view.ctp:89
+msgid "Representant"
+msgstr ""
+
+#: Template/ConfigEtats/view.ctp:30
+#: Template/Demandes/index.ctp:13
+#: Template/Demandes/view.ctp:24
+#: Template/Organisateurs/view.ctp:90
+msgid "Representant Fonction"
+msgstr ""
+
+#: Template/ConfigEtats/view.ctp:31
+#: Template/Demandes/index.ctp:14
+#: Template/Organisateurs/view.ctp:91
+msgid "Config Etat Id"
+msgstr ""
+
+#: Template/ConfigParametres/add.ctp:5
+msgid "Add Config Parametre"
+msgstr ""
+
+#: Template/ConfigParametres/edit.ctp:5
+msgid "Edit Config Parametre"
+msgstr ""
+
+#: Template/ConfigParametres/index.ctp:3
+msgid "Config Parametres"
+msgstr ""
+
+#: Template/ConfigParametres/index.ctp:11
+#: Template/ConfigParametres/view.ctp:12
+msgid "Pourcentage"
+msgstr ""
+
+#: Template/ConfigParametres/index.ctp:12
+#: Template/ConfigParametres/view.ctp:16
+#: Template/Equipes/view.ctp:80
+msgid "Cout Personnel"
+msgstr ""
+
+#: Template/ConfigParametres/index.ctp:13
+#: Template/ConfigParametres/view.ctp:20
+#: Template/Equipes/view.ctp:84
+msgid "Cout Kilometres"
+msgstr ""
+
+#: Template/ConfigParametres/index.ctp:14
+#: Template/ConfigParametres/view.ctp:24
+msgid "Cout Autres Km"
+msgstr ""
+
+#: Template/ConfigPostes/add.ctp:5
+msgid "Add Config Poste"
+msgstr ""
+
+#: Template/ConfigPostes/edit.ctp:5
+msgid "Edit Config Poste"
+msgstr ""
+
+#: Template/ConfigPostes/index.ctp:3
+msgid "Config Postes"
+msgstr ""
+
+#: Template/ConfigPostes/index.ctp:11
+#: Template/ConfigPostes/view.ctp:12
+msgid "Type"
+msgstr ""
+
+#: Template/ConfigPostes/index.ctp:12
+#: Template/ConfigPostes/view.ctp:16
+msgid "Mini"
+msgstr ""
+
+#: Template/ConfigPostes/index.ctp:13
+#: Template/ConfigPostes/view.ctp:20
+msgid "Maxi"
+msgstr ""
+
+#: Template/ConfigRecommandations/add.ctp:5
+msgid "Add Config Recommandation"
+msgstr ""
+
+#: Template/ConfigRecommandations/edit.ctp:5
+msgid "Edit Config Recommandation"
+msgstr ""
+
+#: Template/ConfigRecommandations/index.ctp:3
+msgid "Config Recommandations"
+msgstr ""
+
+#: Template/ConfigRecommandations/view.ctp:16
+msgid "Recommandations"
+msgstr ""
+
+#: Template/Demandes/add.ctp:5
+msgid "Add Demande"
+msgstr ""
+
+#: Template/Demandes/edit.ctp:5
+msgid "Edit Demande"
+msgstr ""
+
+#: Template/Demandes/view.ctp:16
+msgid "Organisateur"
+msgstr ""
+
+#: Template/Demandes/view.ctp:28
+msgid "Config Etat"
+msgstr ""
+
+#: Template/Demandes/view.ctp:34
+#: Template/Dimensionnements/index.ctp:3
+msgid "Dimensionnements"
+msgstr ""
+
+#: Template/Demandes/view.ctp:39
+#: Template/Dimensionnements/index.ctp:11
+msgid "Demande Id"
+msgstr ""
+
+#: Template/Demandes/view.ctp:40
+#: Template/Dimensionnements/index.ctp:12
+#: Template/Dimensionnements/view.ctp:16
+msgid "Title"
+msgstr ""
+
+#: Template/Demandes/view.ctp:41
+#: Template/Dimensionnements/index.ctp:13
+#: Template/Dimensionnements/view.ctp:20
+msgid "Start"
+msgstr ""
+
+#: Template/Demandes/view.ctp:42
+#: Template/Dimensionnements/index.ctp:14
+#: Template/Dimensionnements/view.ctp:24
+msgid "End"
+msgstr ""
+
+#: Template/Demandes/view.ctp:43
+#: Template/Dimensionnements/index.ctp:15
+#: Template/Dimensionnements/view.ctp:28
+msgid "Risques Particuliers"
+msgstr ""
+
+#: Template/Demandes/view.ctp:44
+#: Template/Dimensionnements/index.ctp:16
+#: Template/Dimensionnements/view.ctp:32
+msgid "Contact Portable"
+msgstr ""
+
+#: Template/Demandes/view.ctp:45
+#: Template/Dimensionnements/view.ctp:36
+msgid "Contact Present"
+msgstr ""
+
+#: Template/Dimensionnements/add.ctp:5
+msgid "Add Dimensionnement"
+msgstr ""
+
+#: Template/Dimensionnements/edit.ctp:5
+msgid "Edit Dimensionnement"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:12
+msgid "Demande"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:40
+msgid "Contact Fonction"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:44
+msgid "Contact Telephone"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:48
+msgid "Public Effectif"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:52
+msgid "Public Age"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:56
+msgid "Acteurs Effectif"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:60
+msgid "Acteurs Age"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:64
+msgid "Circuit"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:68
+msgid "Ouvert"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:72
+msgid "Superficie"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:76
+msgid "Distance Maxi"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:80
+msgid "Acces"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:84
+msgid "Besoins Particuliers"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:88
+msgid "Pompier"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:92
+msgid "Pompier Distance"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:96
+msgid "Hopital"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:100
+msgid "Hopital Distance"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:104
+msgid "Arrete"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:108
+msgid "Commission"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:112
+msgid "Plans"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:116
+msgid "Annuaire"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:120
+msgid "Documents Autres"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:124
+msgid "Medecin"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:128
+msgid "Medecin Telephone"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:132
+msgid "Infirmier"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:136
+msgid "Kiné"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:140
+msgid "Medecin Autres"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:144
+msgid "Smur"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:148
+msgid "Sp"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:152
+msgid "Police"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:156
+msgid "Gendarmerie"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:160
+msgid "Ambulancier"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:164
+msgid "Ambulancier Telephone"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:168
+msgid "Autres Public"
+msgstr ""
+
+#: Template/Dimensionnements/view.ctp:172
+msgid "Autres"
+msgstr ""
+
+#: Template/Dispositifs/add.ctp:5
+msgid "Add Dispositif"
+msgstr ""
+
+#: Template/Dispositifs/edit.ctp:5
+msgid "Edit Dispositif"
+msgstr ""
+
+#: Template/Dispositifs/view.ctp:12
+msgid "Dimensionnement"
+msgstr ""
+
+#: Template/Dispositifs/view.ctp:32
+msgid "Config Typepublic"
+msgstr ""
+
+#: Template/Dispositifs/view.ctp:36
+msgid "Config Environnement"
+msgstr ""
+
+#: Template/Dispositifs/view.ctp:40
+msgid "Config Delai"
+msgstr ""
+
+#: Template/Dispositifs/view.ctp:44
+msgid "Ris"
+msgstr ""
+
+#: Template/Dispositifs/view.ctp:48
+msgid "Recommandation Type"
+msgstr ""
+
+#: Template/Dispositifs/view.ctp:52
+msgid "Recommandation Poste"
+msgstr ""
+
+#: Template/Dispositifs/view.ctp:56
+msgid "Personnels Public"
+msgstr ""
+
+#: Template/Dispositifs/view.ctp:60
+msgid "Organisation Public"
+msgstr ""
+
+#: Template/Dispositifs/view.ctp:64
+msgid "Personnels Acteurs"
+msgstr ""
+
+#: Template/Dispositifs/view.ctp:68
+msgid "Organisation Acteurs"
+msgstr ""
+
+#: Template/Dispositifs/view.ctp:72
+msgid "Personnels Total"
+msgstr ""
+
+#: Template/Dispositifs/view.ctp:76
+msgid "Organisation Poste"
+msgstr ""
+
+#: Template/Dispositifs/view.ctp:80
+msgid "Organisation Transport"
+msgstr ""
+
+#: Template/Dispositifs/view.ctp:84
+msgid "Consignes Generales"
+msgstr ""
+
+#: Template/Dispositifs/view.ctp:88
+msgid "Assiste"
+msgstr ""
+
+#: Template/Dispositifs/view.ctp:92
+msgid "Leger"
+msgstr ""
+
+#: Template/Dispositifs/view.ctp:96
+msgid "Medicalise"
+msgstr ""
+
+#: Template/Dispositifs/view.ctp:100
+msgid "Evacue"
+msgstr ""
+
+#: Template/Dispositifs/view.ctp:104
+msgid "Rapport"
+msgstr ""
+
+#: Template/Dispositifs/view.ctp:108
+msgid "Accord Siege"
+msgstr ""
+
+#: Template/Dispositifs/view.ctp:112
+msgid "Remise"
+msgstr ""
+
+#: Template/Dispositifs/view.ctp:118
+#: Template/Equipes/index.ctp:3
+#: Template/Personnels/view.ctp:117
+msgid "Equipes"
+msgstr ""
+
+#: Template/Dispositifs/view.ctp:123
+#: Template/Equipes/index.ctp:10
+#: Template/Personnels/view.ctp:122
+msgid "Dispositif Id"
+msgstr ""
+
+#: Template/Dispositifs/view.ctp:124
+#: Template/Equipes/index.ctp:11
+#: Template/Equipes/view.ctp:16
+#: Template/Personnels/view.ctp:123
+msgid "Indicatif"
+msgstr ""
+
+#: Template/Dispositifs/view.ctp:125
+#: Template/Equipes/index.ctp:12
+#: Template/Equipes/view.ctp:20
+#: Template/Personnels/view.ctp:124
+msgid "Effectif"
+msgstr ""
+
+#: Template/Dispositifs/view.ctp:126
+#: Template/Equipes/index.ctp:13
+#: Template/Equipes/view.ctp:24
+#: Template/Personnels/view.ctp:125
+msgid "Vehicule Type"
+msgstr ""
+
+#: Template/Dispositifs/view.ctp:127
+#: Template/Equipes/index.ctp:14
+#: Template/Equipes/view.ctp:28
+#: Template/Personnels/view.ctp:126
+msgid "Vehicules Km"
+msgstr ""
+
+#: Template/Dispositifs/view.ctp:128
+#: Template/Equipes/index.ctp:15
+#: Template/Equipes/view.ctp:32
+#: Template/Personnels/view.ctp:127
+msgid "Vehicule Trajets"
+msgstr ""
+
+#: Template/Dispositifs/view.ctp:129
+#: Template/Equipes/view.ctp:36
+#: Template/Personnels/view.ctp:128
+msgid "Lot A"
+msgstr ""
+
+#: Template/Element/actions.ctp:2
+msgid "<i class=\"fa fa-eye\"></i>"
+msgstr ""
+
+#: Template/Element/actions.ctp:3
+msgid "<i class=\"fa fa-pencil\"></i>"
+msgstr ""
+
+#: Template/Element/actions.ctp:4
+msgid "<i class=\"fa fa-trash-o\"></i>"
+msgstr ""
+
+#: Template/Element/buttons.ctp:14
+msgid "<i class=\"fa fa-plus\"></i> New"
+msgstr ""
+
+#: Template/Element/buttons.ctp:17
+msgid "<i class=\"fa fa-pencil\"></i> Edit"
+msgstr ""
+
+#: Template/Element/buttons.ctp:20
+msgid "<i class=\"fa fa-list-alt\"></i> List"
+msgstr ""
+
+#: Template/Element/buttons.ctp:23
+msgid "<i class=\"fa fa-trash-o\"></i> Delete"
+msgstr ""
+
+#: Template/Element/buttons.ctp:26
+msgid "<i class=\"fa fa-eyes\"></i> New"
+msgstr ""
+
+#: Template/Equipes/add.ctp:5
+msgid "Add Equipe"
+msgstr ""
+
+#: Template/Equipes/edit.ctp:5
+msgid "Edit Equipe"
+msgstr ""
+
+#: Template/Equipes/view.ctp:12
+msgid "Dispositif"
+msgstr ""
+
+#: Template/Equipes/view.ctp:40
+msgid "Lot B"
+msgstr ""
+
+#: Template/Equipes/view.ctp:44
+msgid "Lot C"
+msgstr ""
+
+#: Template/Equipes/view.ctp:48
+msgid "Autre"
+msgstr ""
+
+#: Template/Equipes/view.ctp:52
+msgid "Consignes"
+msgstr ""
+
+#: Template/Equipes/view.ctp:56
+msgid "Horaires Convocation"
+msgstr ""
+
+#: Template/Equipes/view.ctp:60
+msgid "Horaires Place"
+msgstr ""
+
+#: Template/Equipes/view.ctp:64
+msgid "Horaires Fin"
+msgstr ""
+
+#: Template/Equipes/view.ctp:68
+msgid "Horaires Retour"
+msgstr ""
+
+#: Template/Equipes/view.ctp:72
+msgid "Duree"
+msgstr ""
+
+#: Template/Equipes/view.ctp:76
+msgid "Remarques"
+msgstr ""
+
+#: Template/Equipes/view.ctp:88
+msgid "Cout Repas"
+msgstr ""
+
+#: Template/Equipes/view.ctp:92
+msgid "Cout Remise"
+msgstr ""
+
+#: Template/Equipes/view.ctp:96
+msgid "Repartition Antenne"
+msgstr ""
+
+#: Template/Equipes/view.ctp:100
+msgid "Repartition Adpc"
+msgstr ""
+
+#: Template/Equipes/view.ctp:104
+msgid "Repas Matin"
+msgstr ""
+
+#: Template/Equipes/view.ctp:108
+msgid "Repas Midi"
+msgstr ""
+
+#: Template/Equipes/view.ctp:112
+msgid "Repas Soir"
+msgstr ""
+
+#: Template/Equipes/view.ctp:116
+msgid "Repas Charge"
+msgstr ""
+
+#: Template/Equipes/view.ctp:122
+#: Template/Personnels/index.ctp:3
+msgid "Personnels"
+msgstr ""
+
+#: Template/Organisateurs/add.ctp:5
+msgid "Add Organisateur"
+msgstr ""
+
+#: Template/Organisateurs/edit.ctp:5
+msgid "Edit Organisateur"
+msgstr ""
+
+#: Template/Organisateurs/index.ctp:3
+msgid "Organisateurs"
+msgstr ""
+
+#: Template/Organisateurs/index.ctp:10
+#: Template/Organisateurs/view.ctp:12
+msgid "Uuid"
+msgstr ""
+
+#: Template/Organisateurs/index.ctp:11
+#: Template/Organisateurs/view.ctp:16
+msgid "Raison Sociale"
+msgstr ""
+
+#: Template/Organisateurs/index.ctp:13
+#: Template/Organisateurs/view.ctp:24
+msgid "Fonction"
+msgstr ""
+
+#: Template/Organisateurs/view.ctp:56
+msgid "Representant Prenom"
+msgstr ""
+
+#: Template/Organisateurs/view.ctp:60
+msgid "Representant Nom"
+msgstr ""
+
+#: Template/Organisateurs/view.ctp:64
+msgid "Tresorier Nom"
+msgstr ""
+
+#: Template/Organisateurs/view.ctp:68
+msgid "Tresorier Prenom"
+msgstr ""
+
+#: Template/Organisateurs/view.ctp:72
+msgid "Tresorier Mail"
+msgstr ""
+
+#: Template/Organisateurs/view.ctp:76
+msgid "Tresorier Telephone"
+msgstr ""
+
+#: Template/Personnels/add.ctp:5
+msgid "Add Personnel"
+msgstr ""
+
+#: Template/Personnels/edit.ctp:5
+msgid "Edit Personnel"
+msgstr ""
+
