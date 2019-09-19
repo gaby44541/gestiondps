@@ -42,7 +42,7 @@ class DemandesTable extends Table
         $this->setTable('demandes');
         $this->setDisplayField('manifestation');
         $this->setPrimaryKey('id');
-		
+
 		$this->addBehavior('Listing');
 		$this->addBehavior('Duplicatable');
 		$this->addBehavior('Chronologie',[
@@ -77,7 +77,7 @@ class DemandesTable extends Table
 			'sort' => ['Dimensionnements.horaires_debut'=>'asc']
         ]);
     }
-	
+
     /**
      * Default validation rules.
      *
@@ -108,7 +108,7 @@ class DemandesTable extends Table
 		$validator
             ->scalar('chronologie')
             ->allowEmpty('chronologie');
-			
+
         $validator
             ->scalar('gestionnaire_nom')
             ->maxLength('gestionnaire_nom', 255)
@@ -150,7 +150,7 @@ class DemandesTable extends Table
 
         return $rules;
     }
-    
+
 	/**
      * Returns a rules checker object that will be used for validating
      * application integrity.
@@ -168,7 +168,7 @@ class DemandesTable extends Table
 		if (empty($wizard)) {
 			return array();
 		}
-		
+
 		$wizard = $wizard->toArray();
 
 		$return['Demandes.id'] = $wizard['id'];
@@ -176,10 +176,10 @@ class DemandesTable extends Table
 		$return['Dimensionnements.id'] = (array) Hash::extract( $wizard , 'dimensionnements.{n}.id');
 		$return['Dispositifs.id'] = (array) Hash::extract( $wizard , 'dimensionnements.{n}.dispositif.id');
 		$return['Equipes.id'] = (array) Hash::extract( $wizard , 'dimensionnements.{n}.dispositif.equipes.{n}.id');
-		
+
 		return $return;
     }
-	
+
     /**
      * Returns a rules checker object that will be used for validating
      * application integrity.
@@ -190,21 +190,21 @@ class DemandesTable extends Table
     public function duplicatedd( $id , array $options , array $paths_reset )
     {
 		$id  = (int) $id;
-		
+
 		$options = Hash::merge( $options , ['contain' => ['Dimensionnements.Dispositifs.Equipes']] );
 		$paths_reset = Hash::merge( $paths_reset , ['id','dimensionnements.{n}.dispositif.equipes.{n}.id','dimensionnements.{n}.dispositif.id','antennes.id'] );
-		
+
         $demande = $this->findById($id,$options);
 
 		foreach( $paths_reset as $path_reset ){
 			$demande = Hash::remove($demande, $path_reset);
 		}
-		
+
 		$associated = $options['contain'];
-		
+
 		$this->save( $demande,['associated' => $associated]);
     }
-	
+
     /**
      * Returns a rules checker object that will be used for validating
      * application integrity.
@@ -219,7 +219,7 @@ class DemandesTable extends Table
 			],'Antennes']])
 		->where(['ConfigEtats.ordre >='=>$mini,'ConfigEtats.ordre <='=>$maxi])
 		->order(['ConfigEtats.ordre'=>'asc','Demandes.id'=>'asc']);
-	
+
 		return Hash::sort($demandes->toArray(),'{n}.dimensionnements.0.horaires_debut', $order);
     }
 
@@ -237,7 +237,7 @@ class DemandesTable extends Table
 			],'Antennes','Dimensionnements.Dispositifs.Equipes']])
 		->where(['ConfigEtats.ordre >='=>$mini,'ConfigEtats.ordre <='=>$maxi])
 		->order(['ConfigEtats.ordre'=>'asc','Demandes.id'=>'asc']);
-	
+
 		return Hash::sort($demandes->toArray(),'{n}.dimensionnements.0.horaires_debut', $order);
     }
 
@@ -260,10 +260,10 @@ class DemandesTable extends Table
 			$time = (string) date('Y-m-d 00:00:00');
 			return $q->where(['Dimensionnements.horaires_fin <' => $time]);
 		});
-	
+
 		return Hash::sort($demandes->toArray(),'{n}.dimensionnements.0.horaires_debut', $order);
     }
-	
+
     /**
      * Returns a rules checker object that will be used for validating
      * application integrity.
@@ -273,25 +273,25 @@ class DemandesTable extends Table
      */
     public function listeMiniMaxiJson( $mini , $maxi , $order = 'asc' )
     {
-		
+
 		$json_data = $this->Dimensionnements->find('all',['contain'=>['Demandes.ConfigEtats']])
 										//->select(['id','title'=>'intitule','start'=>'horaires_debut','end'=>'horaires_fin','demande_id','color'=>'ConfigEtats.ordre'])
 										->where(['ConfigEtats.ordre >='=>$mini,'ConfigEtats.ordre <='=>$maxi])
 										->order(['horaires_debut'=>'ASC'])
 										->toArray();
-		
+
 		$json_data = Hash::extract($json_data,'{n}.calendar');
-		
+
 		//foreach($json_data as $json){
 			//Log::write('debug', $json->calendar);
 			//$json->start = date('Y-m-d H:i:s',$json->start->toUnixString());
 			//$json->end = date('Y-m-d H:i:s',$json->end->toUnixString());
 			//$json->url = Router::url(['controller'=>'demandes','action'=>'wizard',3,'demandes__'.$json->demande_id]);
 		//}
-		
+
 		return $json_data;
     }
-	
+
     /**
      * Returns a rules checker object that will be used for validating
      * application integrity.
@@ -302,35 +302,35 @@ class DemandesTable extends Table
     public function dossierComplet($id = 0)
     {
 		$errors = [];
-		
+
 		$demande = $this->get($id,['contain'=>['Dimensionnements.Dispositifs.Equipes','Antennes','ConfigEtats']]);
-		
+
 		if( $demande ){
-			
+
 			if( $demande->config_etat->ordre < 6 ){
-				
+
 				$dimensionnements = Hash::extract( $demande , 'dimensionnements.{n}');
-				
+
 				if( ! empty($dimensionnements)){
 
 					$dispositifs = Hash::extract( $dimensionnements , '{n}.dispositif.id');
 
 					if( ! empty($dispositifs)){
-						
+
 						$dispositifs = Hash::extract( $dimensionnements , '{n}.dispositif');
-						
+
 						$this->modifyEtat($id,3,false);
-						
+
 						if(count($dimensionnements) != count($dispositifs)){
 							$this->modifyEtat($id,3);
 							$errors[] = 'dispositifs.incomplets';
 						}
-						
+
 						foreach($dispositifs as $dispositif){
 							$exists = Hash::extract($dispositif,'equipes.{n}.effectif');
 							$count = count($exists);
 							$exists = array_sum($exists);
-							
+
 							if(empty($count)){
 								if(!in_array('equipes.vides',$errors)){
 									$this->modifyEtat($id,3);
@@ -345,35 +345,35 @@ class DemandesTable extends Table
 								}
 							}
 						}
-					
+
 					} else {
 						$this->modifyEtat($id,1);
 						$errors[] = 'dispositifs.vides';
 					}
-					
+
 				} else {
-					
+
 					$this->modifyEtat($id,1);
 					$errors[] = 'dimensionnements';
-					
+
 				}
-			
+
 			}
 
 		} else {
 			$errors[] = 'demande';
 		}
-						
+
 		if(empty($errors)){
 			$this->modifyEtat($id,3,false);
 		}
-		//Log::write('debug',$errors);			
-				
+		//Log::write('debug',$errors);
+
 		return $errors;
 
 	}
 
-	
+
     /**
      * Returns a rules checker object that will be used for validating
      * application integrity.
@@ -385,14 +385,14 @@ class DemandesTable extends Table
     {
 		$id  = (int) $id;
 		$etat = (int) $etat;
-		
+
 		$etats = $this->ConfigEtats->alone($etat);
 		$etats = key($etats);
-		
+
 		$demande = $this->get($id,['contain'=>['ConfigEtats']]);
-		
+
 		$actuel = (int) $demande->config_etat->ordre;
-		
+
 		if( $superieur){
 			if($actuel > $etat){
 				$demande->set('config_etat_id',$etats);
@@ -402,11 +402,11 @@ class DemandesTable extends Table
 			if($actuel < $etat){
 				$demande->set('config_etat_id',$etats);
 				$this->save( $demande );
-			}			
+			}
 		}
 
     }
-	
+
     /**
      * Returns a rules checker object that will be used for validating
      * application integrity.
@@ -418,7 +418,7 @@ class DemandesTable extends Table
     {
 		$demandes_ids = (array) $demandes_ids;
 		$demandes_ids = array_unique($demandes_ids);
-		
+
 		$etat = (int) $etat;
 
 		if(!empty($demandes_ids)){
@@ -426,9 +426,9 @@ class DemandesTable extends Table
 				$this->modifyEtat($demandes_id,$etat,false);
 			}
 		}
-		
+
 		return false;
 
     }
-	
+
 }

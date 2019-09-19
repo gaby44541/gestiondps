@@ -33,7 +33,7 @@ $trame['index']=[	'link'=>true,
 $trame['delete']=[ 	'link'=>false,
 					'label'=>['icon'=>'trash','text'=>__('Supprimer')],
 					'url'=>['controller'=>$controller,'action'=>'delete',$action_id],
-					'attr'=>['class'=>'btn btn-danger btn-sm','title'=>__('Supprimer'),'data-toggle'=>'tooltip','escape'=>false,'confirm' => __('Are you sure you want to delete # {0}?', $action_id)]
+					'attr'=>['class'=>'btn btn-danger btn-sm','title'=>__('Supprimer'),'data-toggle'=>'tooltip','escape'=>false,'confirm' => __('Etes-vous sûr de vouloir supprimer # {0}?', $action_id)]
 				];
 $trame['addid']=[ 	'link'=>true,
 					'label'=>['icon'=>'plus','text'=>__('Associer')],
@@ -53,7 +53,7 @@ $trame['wizard']=[ 	'link'=>true,
 
 /* if( ! is_array( $merge ) ){
 	$merge = (array) $merge;
-} 
+}
 if( ! isset( $options ) ) {
 	$options = ['add','edit','index','delete'];
 }
@@ -82,7 +82,7 @@ foreach( $options as $option ){
 			unset( $tmp[ $option ]['label']['icon'] );
 		} else {
 			$tmp[ $option ]['label']['icon'] = $this->Html->icon($tmp[ $option ]['label']['icon']);
-			
+
 		}
 		$tmp[ $option ]['label'] = __( implode(' ',$tmp[ $option ]['label']) );
 	}

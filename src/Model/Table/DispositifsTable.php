@@ -202,28 +202,28 @@ class DispositifsTable extends Table
 
 		$parametre = TableRegistry::get('ConfigParametres');
 		$parametre = $parametre->find('all',['order'=>['id'=>'asc']])->all()->last();
-		
+
 		$data = [];
 		$data['title'] = $demande->manifestation .' - '.$dimension->intitule;
 		$data['consignes_generales'] = $parametre->consignes_generales;
 		$data['organisation_transport'] = $parametre->organisation_transport;
 		$data['personnels_acteurs'] = 4;
 		$data['accord_siege'] =  uniqid(date('Ymd').'-');
-		
+
 		$p1 = $this->typepublic($dimension->assis,$dimension->circuit);
 		$e1 = $this->environnement($dimension->superficie,$dimension->distance_maxi);
 		$e2 = $this->typepublic($dimension->pompier_distance,$dimension->hopital_distance);
-		
+
 		$data['config_typepublic_id'] = $this->indice('ConfigTypepublics',$p1);
 		$data['config_environnement_id'] = $this->indice('ConfigEnvironnements',$e1);
 		$data['config_delai_id'] = $this->indice('ConfigDelais',$e1);
 		$data['ris'] = $this->ris($dimension->public_effectif,$p1,$e1,$e2);
-		
+
 		$effectif = $this->effectif($data['ris']);
-		
-		$data['personnels_public'] = $effectif; 
+
+		$data['personnels_public'] = $effectif;
 		$data['recommandation_poste'] = $this->typeposte($effectif);
-		
+
 	}
 	protected function typeposte($effectif=0,$sort='type')
 	{
@@ -237,14 +237,14 @@ class DispositifsTable extends Table
 	{
 		$tmp = TableRegistry::get($model);
 		$result = $tmp->findByIndice($indice)->first();
-		
+
 		return $result->id;
 	}
 	protected function getindice($model='',$id=0)
 	{
 		$tmp = TableRegistry::get($model);
 		$result = $tmp->findById($id)->first();
-		
+
 		return $result->indice;
 	}
 	protected function typepublic($assis=0,$circuit=0)
@@ -260,18 +260,18 @@ class DispositifsTable extends Table
 
 		$tmp = TableRegistry::get('ConfigTypepublics');
 		$tmp = $tmp->findByIndice($p1)->first();
-		
+
 		return $p1;
 	}
-	
+
 	protected function delais($kmsp=0,$kmh=0)
 	{
 		$temps_sp = ($kmsp / 80 ) * 60;
 		$temps_h = ($kmh / 80 ) * 60;
 		$moyenne = ($temps_sp + $temps_h) /2;
-		
+
 		$moyenne = ceil($moyenne);
-		
+
 		if($moyenne <= 10){
 			$e2 = 0.25;
 		}elseif($moyenne > 10&&$moyenne <= 20){
@@ -284,12 +284,12 @@ class DispositifsTable extends Table
 
 		return $e2;
 	}
-	
+
 	protected function environnement($superficie=0,$distance=0)
 	{
 		$superficie = $superficie * 100;
 		$distance = (int) $distance;
-		
+
 		if($superficie <= 2){
 			$e1 = 0.30;
 		}elseif($superficie > 2&&$superficie <= 5){
@@ -307,21 +307,21 @@ class DispositifsTable extends Table
 		}elseif($distance > 600){
 			$d1 = 0.40;
 		}
-		
+
 		$e1 = ($d1 < $e1) ? $e1 : $d1;
 
 		return $e1;
-	}	
+	}
 	protected function ris($p=0,$p1=0,$e1=0,$e2=0)
 	{
 		if($p>100000){
 			$p = 100000+(($p-100000)/2);
 		}
 		$ris = ($p1+$e1+$e2) * ($p/1000);
-		
+
 		return $ris;
 	}
-	
+
 	protected function effectif($ris)
 	{
 		if($ris <= 0.25){
@@ -338,14 +338,14 @@ class DispositifsTable extends Table
 		}
 		return $effectif;
 	}
-	
+
 	public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
 	{
 		//$this->precreate($data['dimensionnement_id']);
-		
+
 		$parametre = TableRegistry::get('ConfigParametres');
 		$parametre = $parametre->find('all',['order'=>['id'=>'asc']])->all()->last();
-		
+
 		if (isset($data['consignes_generales'])) {
 			if (empty($data['consignes_generales'])) {
 				$data['consignes_generales'] = $parametre->consignes_generales;
@@ -365,34 +365,34 @@ class DispositifsTable extends Table
 		if (!isset($data['rapport'])) {
 			$data['rapport'] = ' ';
 		}
-		
+
 		if (!isset($data['organisation_public'])) {
 			$data['organisation_public'] = 'A définir';
 		}
-		
+
 		if (!isset($data['organisation_acteurs'])) {
 			$data['organisation_acteurs'] = 'A définir';
 		}
-		
+
 		if (!isset($data['organisation_poste'])) {
 			$data['organisation_poste'] = 'A définir';
 		}
-		
+
 		if (!isset($data['consignes_generales'])) {
 			$data['consignes_generales'] = 'A définir';
-		}						
-		
+		}
+
 		$dimension = TableRegistry::get('Dimensionnements');
 		$dimension = $dimension->findById($data['dimensionnement_id'])->first();
-		
+
 		//Log::write('debug', $dimension );
-		
+
 		$p1 = $this->getindice('ConfigTypepublics',$data['config_typepublic_id']);
 		$e1 = $this->getindice('ConfigEnvironnements',$data['config_environnement_id']);
 		$e2 = $this->getindice('ConfigDelais',$data['config_delai_id']);
 
 		$data['ris'] = $this->ris($dimension->public_effectif,$p1,$e1,$e2);
-		
+
 		$effectif = (int) $this->effectif( $data['ris'] );
 
 		$data['recommandation_type'] = $this->typeposte($effectif);
@@ -400,22 +400,22 @@ class DispositifsTable extends Table
 
 		if (!isset($data['personnels_public'])) {
 			$data['personnels_public'] = 0;
-		}		
-		
+		}
+
 		if(isset($data['personnels_public'])){
 			if( $effectif <= (int) $data['personnels_public'] ){
 				$effectif = (int) $data['personnels_public'];
 			}
 		}
-		
-		$data['personnels_public'] = (int) $effectif; 
+
+		$data['personnels_public'] = (int) $effectif;
 
 		if( empty($data['personnels_public']) ) {
 			$data['organisation_public'] = 'Aucun dispositif public nécessaire.';
-		}		
-		
+		}
+
 		//Log::write('debug', $data['personnels_public'] );
-		
+
 		if (!isset($data['personnels_acteurs'])) {
 			if( ! empty( $dimension->acteurs_effectif ) ){
 				$data['personnels_acteurs'] = 4;
@@ -424,19 +424,19 @@ class DispositifsTable extends Table
 				$data['personnels_acteurs'] = 0;
 			}
 		}
-		
+
 		$data['personnels_total'] = (int) $data['personnels_public'] + (int) $data['personnels_acteurs'];
-		
+
 		$tmp = [];
-		
+
 		if(isset( $data['organisation_poste'] )){
 			$tmp = explode('---',$data['organisation_poste'] );
 		}
-		
+
 		if(!isset($tmp[1])){
 			$tmp[1] = '';
 		}
-		
+
 		$data['organisation_poste'] = 'Le poste sera composé de '.$data['personnels_total'].' personnels et dont la répartition est la suivante : '.$data['personnels_acteurs'].' pour les acteurs et '.$data['personnels_public'].' pour le public.
 ---'.$tmp[1];
 
@@ -452,23 +452,23 @@ class DispositifsTable extends Table
     public function generateSave($id=0)
     {
         $dimensionnements = $this->Dimensionnements->find('all',['contain'=>['Dispositifs']])->where(['demande_id'=>$id])->toArray();
-		
+
 		$parametre = TableRegistry::get('ConfigParametres');
-		$parametre = $parametre->find('all',['order'=>['id'=>'asc']])->all()->last();		
-		
+		$parametre = $parametre->find('all',['order'=>['id'=>'asc']])->all()->last();
+
 		foreach($dimensionnements as $dimensionnement){
-			
+
 			$preset = [];
-			
+
 			if(empty($dimensionnement->dispositif)){
-				
+
 				$preset['dimensionnement_id'] = $dimensionnement->id;
 				$preset['title'] = $dimensionnement->intitule. ' - Dispositif';
-				
+
 				$assis = explode(',',$dimensionnement->assis);
-				
+
 				$preset['config_typepublic_id'] = 4;
-				
+
 				if(in_array('Assis',$assis)){
 					$preset['config_typepublic_id'] = 1;
 				}
@@ -476,7 +476,7 @@ class DispositifsTable extends Table
 				if(in_array('Statique',$assis)){
 					$preset['config_typepublic_id'] = 1;
 				}
-				
+
 				if(in_array('Debout',$assis)){
 					$preset['config_typepublic_id'] = 2;
 				}
@@ -484,23 +484,23 @@ class DispositifsTable extends Table
 				if(in_array('Debout',$assis)&&in_array('Statique',$assis)){
 					$preset['config_typepublic_id'] = 3;
 				}
-				
+
 				if(in_array('Assis',$assis)&&in_array('Dynamique',$assis)){
 					$preset['config_typepublic_id'] = 4;
 				}
-				
+
 				if(in_array('Debout',$assis)&&in_array('Dynamique',$assis)){
 					$preset['config_typepublic_id'] = 4;
 				}
-				
+
 				$environnements = [];
 				$environnements[1] = ['ville','rue','bâtiment','salle','facile','dégagé'];
 				$environnements[2] = ['gradin','tribune','chapiteau'];
 				$environnements[3] = ['difficile','pente','champ','ville'];
 				$environnements[4] = ['public','talu','escalier','chemin','forêt','foret','accidenté'];
-				
+
 				$preset['config_environnement_id'] = 0;
-				
+
 				foreach($environnements as $key => $environnement){
 					foreach($environnement as $item){
 						if(strpos($dimensionnement->access,$item)!==false){
@@ -517,7 +517,7 @@ class DispositifsTable extends Table
 					if($preset['config_environnement_id'] < 4){
 						$preset['config_environnement_id'] = 4;
 					}
-				}	
+				}
 				if($dimensionnement->distance_maxi < 150){
 					if($preset['config_environnement_id'] < 1){
 						$preset['config_environnement_id'] = 1;
@@ -532,28 +532,28 @@ class DispositifsTable extends Table
 					if($preset['config_environnement_id'] < 3){
 						$preset['config_environnement_id'] = 3;
 					}
-				}	
+				}
 				if($dimensionnement->superficie >= 600){
 					if($preset['config_environnement_id'] < 4){
 						$preset['config_environnement_id'] = 4;
 					}
 				}
-				
+
 				if(empty($preset['config_environnement_id'])){
 					$preset['config_environnement_id'] = 3;
 				}
-				
+
 				$pompier = (int) $dimensionnement->pompier_distance;
 				$hopital = (int) $dimensionnement->hopital_distance;
-				
-				$pompier = empty($pompier) ? 20 : $pompier; 
-				$hopital = empty($hopital) ? 20 : $hopital; 
-				
+
+				$pompier = empty($pompier) ? 20 : $pompier;
+				$hopital = empty($hopital) ? 20 : $hopital;
+
 				$pompier = $pompier / 1.1;
 				$hopital = $hopital / 1.1;
-				
+
 				$moyenne = ($pompier + $hopital)/2;
-				
+
 				if($moyenne<10){
 					$preset['config_delai_id'] = 1;
 				} elseif($moyenne>=10 && $moyenne <20){
@@ -563,18 +563,18 @@ class DispositifsTable extends Table
 				} else{
 					$preset['config_delai_id'] = 4;
 				}
-				
+
 				$preset['consignes_generales'] = '';
 				$preset['organisation_transport'] = '';
-				
+
 				$preset['personnels_acteurs'] = empty($dimensionnement->acteurs_effectif)? 0 : 4;
-				
-				$preset['accord_siege'] =  uniqid(date('Ymd').'-');	
-				
+
+				$preset['accord_siege'] =  uniqid(date('Ymd').'-');
+
 				$this->generateSaveAlone($preset);
 			}
 		}
-	
+
 	}
 
     /**
@@ -587,13 +587,13 @@ class DispositifsTable extends Table
     public function generateSaveAlone( $preset = [] )
     {
         $dispositif = $this->newEntity();
-		
+
 		$dispositif = $this->patchEntity($dispositif, $preset);
 
 		if ($this->save($dispositif)) {
 			return true;
-		} 
-		
+		}
+
 		return false;
 
 	}
@@ -618,7 +618,7 @@ class DispositifsTable extends Table
 		foreach($dispositifs as $tmp){
 			$this->delete($tmp);
 		}
-		
+
 	}
 }
 ?>

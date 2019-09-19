@@ -22,7 +22,7 @@ $this->start('<%= $block %>');
         __('Delete'),
         ['action' => 'delete', $<%= $singularVar
         %>-><%= $primaryKey[0] %>],
-        ['confirm' => __('Are you sure you want to delete # {0}?', $<%= $singularVar %>-><%= $primaryKey[0] %>)]
+        ['confirm' => __('Etes-vous sûr de vouloir supprimer # {0}?', $<%= $singularVar %>-><%= $primaryKey[0] %>)]
     )
     ?>
     </li>

@@ -33,12 +33,12 @@ $trame['index']=[	'link'=>true,
 $trame['delete']=[	'link'=>false,
 					'label'=>['icon'=>'trash','text'=>__('Supprimer')],
 					'url'=>['controller'=>$controller,'action'=>'delete',$action_id],
-					'attr'=>['class'=>'btn btn-danger btn-sm','title'=>__('Supprimer'),'data-toggle'=>'tooltip','escape'=>false,'confirm' => __('Are you sure you want to delete # {0}?', $action_id)]
+					'attr'=>['class'=>'btn btn-danger btn-sm','title'=>__('Supprimer'),'data-toggle'=>'tooltip','escape'=>false,'confirm' => __('Etes-vous sûr de vouloir supprimer # {0}?', $action_id)]
 					];
 $trame['addid']=[	'link'=>true,
 					'label'=>['icon'=>'plus','text'=>__('Associer')],
 					'url'=>['controller'=>$controller,'action'=>'add',$association],
-					'attr'=>['class'=>$class,'title'=>__('Associer'),'data-toggle'=>'tooltip','escape'=>false,'confirm' => __('Are you sure you want to create new association # {0}?', $association)]];
+					'attr'=>['class'=>$class,'title'=>__('Associer'),'data-toggle'=>'tooltip','escape'=>false,'confirm' => __('Etes-vous sûr de vouloir créer une nouvelle association # {0}?', $association)]];
 $trame['view']=[	'link'=>true,
 					'label'=>['icon'=>'eye-open','text'=>__('Voir')],
 					'url'=>['controller'=>$controller,'action'=>'view',$action_id],
@@ -89,7 +89,7 @@ if(!empty($options)){
 				unset( $tmp[ $option ]['label']['icon'] );
 			} else {
 				$tmp[ $option ]['label']['icon'] = $this->Html->icon($tmp[ $option ]['label']['icon']);
-				
+
 			}
 			$tmp[ $option ]['label'] = __( implode(' ',$tmp[ $option ]['label']) );
 		}
@@ -105,6 +105,6 @@ if(!empty($options)){
 			echo $this->Form->postLink( $option['label'], $option['url'], $option['attr']);
 		}
 		echo $space;
-	}	
+	}
 ?>
 </div>

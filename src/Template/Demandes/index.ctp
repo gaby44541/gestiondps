@@ -12,8 +12,8 @@
 			echo $this->Breadcrumbs->render(
 				['class' => 'breadcrumb'],
 				[]
-			); 
-			?>	
+			);
+			?>
 		</div>
 		<div class="col-lg-5">
 			<?= $this->element('dropdown',[	'controller'=>'demandes',
@@ -22,7 +22,7 @@
 											'label' => $this->Html->icon('plus').'&nbsp;'.__('Filtrer par état').'&nbsp;'.$this->Html->badge( isset($etats[$etat]) ?$etats[$etat]:'' ),
 											'action'=>'index',
 											'actions'=>$etats]) ?>
-											
+
 			<?= $this->element('buttons',[	'controller'=>'demandes',
 											'pull'=>'pull-right',
 											//'class'=>'btn btn-success btn-sm',
@@ -32,7 +32,7 @@
 	</div>
 </div>
 <div class="container-fluid">
-	<div class="row">								
+	<div class="row">
 	<table class="table table-hover table-striped" id="demandes">
 	    <thead>
 	        <tr>
@@ -82,21 +82,21 @@
 						</div>
 					<?php endforeach; ?>
 					</div>
-				
+
 				</td>
 				<td class="actions" style="width:15%;">
-					<?php 
+					<?php
 					$actions = [
 						['li'=>'header','label'=>'Dossier :'],
 						['icon'=>'flash','label'=>'Modifier le dossier','url'=>['controller'=>'demandes','action'=>'wizard',3,'demandes__'.$demande->id]],
 						['icon'=>'eye-open','label'=>'Voir le dossier','url'=>['controller'=>'demandes','action'=>'view',$demande->id]],
 						['li'=>'header','label'=>'Demande :'],
 						['icon'=>'pencil','label'=>'Modifier la demande','url'=>['controller'=>'demandes','action'=>'dispatch',$demande->id]],
-						['li'=>'postlink','icon'=>'trash','label'=>'Supprimer','url'=>['controller'=>'demandes','action'=>'view',$demande->id],'attr'=>['title'=>__('Supprimer'),'data-toggle'=>'tooltip','escape'=>false,'confirm' => __('Are you sure you want to delete # {0}?', $demande->id)]],
+						['li'=>'postlink','icon'=>'trash','label'=>'Supprimer','url'=>['controller'=>'demandes','action'=>'view',$demande->id],'attr'=>['title'=>__('Supprimer'),'data-toggle'=>'tooltip','escape'=>false,'confirm' => __('Etes-vous sûr de vouloir supprimer # {0}?', $demande->id)]],
 						['li'=>'divider'],
 						['li'=>'header','label'=>'Documents disponibles :']
 					];
-					if($demande->config_etat->ordre >= 3){ 
+					if($demande->config_etat->ordre >= 3){
 					$actions = array_merge( $actions, [
 						['icon'=>'print','label'=>'Etude','url'=>['controller'=>'demandes','action'=>'etude',$demande->id]],
 						['icon'=>'print','label'=>'Convention','url'=>['controller'=>'demandes','action'=>'convention',$demande->id]],
@@ -107,7 +107,7 @@
 					}
 					?>
 					<?= $this->element('drop',['align'=>'dropdown-menu-right','label'=>'Traiter ce dossier','icon'=>'list','actions' => $actions]) ?>
-				</td>				
+				</td>
 	        </tr>
 	        <?php endforeach; ?>
 	    </tbody>

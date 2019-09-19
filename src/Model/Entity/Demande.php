@@ -55,24 +55,24 @@ class Demande extends Entity
         'antenne' => true,
         'dimensionnements' => true
     ];
-	
+
 	protected $_virtual = [
 		'alerts',
 		'dates_limits',
 		'somme_facturee'
 	];
-	
+
 	protected function _getDatesLimits()
     {
 		$limits = false;
-		
+
 		if(isset($this->_properties['dimensionnements'])){
-			
+
 			$limits = [];
-			
+
 			$limits['min'] = false;
 			$limits['max'] = false;
-		
+
 			$limits['min'] = Hash::extract($this->_properties['dimensionnements'],'{n}.strtotime_debut');
 			$limits['max'] = Hash::extract($this->_properties['dimensionnements'],'{n}.strtotime_fin');
 
@@ -82,27 +82,27 @@ class Demande extends Entity
 			$limits['retour'] = Hash::extract($equipes,'{n}.{n}.strtotime_retour');
 
 			$merge = array_merge($limits['min'],$limits['max'],$limits['convocation'],$limits['retour']);
-			
+
 			sort($merge);
-			
+
 			$limits = [];
-			
+
 			$limits['min'] = reset($merge);
 			$limits['max'] = end($merge);
 			$limits['round_min'] = strtotime(date('Y-m-d 00:00:00',$limits['min']));
 			$limits['round_max'] = strtotime(date('Y-m-d 24:00:00',$limits['max']));
-		
+
 		}
-		
+
 		return $limits;
-	}		
-	
+	}
+
 	protected function _getAlerts()
     {
 		if(isset($this->_properties['dimensionnements'])){
-			
+
 			$alert = [12];
-			
+
 			//$dates = Hash::sort($this->_properties['dimensionnements'],'{n}.horaires_debut','asc');
 			$dates = Hash::extract($this->_properties['dimensionnements'],'0.horaires_debut');
 

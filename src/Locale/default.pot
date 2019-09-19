@@ -496,7 +496,7 @@ msgstr ""
 #: Template/Bake/Element/form.ctp:25
 #: Template/Element/actions.ctp:4
 #: Template/Element/buttons.ctp:23
-msgid "Are you sure you want to delete # {0}?"
+msgid "Etes-vous sûr de vouloir supprimer # {0}?"
 msgstr ""
 
 #: Template/Bake/Element/form.ctp:30

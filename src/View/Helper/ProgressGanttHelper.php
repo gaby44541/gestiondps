@@ -7,9 +7,9 @@ use Cake\I18n\Time;
 use Cake\Utility\Hash;
 use Cake\Log\Log;
 
-class ProgressGanttHelper extends Helper 
+class ProgressGanttHelper extends Helper
 {
-	
+
 	public $helpers = [
 		'Form' => [
 			'className' => 'Bootstrap.Form',
@@ -70,7 +70,7 @@ class ProgressGanttHelper extends Helper
         // $this->_limits = $this->getConfig('limits');
 		// $this->_fields = $this->getConfig('fields');
     // }
-	
+
 	public function getLimits(	$where = [],
 								$conditions = [],
 								$model = 'Dimensionnements',
@@ -80,10 +80,10 @@ class ProgressGanttHelper extends Helper
 		$model = (string) $model;
 		$conditions = (array) $conditions;
 		$where = (array) $where;
-		
+
 		// Get datas from the table
 		$datas = TableRegistry::get($model);
-		
+
 		$min =  $datas->find('all',$conditions)
 						->select($debut)
 						->where($where)
@@ -93,38 +93,38 @@ class ProgressGanttHelper extends Helper
 						->select($end)
 						->where($where)
 						->max($end);
-		
+
 		$min = $min->{$debut}->toUnixString();
 		$max = $max->{$end}->toUnixString();
-		
+
 		$min = $min - 43200;
 		$max = $max + 43200;
-		
+
 		$limits = [];
-		
+
 		$limits['mini'] = date('Y-m-d H:i:s',$min);
 		$limits['maxi'] = date('Y-m-d H:i:s',$max);
-		
+
 		$this->setConfig('limits',$limits);
-		
-		
+
+
     }
-	
-	public function getDatas() 
+
+	public function getDatas()
 	{
 		$fields = $this->getConfig('fields');
 		$config = $this->getConfig('datas');
 
 		extract($config);
 		extract($fields);
-		
+
 		// Force type
 		$model = (string) $model;
 		$conditions = (array) $conditions;
-		
+
 		// Get datas from the table
 		$datas = TableRegistry::get($model);
-		
+
 		if(isset($conditions['where'])){
 			$where = $conditions['where'];
 			unset( $conditions['where'] );
@@ -140,8 +140,8 @@ class ProgressGanttHelper extends Helper
 
 		return $datas;
     }
-	
-	public function formatDatas( $datas ) 
+
+	public function formatDatas( $datas )
 	{
 		$fields = $this->getConfig('fields');
 		$config = $this->getConfig('datas');
@@ -149,24 +149,24 @@ class ProgressGanttHelper extends Helper
 
 		extract($config);
 		extract($fields);
-		
+
 		$return = [];
 		if(empty($limits))
-		{			
+		{
 			$limit_min = 0;
 			$limit_max = 0;
-			
+
 			$limits = [];
 			$timer = [];
-			
+
 			foreach($datas as $data){
 				$date_min = $data->{$convocation}->toUnixString();
 				$date_max = $data->{$retour}->toUnixString();
-				
+
 				$timer[] = $date_min;
 				$timer[] = $date_max;
 			}
-				
+
 			asort($timer);
 
 			$limit_min = array_shift($timer);
@@ -174,19 +174,19 @@ class ProgressGanttHelper extends Helper
 
 			$min = 0;
 			$max = 12;
-			
+
 			$min_h = (int)date('H',$limit_min);
-			
+
 			if($min_h >= 12 ){
 				$min = 12;
 			}
-			
+
 			$max_h = (int)date('H',$limit_max);
-			
+
 			if($max_h >= 12 ){
 				$max = 24;
 			}
-			
+
 			$limits['mini'] = date('Y-m-d '.$min.':00:00',$limit_min);
 			$limits['maxi'] = date('Y-m-d '.$max.':00:00',$limit_max);
 
@@ -206,16 +206,16 @@ class ProgressGanttHelper extends Helper
 			$return[$key]['progress'] = $output;
 			$return[$key]['data'] = $data;
 		}
-		
+
 		return $return;
-		
+
     }
-	
-	protected function getPourcentage($total,$value)	
+
+	protected function getPourcentage($total,$value)
 	{
 		return (( 100 * $value ) / $total);
     }
-	
+
 	protected function getPourcentages($zero,$total,$convocation,$ouverture,$fermeture,$retour)
 	{
 		$convocation = (int) $convocation;
@@ -239,23 +239,23 @@ class ProgressGanttHelper extends Helper
 		$progress_aller = $this->getPourcentage($progress_total,$progress_aller);
 		$progress_place = $this->getPourcentage($progress_total,$progress_place);
 		$progress_poste = $this->getPourcentage($progress_total,$progress_poste);
-		$progress_retour = $this->getPourcentage($progress_total,$progress_retour);	
+		$progress_retour = $this->getPourcentage($progress_total,$progress_retour);
 
-		return compact('progress_aller','progress_place','progress_poste','progress_retour');	
+		return compact('progress_aller','progress_place','progress_poste','progress_retour');
     }
 
-    public function build() 
+    public function build()
 	{
 		$regle = (int) $this->getConfig('regle');
-	
+
 		$datas = $this->getDatas();
 		$datas = $this->formatDatas($datas);
-		
+
 		$this->headerDay();
 		$this->headerTime();
-		
+
 		$step = 1;
-		
+
 		foreach($datas as $data){
 			$this->line($data);
 			if($step==$regle){
@@ -266,17 +266,17 @@ class ProgressGanttHelper extends Helper
 			}
 		}
     }
-	
-    public function line($data) 
+
+    public function line($data)
 	{
 		$colors = $this->getConfig('colors');
-		
+
 		$progress = $data['progress'];
 		$object = $data['data'];
-		
+
 		extract($colors);
 		extract($progress);
-		
+
 		echo
 		'<div class="progress" style="height:30px;">
 			<div class="progress-bar progress-bar-success" style="width: '.$progress_aller.'%; background-color:transparent; border:none;"></div>
@@ -284,43 +284,43 @@ class ProgressGanttHelper extends Helper
 			<div class="progress-bar '.$mission.'" style="text-align:left; width: '.$progress_poste.'%; margin:0px; padding:0px;"  aria-valuenow="'.$progress_poste.'" aria-valuemin="0" aria-valuemax="100" >
 				<div class="btn-group" role="group" aria-label="Edition">'.
 				$this->Html->link( $this->Html->icon('pencil'),['controller'=>'Equipes','action'=>'edit',$object->id],['class'=>'btn btn-warning btn-sm','title'=>__('Editer'),'style'=>['margin:2px; padding:3px; margin-right:0px;'],'data-toggle'=>'tooltip','escape'=>false]).
-				$this->Html->link( $this->Html->icon('duplicate'), ['controller'=>'Equipes','action' => 'duplicate', $object->id], ['class' => 'btn btn-sm btn-warning','style'=>['margin:2px; padding:3px; margin-left:0px;'], 'data-toggle' => 'tooltip', 'title' => 'Duplicate', 'escape' => false, 'confirm' => __('Are you sure you want to duplicate # {0}?', $object->id)]).
+				$this->Html->link( $this->Html->icon('duplicate'), ['controller'=>'Equipes','action' => 'duplicate', $object->id], ['class' => 'btn btn-sm btn-warning','style'=>['margin:2px; padding:3px; margin-left:0px;'], 'data-toggle' => 'tooltip', 'title' => 'Duplicate', 'escape' => false, 'confirm' => __('Etes-vous sûr de vouloir dupliquer  # {0}?', $object->id)]).
 				'</div>'.
 				$object->indicatif.' - '.
 				$this->Html->icon('user').'1/4&nbsp;'.
-				$this->Html->icon('flag').'1/4					
+				$this->Html->icon('flag').'1/4
 			</div>
 			<div class="progress-bar '.$trajet.'" style="width: '.$progress_retour.'%"></div>
 		</div>';
     }
-	
-    public function headerDay2() 
+
+    public function headerDay2()
 	{
 		$limits = $this->getConfig('limits');
-		
+
 		$zero = strtotime($limits['mini']);
 		$total = strtotime($limits['maxi']);
-		
+
 		$total = $total - $zero;
 		$count_jour = $total / 86400;
 		$count_heure = $total / 3600;
-		
+
 		$pourcentage_jour = $this->getPourcentage($total,86400);
 		$pourcentage_heure = $this->getPourcentage($total,3600);
-		
+
 		echo '<div class="progress">';
 		for($i=0;$i<$count_jour;$i++){
-		echo '<div class="progress-bar progress-bar-primary" style="width: '.$pourcentage_jour.'%; background-color:transparent; border-right:1px solid #B0E0E6; color:grey;"> '.date('d / m / Y',($zero + ($i * 86400))).' </div>';	
-		}	
+		echo '<div class="progress-bar progress-bar-primary" style="width: '.$pourcentage_jour.'%; background-color:transparent; border-right:1px solid #B0E0E6; color:grey;"> '.date('d / m / Y',($zero + ($i * 86400))).' </div>';
+		}
 		echo '</div>';
     }
 
-    public function headerDay() 
+    public function headerDay()
 	{
 		$largeur = $this->getConfig('largeur');
 		$unite = $this->getConfig('unite');
 		$limits = $this->getConfig('limits');
-		
+
 		$zero = strtotime($limits['mini']);
 		$total = strtotime($limits['maxi']);
 
@@ -328,13 +328,13 @@ class ProgressGanttHelper extends Helper
 		echo '<div style="width:50%; display:inline-block; text-align:left;">'.date('d-m-Y H:i',$zero).'</div>';
 		echo '<div style="width:50%; display:inline-block; text-align:right;">'.date('d-m-Y H:i',$total).'</div>';
 		echo '</div>';
-		
+
     }
-	
-    public function headerTime() 
+
+    public function headerTime()
 	{
 		$limits = $this->getConfig('limits');
-		
+
 		$zero = strtotime($limits['mini']);
 		$total = strtotime($limits['maxi']);
 
@@ -343,21 +343,21 @@ class ProgressGanttHelper extends Helper
 
 		$zero = strtotime($zero);
 		$total = strtotime($total);
-		
+
 		$limite_basse = date('Y-m-d 00:00:00',$zero);
 		$limite_haute = date('Y-m-d 00:00:00',$total);
-		
+
 		$limite_basse = strtotime($limite_basse);
 		$limite_haute = strtotime($limite_haute);
-		
+
 		$difference_basse = ($zero - $limite_basse)/3600;
 		$difference_haute = ($limite_haute - $total)/3600;
-		
+
 		$total = $total - $zero;
 
 		$count_jour = $total / 86400;
 		$count_heure = $total / 3600;
-		
+
 		$pourcentage_jour = $this->getPourcentage($total,86400);
 		$pourcentage_heure = $this->getPourcentage($total,3600);
 
@@ -396,13 +396,13 @@ class ProgressGanttHelper extends Helper
 			default:
 				$tmp = '&nbsp;';
 		}
-		echo '<div class="progress-bar progress-bar-primary" style="height:20px; width: '.$pourcentage_heure.'%; background-color:transparent; font-size:0.7em; color:grey;"><div style="border-right:1px solid #B0E0E6; text-align:'.$align.';">'.$tmp .'</div></div>';	
+		echo '<div class="progress-bar progress-bar-primary" style="height:20px; width: '.$pourcentage_heure.'%; background-color:transparent; font-size:0.7em; color:grey;"><div style="border-right:1px solid #B0E0E6; text-align:'.$align.';">'.$tmp .'</div></div>';
 		$align = ($display%2==1)?'left':'right';
 		}
 		for($i=0;$i<$count_heure;$i++){
-		echo '<div class="progress-bar progress-bar-primary" style="height:20px; width: '.($pourcentage_heure/2).'%; background-color:transparent; font-size:0.5em; color:grey;"><div style="border-right:1px dashed #B0E0E6; text-align:'.$align.';">&nbsp;</div></div>';	
-		echo '<div class="progress-bar progress-bar-primary" style="height:20px; width: '.($pourcentage_heure/2).'%; background-color:transparent; font-size:0.5em; color:grey;"><div style="border-right:1px dashed #B0E0E6; text-align:'.$align.';">&nbsp;</div></div>';	
-		}	
+		echo '<div class="progress-bar progress-bar-primary" style="height:20px; width: '.($pourcentage_heure/2).'%; background-color:transparent; font-size:0.5em; color:grey;"><div style="border-right:1px dashed #B0E0E6; text-align:'.$align.';">&nbsp;</div></div>';
+		echo '<div class="progress-bar progress-bar-primary" style="height:20px; width: '.($pourcentage_heure/2).'%; background-color:transparent; font-size:0.5em; color:grey;"><div style="border-right:1px dashed #B0E0E6; text-align:'.$align.';">&nbsp;</div></div>';
+		}
 		echo '</div>';
     }
 }
