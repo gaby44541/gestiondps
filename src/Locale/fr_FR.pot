@@ -159,7 +159,7 @@ msgid "The demande could not be deleted. Please, try again."
 msgstr ""
 
 #: Controller/DimensionnementsController.php:68;93
-msgid "The dimensionnement has been saved."
+msgid "Le dimensionnement a bien été sauvegardé."
 msgstr ""
 
 #: Controller/DimensionnementsController.php:72;97
