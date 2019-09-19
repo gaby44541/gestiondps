@@ -23,6 +23,8 @@ use Cake\ORM\Query;
 use InvalidArgumentException;
 use RuntimeException;
 use Cake\Log\Log;
+use Cake\ORM\Entity;
+
 
 /**
  * Makes the table to which this is attached to behave like a nested set and
@@ -83,10 +85,10 @@ class ChronologieBehavior extends Behavior
     public function updateChronologie(Entity $entity)
     {
         $config = $this->getConfig();
-		
+
         $listen = $entity->get($config['listen']);
 		$update = $entity->get($config['update']);
-		
+
 		$compare = (array) $config['compare'];
 
 		foreach($compare as $key => $item){
@@ -94,19 +96,19 @@ class ChronologieBehavior extends Behavior
 			if( $key == $listen){
 
 				$update = empty($update) ? [] : json_decode($update,true);
-				
+
 				if(isset($update[$item])){
 					$item .= '.relance.'.strtotime(date('Y-m-d H:i:s'));
 				}
 
 				$update[ $item ] = date('Y-m-d H:i');
-	
+
 				$entity->set($config['update'], json_encode($update));
 			}
 			if( $key != $listen){
 				if(empty($update)){
 					$entity->set($config['update'], json_encode(['reprise' => date('Y-m-d H:i')]));
-				}				
+				}
 			}
 		}
 
