@@ -36,8 +36,8 @@ use Cake\I18n\FrozenTime;
 class AppController extends Controller
 {
 
-	public $smtp_mails = ['smtpGmail','smtpOrange'];
-	
+	public $smtp_mails = ['smtpGmail'];
+
 	public $helpers = [
 		'Form' => [
 			'className' => 'Bootstrap.Form',
@@ -67,7 +67,7 @@ class AppController extends Controller
 		'OpenLayers',
 		'Breadcrumbs'
 	];
-	
+
 	private $cron_key = '';
 
     /**
@@ -87,7 +87,7 @@ class AppController extends Controller
         $this->loadComponent('RequestHandler', [
             'enableBeforeRedirect' => false,
         ]);
-		
+
         $this->loadComponent('Flash');
 		$this->loadComponent('ArraySum');
 		$this->loadComponent('Wizard');
@@ -95,31 +95,31 @@ class AppController extends Controller
 		$this->loadComponent('Pourcentages');
 
 		$session = new Session();
-		
+
 		$action = $this->request->getParam('action');
 		$controller = $this->request->getParam('controller');
-		
+
 		$this->Auth->allow(['backup','relances']);
-		
+
 		if($this->Auth->user()){
-			
+
 			$externe = (int) $this->Auth->user('externe');
-			
+
 			if(!empty($externe)){
 				$this->Flash->error(__('Nous êtes une personne étrangère à la Protection Civile et donc ne pouvez accéder à cette interface.'));
 				$this->redirect(['controller'=>'users','action'=>'logout']);
 			}
-			
+
 			$this->Auth->allow(['*']);
-			
+
 		}
 
 		if( $action != 'ajax' && $action != 'login' && $action != 'logout' ){
-			
+
 			$this->loadModel('ConfigLogs');
-			
+
 			$config = $this->ConfigLogs->newEntity();
-			
+
 			$config = $this->ConfigLogs->patchEntity($config,[
 				'controller' => $this->request->getParam('controller'),
 				'action' => $this->request->getParam('action'),
@@ -132,34 +132,34 @@ class AppController extends Controller
 
 			$this->ConfigLogs->save( $config );
 		}
-		
+
         /*
          * Enable the following component for recommended CakePHP security settings.
          * see https://book.cakephp.org/3.0/en/controllers/components/security.html
          */
-        //$this->loadComponent('Security');	
+        //$this->loadComponent('Security');
 		set_time_limit(0);
 
     }
 
 	public function backup(){
-		
+
 		$this->autoRender = false;
 
 		$uuid = 'gestiondps_'.date('Ymdhis').'_'.uniqid();
 
 		$folder = new Folder();
 		$folder->create(TMP.'backup');
-		
+
 		$path = TMP.'backup'.DS.$uuid;
-		
+
 		$source = ConnectionManager::get('default');
 		$source = $source->config();
-		
+
 		exec('mysqldump --user='.$source['username'].' --password='.$source['password'].' --host='.$source['host'].' '.$source['database'].' | gzip > '.$path.'.sql.gz');
-		
+
 		unset($source);
-		
+
 		$email = new Email('default');
 
 		$email->setTransport($this->smtp_mails[0])
@@ -173,21 +173,21 @@ class AppController extends Controller
 			->setReturnPath('gabriel.boursier@loire-atlantique.protection-civile.org')
 			->setReplyTo('gabriel.boursier@loire-atlantique.protection-civile.org')
 			->send('Sauvegarde de la BDD opérationnelle au '.date('Y-m-d H:i:s'));
-			
+
 		$file = new File($path.'.sql.gz');
 		$file->delete();
 		$file->close();
-		
+
 		$this->_traitementAutomatises([
 			'postes_realises'
 		]);
-		
+
 		echo '';
 
 	}
 
 	public function relances(){
-		
+
 		$this->autoRender = false;
 
 		$this->_traitementAutomatises([
@@ -197,19 +197,19 @@ class AppController extends Controller
 	}
 
 	private function _relancesEquipeOperationnelle(){
-		
+
 		$this->autoRender = false;
-		
+
 		$this->loadModel('Demandes');
 
 		$demandes = $this->Demandes->listeMiniMaxi(0,3);
-		
+
 		$gestionnaires = Hash::extract($demandes,'{n}.gestionnaire_mail');
 		$gestionnaires = array_unique($gestionnaires);
 		$gestionnaires[] = 'applications@loire-atlantique.protection-civile.org';
-		
+
 		$count = count($demandes);
-		
+
 		$email = new Email('default');
 
 		$email->setTransport('smtpGmail')
@@ -228,7 +228,7 @@ class AppController extends Controller
 	}
 
 	public function test(){
-		
+
 		$this->autoRender = false;
 
 		ini_set("soap.wsdl_cache_enabled", "0"); // disabling WSDL cache
@@ -241,59 +241,59 @@ class AppController extends Controller
 			//var_dump($client->getUserInfo('e2d34650cfc1115c9d2adb9c58050362','JCROUSSEL','celine67'));
 		} catch (SoapFault $exception) {
 			echo $exception;
-		}		
+		}
 		var_dump($exception);
 
 		/*
 		$this->autoRender = false;
-		
+
 		//
-		
+
 		$this->loadModel('Demandes');
-		
+
 		$demandes = $this->Demandes->listeMiniMaxi(5,5);
-		
+
 		foreach($demandes as $demande){
 			var_dump($demande);
 		}
 		*/
 	}
-	
+
 	private function _traitementAutomatises($types = []){
-		
+
 		$this->autoRender = false;
-		
+
 		$this->loadModel('Demandes');
-		
+
 		$this->loadComponent('GestionDemandes');
-		
+
 		$types = (array) $types;
-		
+
 		if( in_array('postes_realises',$types)){
-			
+
 			$demandes = $this->Demandes->listeMiniMaxiBeforeToday(7,7);
-			
+
 			$demandes_ids = (array) Hash::extract($demandes,'{n}.id');
-			
+
 			if(isset($demande_ids)){
 				if(!count($demande_ids)){
 					$this->Demandes->modifyEtatByDemandesId($demandes_ids,8);
 				}
 			}
-			
+
 		}
 
 		if( in_array('relances_etudes',$types)){
 			//if( date('w') == 3 ){
-					
+
 				$this->loadModel('Demandes');
-				
+
 				$demandes = $this->Demandes->listeMiniMaxiAll(4,4);
-				
+
 				foreach($demandes as $demande){
-					
+
 					$strtotime = strtotime(date('Y-m-d H:i:00',$demande->dates_limits['min']).' -2 week');
-					
+
 					if($strtotime <= strtotime(date('Y-m-d'))){
 
 						$this->GestionDemandes->_traitementRelanceEtude($demande,'mail-etude-relance');
@@ -301,7 +301,7 @@ class AppController extends Controller
 				}
 			//}
 		}
-	
+
 	}
 
 }

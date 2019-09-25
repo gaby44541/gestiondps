@@ -116,12 +116,12 @@ class GestionDemandesComponent extends Component
     public function __construct(ComponentRegistry $registry, array $config = [])
     {
         parent::__construct($registry, $config);
-		
+
 		$this->ActiveController = $this->_getController();
-		
+
 		$this->Demandes = TableRegistry::get('Demandes');
 		$this->Mails = TableRegistry::get('Mails');
-		
+
 		$this->arraysum = $this->getConfig();
 
     }
@@ -135,16 +135,16 @@ class GestionDemandesComponent extends Component
 	{
 		return $this->_registry->getController();
 	}
-	
+
 	public function getMapper(){
-		
+
 		$this->config = $this->getConfig();
 		$this->ActiveController->autoRender = false;
-		
+
 		var_dump($this->ActiveController->referer());
-		
+
 		//return $this->ActiveController->redirect(['controller' => 'users', 'action' => 'logout']);
-		
+
 	}
 	/**
      * Add method
@@ -152,48 +152,48 @@ class GestionDemandesComponent extends Component
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
     public function _traitementSteps($id = null , $souhaite = 0 , $necessite = 0 , $messages = []) {
-		
+
 		$this->config = $this->getConfig();
-		
+
 		$messages = array_merge( $this->config['mails_default'] , $messages );
-		
+
 		$this->ActiveController->autoRender = false;
-		
+
 		$referer = $this->ActiveController->referer();
 		$created = Router::url(['controller' => 'demandes', 'action' => 'view' , $id],true);
 		$created = Router::url(['controller' => 'users', 'action' => 'test'],true);
 
 		if($referer != $created || ! $this->request->is(['patch', 'post', 'put'])){
 			$this->ActiveController->Flash->error($created);
-			return $this->ActiveController->redirect(['controller' => 'users', 'action' => 'index']);	
+			return $this->ActiveController->redirect(['controller' => 'users', 'action' => 'index']);
 		}
-		
+
         $demande = $this->Demandes->get($id, [
             'contain' => ['ConfigEtats','Organisateurs', 'Dimensionnements.Dispositifs.Equipes']
-        ]);		
-		
+        ]);
+
 		if(!empty($necessite)){
 			if($demande->config_etat->ordre != $necessite){
 				$this->ActiveController->Flash->error($messages['step']);
-				return $this->ActiveController->redirect(['controller' => 'demandes', 'action' => 'view',$demande->id]);	
-			}			
+				return $this->ActiveController->redirect(['controller' => 'demandes', 'action' => 'view',$demande->id]);
+			}
 		}
 
 		$etat_id = $this->Demandes->ConfigEtats->alone( $souhaite );
 		$etat_id = (int) key($etat_id);
-		
+
 		$demande->set('config_etat_id',$etat_id);
 		/*
 		if($this->Demandes->save($demande)){
-			
-			$this->ActiveController->Flash->success($messages['success']);	
+
+			$this->ActiveController->Flash->success($messages['success']);
 			return true;
-			
+
 		}*/
-		
-		$this->ActiveController->Flash->error($messages['error']);	
+
+		$this->ActiveController->Flash->error($messages['error']);
 		return false;
-		
+
 	}
 
 	/**
@@ -202,24 +202,24 @@ class GestionDemandesComponent extends Component
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
     public function _setConfig($key=false,$value=[]) {
-		
+
 		$this->setConfig($key,$value);
 
 	}
-	
+
 	/**
      * Add method
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
     public function _traitementMails($parametres=[],$demande=[],$type='mail-etude') {
-		
+
 		// Procéder à une vérification ordre corresponds à mail avant ?
-		
+
 		$mails = (array) $this->getConfig('mails');
-		
+
 		$parametres = array_merge($mails,$parametres);
-		
+
 		foreach($parametres as $key => $val){
 			if($key == 'subject' || $key == 'message'){
 				$parametres[$key] = (string) $val;
@@ -227,38 +227,38 @@ class GestionDemandesComponent extends Component
 				$parametres[$key] = (array) $val;
 			}
 		}
-		
+
 		extract($parametres);
 
 		if($type){
 
 			$model = $this->Mails->find('all')->where(['type'=>$type])->first();
-			
+
 			if( $model ){
-					
+
 				$subject = $model->subject;
-				$message = $model->message;	
-				
+				$message = $model->message;
+
 				if($demande){
 					if(is_object($demande)){
-						$demande = $demande->toArray();					
+						$demande = $demande->toArray();
 					}
 					if(isset($demande['dimensionnements'])){
 						unset($demande['dimensionnements']);
 					}
-					
+
 					$demande_id = $demande['id'];
-					
+
 					$demande = Hash::flatten($demande);
-					
+
 					foreach($demande as $key => $val){
 						$message = str_replace('{'.$key.'}',$val,$message);
 					}
-					
+
 				}
-				
+
 				$tmp = explode(',',str_replace(' ','',$model->attachments));
-				
+
 				$attachements = array_merge($attachements,$tmp);
 				$format = $model->format;
 
@@ -277,26 +277,12 @@ class GestionDemandesComponent extends Component
 					->setReturnPath($from)
 					->setReplyTo($replyTo)
 					->send($message);
-					
-				$email->setTransport('smtpOrange')
-					->setFrom($from)
-					->setTemplate('default','default')
-					->setEmailFormat($format)
-					->setTo($to)
-					->setCc($cc)
-					->setBcc($bcc)
-					->setAttachments($attachements)
-					->setSubject($subject)
-					->setReadReceipt($from)
-					->setReturnPath($from)
-					->setReplyTo($replyTo)
-					->send($message); 
-					
-			}	
+
+			}
 		}
 
 	}
-	
+
 	/**
      * Add method
      *
@@ -311,7 +297,7 @@ class GestionDemandesComponent extends Component
 		$file = $this->Xtcpdf->getStart();
 		$file = $this->Xtcpdf->getEtude($demande,$file,false);
 		$file = $this->Xtcpdf->getAttachement($file);
-						
+
 		$etapes = $this->Xtcpdf->getStart();
 		$etapes = $this->Xtcpdf->getEtapes($etapes,false);
 		$etapes = $this->Xtcpdf->getAttachement($etapes);
@@ -329,8 +315,8 @@ class GestionDemandesComponent extends Component
 								'explication_processus.pdf' => ['data' => $etapes, 'mimetype' => 'application/pdf']
 							]
 		];
-					
+
 		$this->_traitementMails($mail,$demande,$type);
-		
+
 	}
 }

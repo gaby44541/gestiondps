@@ -33,7 +33,7 @@ class DemandesController extends AppController {
         ['label' => 'List Dimensionnements', 'config' => ['controller' => 'Dimensionnements', 'action' => 'index']],
         ['label' => 'Add Dimensionnements', 'config' => ['controller' => 'Dimensionnements', 'action' => 'add']],
     ];
-	
+
 	var $arraysum = ['paths'=>[
 							'total_cout'=>'+dimensionnements.{n}.dispositif.equipes.{n}.cout_personnel/dimensionnements.{n}.dispositif.equipes.{n}.cout_kilometres/dimensionnements.{n}.dispositif.equipes.{n}.cout_repas',
 							'total_personnel'=>'+dimensionnements.{n}.dispositif.personnels_public/dimensionnements.{n}.dispositif.personnels_acteurs',
@@ -62,47 +62,47 @@ class DemandesController extends AppController {
     public function index($etat = -1) {
 
 		$etat = (int) $etat;
-	
+
 		$this->ArraySum->setConfig($this->arraysum);
-	
+
 		if($etat>=0){
 			$demandes = $this->Demandes->find('all',[
-				'contain' => [	'ConfigEtats', 
-								'Organisateurs', 
-								'Dimensionnements.Dispositifs.Equipes', 
+				'contain' => [	'ConfigEtats',
+								'Organisateurs',
+								'Dimensionnements.Dispositifs.Equipes',
 								'Antennes'],
 			])
 			->where(['config_etat_id'=>$etat])
-			->mapReduce( $this->ArraySum->getMapper() , $this->ArraySum->getReduce());				
+			->mapReduce( $this->ArraySum->getMapper() , $this->ArraySum->getReduce());
 		} else{
 			$demandes = $this->Demandes->find('all',[
-				'contain' => [	'ConfigEtats', 
-								'Organisateurs', 
-								'Dimensionnements.Dispositifs.Equipes', 
+				'contain' => [	'ConfigEtats',
+								'Organisateurs',
+								'Dimensionnements.Dispositifs.Equipes',
 								'Antennes'],
 			])
 			->where(['ConfigEtats.ordre >='=>0,'ConfigEtats.ordre <='=>10])
 			->order(['config_etat_id'=>'asc'])
-			->mapReduce( $this->ArraySum->getMapper() , $this->ArraySum->getReduce());				
+			->mapReduce( $this->ArraySum->getMapper() , $this->ArraySum->getReduce());
 		}
-		
+
 		$compteur = $this->Demandes->find('list', [
 			'keyField' => 'id',
 			'valueField' => 'config_etat_id'
 		])->toArray();
-		
+
 		$compteur = array_count_values( $compteur );
 
         $navigation = $this->navigation;
-		
+
 		$etats = $this->Demandes->ConfigEtats->find('list', ['contain'=>[],'order' => ['ordre' => 'asc']])->toArray();
-		
+
 		foreach($etats as $key => &$val){
 			if(isset($compteur[$key])){
 				$val .= ' - <b>('.$compteur[$key].')</b>';
 			}
 		}
-		
+
         $this->set(compact('demandes','etats','etat','navigation'));
     }
 
@@ -120,7 +120,7 @@ class DemandesController extends AppController {
         $this->viewBuilder()->setLayout('ajax');
 
 		$json_data = $this->Demandes->listeMiniMaxiJson(0,12);
-		
+
         // Chargement des données
         //$json_data[] = ['id' => 2500, 'title' => 'test', 'start' => '2018-07-16 12:30:00', 'end' => '2018-07-18 05:45:00', 'url' => 'http://localhost/crud/antennes/view/1'];
         //$json_data[] = ['id' => 2501, 'title' => 'test', 'start' => '2018-07-18 05:45:00', 'end' => '2018-07-27']; //,'rendering'=>'background'
@@ -146,9 +146,9 @@ class DemandesController extends AppController {
 			$this->Flash->error(__('Cette demande n\'existe pas.'));
 			return $this->redirect(['controller'=>'pages','action'=>'display','accueil']);
 		}
-		
+
 		$this->ArraySum->setConfig($this->arraysum);
-		
+
         $demande = $this->Demandes->get($id, [
             'contain' => ['ConfigEtats', 'Organisateurs', 'Dimensionnements.Dispositifs.Equipes', 'Antennes']
         ]);
@@ -156,9 +156,9 @@ class DemandesController extends AppController {
 		if(! $demande->id ){
 			return $this->redirect(['action'=>'index']);
 		}
-		
+
 		$demande = $this->ArraySum->somme($demande);
-		
+
 		if($demande->config_etat->ordre > 4 && $demande->config_etat->ordre != 10){
 			$this->set('readonly', true);
 		} else {
@@ -175,19 +175,19 @@ class DemandesController extends AppController {
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
     public function add() {
-        
+
 		$demande = $this->Demandes->newEntity();
 		$demande->set('gestionnaire_nom',$this->Auth->user('nom'));
 		$demande->set('gestionnaire_mail',$this->Auth->user('username'));
 		$demande->set('gestionnaire_telephone',$this->Auth->user('telephone'));
 		$demande->set('antenne_id',10);
 		$configEtats = $this->Demandes->ConfigEtats->alone();
-			
+
 		if($this->request->is('post')) {
 
             $demande = $this->Demandes->patchEntity($demande, $this->request->getData());
             $demande->set('config_etat_id',$this->Demandes->ConfigEtats->firstid());
-			
+
 			if($this->Demandes->save($demande)) {
                 $this->Flash->success(__('The demande has been saved.'));
 
@@ -195,7 +195,7 @@ class DemandesController extends AppController {
             }
             $this->Flash->error(__('The demande could not be saved. Please, try again.'));
         }
-		
+
         $configEtats = $this->Demandes->ConfigEtats->find('list', ['order' => ['ordre' => 'asc']]);
         $organisateurs = $this->Demandes->Organisateurs->listing(['select'=>['MAX(id) AS id','*'],
 																  'where'=>['publish'=>1],
@@ -216,23 +216,23 @@ class DemandesController extends AppController {
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
     public function dispatch($id = null) {
-        
+
 		$demande = $this->Demandes->get($id, [
             'contain' => ['ConfigEtats']
         ]);
-		
+
 		$ordre = (int) $demande->get('config_etat')->get('ordre');
-		
+
 		if($ordre <4){
 			$url = ['controller'=>'demandes','action'=>'wizard',3,'demandes__'.$id];
 		} else {
 			$url = ['controller'=>'demandes','action'=>'view',$id];
 		}
-		
+
 		return $this->redirect($url);
-		
+
 	}
-		
+
     /**
      * Edit method
      *
@@ -241,23 +241,23 @@ class DemandesController extends AppController {
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
     public function edit($id = null) {
-        
+
 		$demande = $this->Demandes->get($id, [
             'contain' => ['Organisateurs']
         ]);
-        
+
 		if($this->request->is(['patch', 'post', 'put'])) {
-			
+
             $demande = $this->Demandes->patchEntity($demande, $this->request->getData());
-            
+
 			if($this->Demandes->save($demande)) {
-				
+
                 $this->Flash->success(__('The demande has been saved.'));
                 return $this->redirect(['action' => 'view',$id]);
             }
-			
+
             $this->Flash->error(__('The demande could not be saved. Please, try again.'));
-			
+
         }
 
         $configEtats = $this->Demandes->ConfigEtats->find('list', ['limit' => 200, 'order' => ['ordre' => 'asc']]);
@@ -268,22 +268,22 @@ class DemandesController extends AppController {
 
         $this->set(compact('demande', 'configEtats', 'organisateurs', 'antennes', 'navigation'));
     }
-	
+
 	/**
      * Add method
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
     public function etudeEnvoyee($id = null) {
-		
+
 		$this->autoRender = false;
-		
+
 		$messages = [
 			'step' => __('Votre dossier doit être en phase d\'étude avec toutes les données valides pour prétendre à l\'envoi.'),
 			'success' => __('Vous allez envoyer l\'étude vous même, le dossier est donc en attente de signature.'),
 			'error' => __('Impossible passer à l\'étape d\'après pour des raisons techniques.')
 		];
-		
+
 		$this->_traitementSteps($id,4,3,$messages);
 
 		$this->ArraySum->setConfig($this->arraysum);
@@ -291,13 +291,13 @@ class DemandesController extends AppController {
         $demande = $this->Demandes->get($id, [
             'contain' => ['ConfigEtats', 'Organisateurs', 'Dimensionnements.Dispositifs.Equipes', 'Antennes']
         ]);
-		
+
 		$demande = $this->ArraySum->somme($demande);
 
 		$file = $this->Xtcpdf->getStart();
 		$file = $this->Xtcpdf->getEtude($demande,$file,false);
 		$file = $this->Xtcpdf->getAttachement($file);
-		
+
 		$etapes = $this->Xtcpdf->getStart();
 		$etapes = $this->Xtcpdf->getEtapes($etapes,false);
 		$etapes = $this->Xtcpdf->getAttachement($etapes);
@@ -315,11 +315,11 @@ class DemandesController extends AppController {
 								'explication_processus.pdf' => ['data' => $etapes, 'mimetype' => 'application/pdf']
 							]
 		];
-		
+
 		$this->_traitementMails($mail,$demande,'mail-etude');
-		
+
 		return $this->redirect(['controller' => 'demandes', 'action' => 'view',$id]);
-		
+
 	}
 
 	/**
@@ -328,15 +328,15 @@ class DemandesController extends AppController {
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
     public function etudeRelance($id = null) {
-		
+
 		$this->autoRender = false;
-		
+
 		$messages = [
 			'step' => __('Votre dossier doit être en phase d\'étude avec toutes les données valides pour prétendre à l\'envoi.'),
 			'success' => __('Vous allez envoyer l\'étude vous même, le dossier est donc en attente de signature.'),
 			'error' => __('Impossible passer à l\'étape d\'après pour des raisons techniques.')
 		];
-		
+
 		$this->_traitementSteps($id,4,3,$messages);
 
 		$this->ArraySum->setConfig($this->arraysum);
@@ -344,13 +344,13 @@ class DemandesController extends AppController {
         $demande = $this->Demandes->get($id, [
             'contain' => ['ConfigEtats', 'Organisateurs', 'Dimensionnements.Dispositifs.Equipes', 'Antennes']
         ]);
-		
+
 		$demande = $this->ArraySum->somme($demande);
 
 		$file = $this->Xtcpdf->getStart();
 		$file = $this->Xtcpdf->getEtude($demande,$file,false);
 		$file = $this->Xtcpdf->getAttachement($file);
-		
+
 		$etapes = $this->Xtcpdf->getStart();
 		$etapes = $this->Xtcpdf->getEtapes($etapes,false);
 		$etapes = $this->Xtcpdf->getAttachement($etapes);
@@ -368,46 +368,46 @@ class DemandesController extends AppController {
 								'explication_processus.pdf' => ['data' => $etapes, 'mimetype' => 'application/pdf']
 							]
 		];
-		
+
 		$this->_traitementMails($mail,$demande,'mail-etude');
-		
+
 		return $this->redirect(['controller' => 'demandes', 'action' => 'view',$id]);
-		
+
 	}
-	
+
 	/**
      * Add method
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
     public function etudeSignee($id = null) {
-		
+
 		$this->autoRender = false;
-		
+
 		$messages = [
 			'step' => __('Votre dossier n\'est pas en attente de signature.'),
 			'success' => __('L\'étude a été signée, vous pouvez rechercher le personnel nécessaire.'),
 			'error' => __('Impossible passer à l\'étape d\'après pour des raisons techniques.')
 		];
-		
+
 		$this->_traitementSteps($id,5,4,$messages);
-		
+
 		$this->ArraySum->setConfig($this->arraysum);
 
         $demande = $this->Demandes->get($id, [
             'contain' => ['ConfigEtats', 'Organisateurs', 'Dimensionnements.Dispositifs.Equipes', 'Antennes']
         ]);
-		
+
 		$demande = $this->ArraySum->somme($demande);
 
 		$file = $this->Xtcpdf->getStart();
 		$file = $this->Xtcpdf->getEtude($demande,$file,false);
 		$file = $this->Xtcpdf->getAttachement($file);
-		
+
 		$etapes = $this->Xtcpdf->getStart();
 		$etapes = $this->Xtcpdf->getEtapes($etapes,false);
 		$etapes = $this->Xtcpdf->getAttachement($etapes);
-		
+
 		$mail = [
 			'replyTo' => [$demande->gestionnaire_mail => 'Protection Civile - '.$demande->gestionnaire_nom],
 			'from' => [$demande->gestionnaire_mail => 'Protection Civile - '.$demande->gestionnaire_nom],
@@ -419,11 +419,11 @@ class DemandesController extends AppController {
 								'explication_processus.pdf' => ['data' => $etapes, 'mimetype' => 'application/pdf']
 							]
 		];
-		
+
 		$this->_traitementMails($mail,$demande,'mail-recrutement');
-		
+
 		return $this->redirect(['controller' => 'demandes', 'action' => 'view',$id]);
-		
+
 	}
 
 	/**
@@ -432,50 +432,50 @@ class DemandesController extends AppController {
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
     public function conventionEnvoyee($id = null) {
-		
+
 		$this->autoRender = false;
-		
+
 		$messages = [
 			'step' => __('Votre dossier doit être en phase de recherche des effectifs avec toutes les données valides pour prétendre à l\'envoi.'),
 			'success' => __('Vous allez envoyer la convention vous même, le dossier est donc en attente de signature.'),
 			'error' => __('Impossible passer à l\'étape d\'après pour des raisons techniques.')
 		];
-		
+
 		$this->_traitementSteps($id,6,5,$messages);
 
 		$this->loadModel('ConfigConventions');
-		
+
 		$convention = $this->ConfigConventions->find('all',['order'=>['ordre'=>'asc']]);
-        
+
 		$this->ArraySum->setConfig($this->arraysum);
 
         $demande = $this->Demandes->get($id, [
             'contain' => ['ConfigEtats', 'Organisateurs', 'Dimensionnements.Dispositifs.Equipes', 'Antennes']
         ]);
-		
+
 		$demande = $this->ArraySum->somme($demande);
-		
+
 		$array = $this->Demandes->get($id,[
             'contain' => ['Organisateurs']
         ])->toArray();
-		
+
 		$array = $this->ArraySum->mergeLast( $array );
-		
+
 		//Number::config('fr_FR', \NumberFormatter::SPELLOUT);
 		$array['total_cout_total'] = Number::format( $demande->total_cout );
-		
+
 		$flatten = Hash::flatten($array);
 		$flatten['count::dimensionnements'] = count( $demande->dimensionnements );
-		
+
 		$flat_keys = array_keys($flatten);
 		$flat_vals = array_values($flatten);
 		$flat_keys = Hash::format($flat_keys, ['{n}'], '{{%1$s}}');
 		$flatten = array_combine($flat_keys,$flat_vals);
-		
+
 		foreach( $convention as $item ):
 			$item->description = str_replace(array_keys($flatten),$flatten,$item->description );
 		endforeach;
-		
+
 
 		$file = $this->Xtcpdf->getStart();
 		$file = $this->Xtcpdf->getConvention($demande,$convention,$flatten,$file,false);
@@ -484,7 +484,7 @@ class DemandesController extends AppController {
 		$etapes = $this->Xtcpdf->getStart();
 		$etapes = $this->Xtcpdf->getEtapes($etapes,false);
 		$etapes = $this->Xtcpdf->getAttachement($etapes);
-		
+
 		$mail = [
 			'replyTo' => [$demande->gestionnaire_mail => 'Protection Civile - '.$demande->gestionnaire_nom],
 			'from' => [$demande->gestionnaire_mail => 'Protection Civile - '.$demande->gestionnaire_nom],
@@ -498,28 +498,28 @@ class DemandesController extends AppController {
 								'explication_processus.pdf' => ['data' => $etapes, 'mimetype' => 'application/pdf']
 							]
 		];
-		
-		$this->_traitementMails($mail,$demande,'mail-convention');	
-		
+
+		$this->_traitementMails($mail,$demande,'mail-convention');
+
 		return $this->redirect(['controller' => 'demandes', 'action' => 'view',$id]);
-		
+
 	}
-	
+
 	/**
      * Add method
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
     public function conventionSignee($id = null) {
-		
+
 		$this->autoRender = false;
-		
+
 		$messages = [
 			'step' => __('Votre dossier doit être en phase de recherche des effectifs avec toutes les données valides pour prétendre à l\'envoi.'),
 			'success' => __('Vous allez envoyer la convention vous même, le dossier est donc en attente de signature.'),
 			'error' => __('Impossible passer à l\'étape d\'après pour des raisons techniques.')
 		];
-		
+
 		$this->_traitementSteps($id,7,6,$messages);
 
 		$this->ArraySum->setConfig($this->arraysum);
@@ -527,13 +527,13 @@ class DemandesController extends AppController {
         $demande = $this->Demandes->get($id, [
             'contain' => ['ConfigEtats', 'Organisateurs', 'Dimensionnements.Dispositifs.Equipes', 'Antennes']
         ]);
-		
+
 		$demande = $this->ArraySum->somme($demande);
-		
+
 		$etapes = $this->Xtcpdf->getStart();
 		$etapes = $this->Xtcpdf->getEtapes($etapes,false);
 		$etapes = $this->Xtcpdf->getAttachement($etapes);
-		
+
 		$mail = [
 			'replyTo' => [$demande->gestionnaire_mail => 'Protection Civile - '.$demande->gestionnaire_nom],
 			'from' => [$demande->gestionnaire_mail => 'Protection Civile - '.$demande->gestionnaire_nom],
@@ -545,11 +545,11 @@ class DemandesController extends AppController {
 								'explication_processus.pdf' => ['data' => $etapes, 'mimetype' => 'application/pdf']
 							]
 		];
-		
+
 		$this->_traitementMails($mail,$demande,'mail-poste');
-		
+
 		return $this->redirect(['controller' => 'demandes', 'action' => 'view',$id]);
-		
+
 	}
 
 	/**
@@ -558,19 +558,19 @@ class DemandesController extends AppController {
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
     public function posteRealise($id = null) {
-		
+
 		$this->autoRender = false;
-		
+
 		$messages = [
 			'step' => __('Votre dossier doit être en phase "convention signée" pour prétendre à la réalisation du poste.'),
 			'success' => __('Vous allez envoyer la convention vous même, le dossier est donc en attente de signature.'),
 			'error' => __('Impossible passer à l\'étape d\'après pour des raisons techniques.')
 		];
-		
+
 		$this->_traitementSteps($id,8,7,$messages);
-		
+
 		return $this->redirect(['controller' => 'demandes', 'action' => 'view',$id]);
-		
+
 	}
 
 	/**
@@ -579,36 +579,36 @@ class DemandesController extends AppController {
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
     public function posteBilan($id = null) {
-		
+
 		$this->autoRender = false;
-		
+
 		$messages = [
 			'step' => __('Votre dossier doit être en phase de poste réalisé pour prétendre à la saisie du bilan.'),
 			'success' => __('Vous allez saisir le bilan.'),
 			'error' => __('Impossible passer à l\'étape d\'après pour des raisons techniques.')
 		];
-		
+
 		$this->_traitementSteps($id,9,8,$messages);
-		
+
 		return $this->redirect(['controller' => 'demandes', 'action' => 'view',$id]);
-		
+
 	}
-	
+
 	/**
      * Add method
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
     public function posteFacture($id = null) {
-		
+
 		$this->autoRender = false;
-		
+
 		$messages = [
 			'step' => __('Votre dossier doit être en phase de bilan avec toutes les données valides pour prétendre à l\'envoi.'),
 			'success' => __('Vous allez envoyer la facture vous même.'),
 			'error' => __('Impossible passer à l\'étape d\'après pour des raisons techniques.')
 		];
-		
+
 		$this->_traitementSteps($id,10,9,$messages);
 
 		$this->ArraySum->setConfig($this->arraysum);
@@ -616,14 +616,14 @@ class DemandesController extends AppController {
         $demande = $this->Demandes->get($id, [
             'contain' => ['ConfigEtats', 'Organisateurs', 'Dimensionnements.Dispositifs.Equipes', 'Antennes']
         ]);
-		
+
 		$demande = $this->ArraySum->somme($demande);
 
 
 		$file = $this->Xtcpdf->getStart();
 		$file = $this->Xtcpdf->getFacture($demande,$file,false);
 		$file = $this->Xtcpdf->getAttachement($file);
-		
+
 		$etapes = $this->Xtcpdf->getStart();
 		$etapes = $this->Xtcpdf->getEtapes($etapes,false);
 		$etapes = $this->Xtcpdf->getAttachement($etapes);
@@ -642,11 +642,11 @@ class DemandesController extends AppController {
 								'explication_processus.pdf' => ['data' => $etapes, 'mimetype' => 'application/pdf']
 							]
 		];
-		
+
 		$this->_traitementMails($mail,$demande,'mail-facture');
-		
+
 		return $this->redirect(['controller' => 'demandes', 'action' => 'view',$id]);
-		
+
 	}
 
 	/**
@@ -655,9 +655,9 @@ class DemandesController extends AppController {
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
     public function postePaye($id = null) {
-		
+
 		$this->autoRender = false;
-		
+
 		$messages = [
 			'step' => __('Ce dossier n\'est pas en attente de règlement, vérifiez l\'avancée du dossier avant de vouloir valider le règlement.'),
 			'success' => __('Le dispositif a été clotûré suite au règlement.'),
@@ -671,13 +671,13 @@ class DemandesController extends AppController {
         $demande = $this->Demandes->get($id, [
             'contain' => ['ConfigEtats', 'Organisateurs', 'Dimensionnements.Dispositifs.Equipes', 'Antennes']
         ]);
-		
+
 		$demande = $this->ArraySum->somme($demande);
 
 		$file = $this->Xtcpdf->getStart();
 		$file = $this->Xtcpdf->getEtude($demande,$file,false);
 		$file = $this->Xtcpdf->getAttachement($file);
-		
+
 		$etapes = $this->Xtcpdf->getStart();
 		$etapes = $this->Xtcpdf->getEtapes($etapes,false);
 		$etapes = $this->Xtcpdf->getAttachement($etapes);
@@ -694,11 +694,11 @@ class DemandesController extends AppController {
 								'explication_processus.pdf' => ['data' => $etapes, 'mimetype' => 'application/pdf']
 							]
 		];
-		
+
 		$this->_traitementMails($mail,$demande,'mail-cloture');
-				
+
 		return $this->redirect(['controller' => 'demandes', 'action' => 'view',$id]);
-		
+
 	}
 
 	/**
@@ -707,28 +707,28 @@ class DemandesController extends AppController {
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
     public function posteAnnule($id = null) {
-		
+
 		$this->autoRender = false;
-		
+
 		$messages = [
 			'success' => __('Le dispositif a été annulé.'),
 			'error' => __('Impossible d\'annuler ce dispositif pour des raisons techniques.')
 		];
 
 		$this->_traitementSteps($id,11,0,$messages);
-		
+
 		return $this->redirect(['controller' => 'demandes', 'action' => 'view',$id]);
-		
+
 	}
-	
-	
+
+
 	/**
      * Add method
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
     public function relanceFacture($id = null) {
-		
+
 		$this->autoRender = false;
 		/*
 		$messages = [
@@ -736,22 +736,22 @@ class DemandesController extends AppController {
 			'success' => __('Vous allez envoyer la facture vous même.'),
 			'error' => __('Impossible passer à l\'étape d\'après pour des raisons techniques.')
 		];
-		
+
 		$this->_traitementSteps($id,10,9,$messages);
 		*/
-		
+
 		$this->ArraySum->setConfig($this->arraysum);
 
         $demande = $this->Demandes->get($id, [
             'contain' => ['ConfigEtats', 'Organisateurs', 'Dimensionnements.Dispositifs.Equipes', 'Antennes']
         ]);
-		
+
 		$demande = $this->ArraySum->somme($demande);
 
 		$file = $this->Xtcpdf->getStart();
 		$file = $this->Xtcpdf->getFacture($demande,$file,false);
 		$file = $this->Xtcpdf->getAttachement($file);
-		
+
 		$etapes = $this->Xtcpdf->getStart();
 		$etapes = $this->Xtcpdf->getEtapes($etapes,false);
 		$etapes = $this->Xtcpdf->getAttachement($etapes);
@@ -770,31 +770,31 @@ class DemandesController extends AppController {
 								'explication_processus.pdf' => ['data' => $etapes, 'mimetype' => 'application/pdf']
 							]
 		];
-		
+
 		$this->_traitementMails($mail,$demande,'mail-facture');
-		
+
 		return $this->redirect(['controller' => 'demandes', 'action' => 'view',$id]);
-		
+
 	}
-		
+
 	/**
      * Add method
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
     protected function _traitementSteps($id = null , $souhaite = 0 , $necessite = 0 , $messages = [] , $security = true) {
-		
+
 		$security = (boolean) $security;
-		
+
 		$messages = array_merge([
 			'referer' => __('Accès non autorisé, vous essayez de modifier une donnée protégée.'),
 			'step' => __('Accès non autorisé, vous essayez de modifier une donnée protégée.'),
 			'success' => __('Le dispositif a été clotûré suite au règlement.'),
 			'error' => __('Impossible de clotûrer le dossier suite au règlement pour des raisons techniques.')
 		],$messages);
-		
+
 		$this->autoRender = false;
-		
+
 		if($security){
 
 			$referer = $this->referer();
@@ -802,36 +802,36 @@ class DemandesController extends AppController {
 
 			if($referer != $created || ! $this->request->is(['patch', 'post', 'put'])){
 				$this->Flash->error($messages['referer']);
-				return $this->redirect(['controller' => 'users', 'action' => 'logout']);	
+				return $this->redirect(['controller' => 'users', 'action' => 'logout']);
 			}
 		}
-		
+
         $demande = $this->Demandes->get($id, [
             'contain' => ['ConfigEtats','Organisateurs', 'Dimensionnements.Dispositifs.Equipes']
-        ]);		
-		
+        ]);
+
 		if(!empty($necessite)){
 			if($demande->config_etat->ordre != $necessite){
 				$this->Flash->error($messages['step']);
-				return $this->redirect(['controller' => 'demandes', 'action' => 'view',$demande->id]);	
-			}			
+				return $this->redirect(['controller' => 'demandes', 'action' => 'view',$demande->id]);
+			}
 		}
 
 		$etat_id = $this->Demandes->ConfigEtats->alone( $souhaite );
 		$etat_id = (int) key($etat_id);
-		
+
 		$demande->set('config_etat_id',$etat_id);
-		
+
 		if($this->Demandes->save($demande)){
-			
-			$this->Flash->success($messages['success']);	
+
+			$this->Flash->success($messages['success']);
 			return true;
-			
+
 		}
-		
-		$this->Flash->error($messages['error']);	
+
+		$this->Flash->error($messages['error']);
 		return false;
-		
+
 	}
 
 	/**
@@ -840,11 +840,11 @@ class DemandesController extends AppController {
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
     protected function _traitementMails($parametres=[],$demande=[],$type='mail-etude') {
-		
+
 		$this->autoRender = false;
-		
+
 		$ordre = $demande->ordre;
-		
+
 		$necessites = [
 			2=>'mail-saisie',
 			3=>'mail-etude',
@@ -857,7 +857,7 @@ class DemandesController extends AppController {
 			12=>'mail-cloture',
 			13=>'mail-annule'
 		];
-		
+
 		//$type = isset($necessites[$ordre]) ? $necessites[$ordre] : false;
 
 		$parametres = array_merge([
@@ -871,7 +871,7 @@ class DemandesController extends AppController {
 			'format' => 'both',
 			'attachements' => []
 		],$parametres);
-		
+
 		foreach($parametres as $key => $val){
 			if($key == 'subject' || $key == 'message'){
 				$parametres[$key] = (string) $val;
@@ -879,46 +879,46 @@ class DemandesController extends AppController {
 				$parametres[$key] = (array) $val;
 			}
 		}
-		
+
 		extract($parametres);
 
 		if($type){
 			$this->loadModel('Mails');
-			
+
 			$model = $this->Mails->find('all')->where(['type'=>$type])->first();
-			
+
 			$subject = $model->subject;
-			$message = $model->message;	
-			
+			$message = $model->message;
+
 			if($demande){
 				if(is_object($demande)){
-					$demande = $demande->toArray();					
+					$demande = $demande->toArray();
 				}
 				if(isset($demande['dimensionnements'])){
 					unset($demande['dimensionnements']);
 				}
-				
+
 				$demande_id = $demande['id'];
-				
+
 				$demande = Hash::flatten($demande);
-				
+
 				foreach($demande as $key => $val){
 					$message = str_replace('{'.$key.'}',$val,$message);
 				}
-				
+
 			}
-			
+
 			$tmp = explode(',',str_replace(' ','',$model->attachments));
-			
+
 			$attachements = array_merge($attachements,$tmp);
 			$format = $model->format;
-			
+
 		}
-		
+
 		$bcc[] = 'gabriel.boursier@loire-atlantique.protection-civile.org';
-		
+
 		$email = new Email('default');
-		
+
 		$email->setTransport('smtpGmail')
 			->setFrom($from)
 			->setTemplate('default','default')
@@ -932,20 +932,7 @@ class DemandesController extends AppController {
 			->setReturnPath($from)
 			->setReplyTo($replyTo)
 			->send($message);
-			
-		$email->setTransport('smtpOrange')
-			->setFrom($from)
-			->setTemplate('default','default')
-			->setEmailFormat($format)
-			->setTo($to)
-			->setCc($cc)
-			->setBcc($bcc)
-			->setAttachments($attachements)
-			->setSubject($subject)
-			->setReadReceipt($from)
-			->setReturnPath($from)
-			->setReplyTo($replyTo)
-			->send($message);
+
 	}
 	/**
      * Add method
@@ -955,59 +942,59 @@ class DemandesController extends AppController {
     public function remise($id = null) {
 
 		$this->autoRender = false;
-		
+
 		$pourcentage = (int) $this->request->getData('pourcentage');
 		$justification = trim($this->request->getData('remise_justification'));
-		
+
 		if($pourcentage > 100){
 			$pourcentage = 100;
 		}
-		
+
 		$referer = $this->referer();
 		$created = Router::url(['controller' => 'demandes', 'action' => 'view' , $id],true);
 
 		if($referer != $created || ! $this->request->is(['patch', 'post', 'put'])){
 			$this->Flash->error(__('Accès non autorisé, vous essayez de modifier une donnée protégée.'));
-			return $this->redirect(['controller' => 'users', 'action' => 'logout']);	
+			return $this->redirect(['controller' => 'users', 'action' => 'logout']);
 		}
-		
+
         $demande = $this->Demandes->get($id, [
             'contain' => ['ConfigEtats','Organisateurs', 'Dimensionnements.Dispositifs.Equipes']
         ]);
-		
+
 		if(empty($demande)){
 			$this->Flash->error(__('Accès non autorisé, vous essayez de modifier une donnée protégée.'));
-			return $this->redirect(['controller' => 'users', 'action' => 'logout']);	
+			return $this->redirect(['controller' => 'users', 'action' => 'logout']);
 		}
-		
+
 		if($demande->config_etat->ordre>4&&$demande->config_etat->ordre!=10){
 			$this->Flash->error(__('Impossible de modifier la tarification car l\'étude a été signée.'));
-			return $this->redirect(['controller' => 'demandes', 'action' => 'view',$id]);			
+			return $this->redirect(['controller' => 'demandes', 'action' => 'view',$id]);
 		}
 
 		if(! empty($pourcentage) && empty($justification)){
 			$this->Flash->error(__('Une adaptation du tarif doit être systématiquement justifiée.'));
-			return $this->redirect(['controller' => 'demandes', 'action' => 'view',$id]);	
+			return $this->redirect(['controller' => 'demandes', 'action' => 'view',$id]);
 		}
-		
+
 		$check = Hash::extract($demande , 'dimensionnements.{n}.dispositif.equipes.{n}');
 
 		if(count($check)<=0 ){
 			$this->Flash->error(__('Vous devez créer les équipes correspondantes avant de vouloir proposer une remise.'));
-			return $this->redirect(['controller' => 'demandes', 'action' => 'view',$id]);	
+			return $this->redirect(['controller' => 'demandes', 'action' => 'view',$id]);
 		}
 
 		$this->loadModel('ConfigParametres');
-			
+
 		$parametres = $this->ConfigParametres->find('all')->last();
-						
+
 		$taux['horaire'] = $parametres->cout_personnel;
 		$taux['km'] = $parametres->cout_kilometres;
 		$taux['repas'] = $parametres->cout_repas;
 		$taux['repartition'] = $parametres->pourcentage;
 
 		$check = Hash::insert($check , '{n}.remise', $pourcentage);
-		
+
  		foreach($check as &$equipe){
 			$equipe['horaires_convocation'] = $equipe['horaires_convocation']->format('Y-m-d H:i:s');
 			$equipe['horaires_place'] = $equipe['horaires_place']->format('Y-m-d H:i:s');
@@ -1015,19 +1002,19 @@ class DemandesController extends AppController {
 			$equipe['horaires_retour'] = $equipe['horaires_retour']->format('Y-m-d H:i:s');
 			$equipe = $this->Demandes->Dimensionnements->Dispositifs->Equipes->calculs($equipe, $taux );
 		}
-		
+
 		$check = $this->Demandes->Dimensionnements->Dispositifs->Equipes->patchEntities([],$check);
-		
+
 		if($this->Demandes->Dimensionnements->Dispositifs->Equipes->saveMany($check)){
-			
+
 			$demande->set('remise_justification',$justification);
 			$this->Demandes->save($demande);
-			
-			$this->Flash->success(__('Le nouveau tarif a été calculé.'));			
+
+			$this->Flash->success(__('Le nouveau tarif a été calculé.'));
 		} else {
-			$this->Flash->error(__('Impossible de calculer le nouveau tarif, essayez d\'éditer le dossier.'));	
+			$this->Flash->error(__('Impossible de calculer le nouveau tarif, essayez d\'éditer le dossier.'));
 		}
-		
+
 		return $this->redirect(['controller' => 'demandes', 'action' => 'view',$id]);
 
     }
@@ -1056,16 +1043,16 @@ class DemandesController extends AppController {
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
-    public function wizard() 
-	{	
-		$organisateur_id = (int) $this->Wizard->getDatas('Organisateurs.id'); 
-		$demande_id = (int) $this->Wizard->getDatas('Demandes.id'); 
+    public function wizard()
+	{
+		$organisateur_id = (int) $this->Wizard->getDatas('Organisateurs.id');
+		$demande_id = (int) $this->Wizard->getDatas('Demandes.id');
 
 		if(empty($demande_id)){
 			$organisateur = $this->Demandes->Organisateurs->get($organisateur_id);
-			
+
 			$configEtats = $this->Demandes->ConfigEtats->alone();
-			
+
 			$demande = $this->Demandes->newEntity();
 			$demande->set('organisateur_id',$organisateur_id);
 			$demande->set('representant',$organisateur->representant);
@@ -1076,53 +1063,53 @@ class DemandesController extends AppController {
 			$demande->set('antenne_id',10);
 			$demande->set('config_etat_id',$this->Demandes->ConfigEtats->firstid());
 			$demande->set('remise_justification','');
-			
+
 		} else {
 			$demande = $this->Demandes->get($demande_id);
 			$configEtats = $this->Demandes->ConfigEtats->searchid($demande->config_etat_id);
 		}
 
         if($this->request->is(['patch', 'post', 'put'])) {
-			
+
 			$demande = $this->Demandes->patchEntity($demande, $this->request->getData());
 
 			if(empty($demande_id )) {
 				$demande->set('remise_justification','');
 				$demande->set('organisateur_id',$organisateur_id);
 				$demande->set('config_etat_id',$this->Demandes->ConfigEtats->firstid());
-				
+
 				$result = $this->Demandes->save($demande);
-				
+
 				if($result) {
 					$this->Flash->success(__('The demande has been saved.'));
 					return $this->redirect(['action'=>'wizard','next',$result->id]);
 				}
-				
+
 			} else {
 				if($demande->isDirty()) {
 
 					//$demande = $this->Demandes->patchEntity($demande, $this->request->getData());
-					
+
 					$result = $this->Demandes->save($demande);
-					
+
 					if( $result ) {
 						$this->Flash->success(__('The demande has been saved.'));
 
 						//return $this->redirect(['action' => 'index']);
 						return $this->redirect(['action'=>'wizard','next',$result->id]);
 					}
-					
+
 				} else {
 					$this->Flash->error(__('No changes detected. Please, try again or quit by click on list button.'.json_encode($demande->isDirty())));
 
 					return $this->redirect(['action'=>'wizard','next',$result->id]);
-				}				
+				}
 			}
-			
+
 			$this->Flash->error(__('The demande could not be saved. Please, try again.'));
-			
+
 		}
-		
+
         $organisateurs = $this->Demandes->Organisateurs->alone($organisateur_id);
         $antennes = $this->Demandes->Antennes->find('list');
 
@@ -1132,19 +1119,19 @@ class DemandesController extends AppController {
     }
 
     public function mailEtude($id = null) {
-		
+
 		$this->autoRender = false;
-		
+
 		$this->ArraySum->setConfig($this->arraysum);
 
         $demande = $this->Demandes->get($id, [
             'contain' => ['ConfigEtats', 'Organisateurs', 'Dimensionnements.Dispositifs.Equipes', 'Antennes']
         ]);
-		
+
 		$demande = $this->ArraySum->somme($demande);
-		
+
 		////////////////////////////////////////////////////////////////////
-		
+
 		$etapes = $this->Xtcpdf->getStart();
 		$etapes = $this->Xtcpdf->getEtapes($etapes,false);
 		$etapes = $this->Xtcpdf->getAttachement($etapes);
@@ -1162,12 +1149,12 @@ class DemandesController extends AppController {
 							]
 		];
 		*/
-		
+
 		//$this->_traitementMails($mail,$demande,'mail-etude');
 
 		/*
 		$this->loadModel('Mails');
-		
+
 		$model = $this->Mails->find('all',['where'=>['type'=>'aftersave']])->first();
 
 		$model->attachments = explode(',',$model->attachments);
@@ -1179,20 +1166,20 @@ class DemandesController extends AppController {
 			->setSubject($model->subject)
 			->send($model->message);
 		*/
-		
+
 		//$this->Flash->success(__('Processus d\'envoi du mail d\'étude.'));
 		//return $this->redirect(['controller' => 'demandes', 'action' => 'view',$id]);
-		
+
     }
-	
+
     public function etude($id = null) {
-		
+
 		$this->ArraySum->setConfig($this->arraysum);
 
         $demande = $this->Demandes->get($id, [
             'contain' => ['ConfigEtats', 'Organisateurs', 'Dimensionnements.Dispositifs.Equipes', 'Antennes']
         ]);
-		
+
 		$demande = $this->ArraySum->somme($demande);
 
         $this->set('demande', $demande);
@@ -1201,44 +1188,44 @@ class DemandesController extends AppController {
 		$this->set('title', 'My Great Title');
         $this->set('file_name', '2016-06' . '_June_CLM.pdf');
 		$this->response->type('pdf');
-		
+
     }
-	
+
 	public function convention($id = null) {
-		
+
 		$this->loadModel('ConfigConventions');
-		
+
 		$convention = $this->ConfigConventions->find('all',['order'=>['ordre'=>'asc']]);
-        
+
 		$this->ArraySum->setConfig($this->arraysum);
 
         $demande = $this->Demandes->get($id, [
             'contain' => ['ConfigEtats', 'Organisateurs', 'Dimensionnements.Dispositifs.Equipes', 'Antennes']
         ]);
-		
+
 		$demande = $this->ArraySum->somme($demande);
-		
+
 		$array = $this->Demandes->get($id,[
             'contain' => ['Organisateurs']
         ])->toArray();
-		
+
 		$array = $this->ArraySum->mergeLast( $array );
-		
+
 		//Number::config('fr_FR', \NumberFormatter::SPELLOUT);
 		$array['total_cout_total'] = Number::format( $demande->total_cout );
-		
+
 		$flatten = Hash::flatten($array);
 		$flatten['count::dimensionnements'] = count( $demande->dimensionnements );
-		
+
 		$flat_keys = array_keys($flatten);
 		$flat_vals = array_values($flatten);
 		$flat_keys = Hash::format($flat_keys, ['{n}'], '{{%1$s}}');
 		$flatten = array_combine($flat_keys,$flat_vals);
-		
+
 		foreach( $convention as $item ):
 			$item->description = str_replace(array_keys($flatten),$flatten,$item->description );
 		endforeach;
-		
+
         $this->set('demande', $demande);
 		$this->set('convention', $convention);
 		$this->set('flatten', $flatten);
@@ -1250,17 +1237,17 @@ class DemandesController extends AppController {
     }
 
 	public function facture($id = null) {
-		   
+
 		$this->ArraySum->setConfig($this->arraysum);
 
         $demande = $this->Demandes->get($id, [
             'contain' => ['ConfigEtats', 'Organisateurs', 'Dimensionnements.Dispositifs.Equipes', 'Antennes']
         ]);
-		
+
 		$demande = $this->ArraySum->somme($demande);
-		
+
 		$demande['total_cout_total'] = Number::format( $demande->total_cout );
-		
+
         $this->set('demande', $demande);
 
         //$this->set('demande', $demande);
@@ -1272,23 +1259,23 @@ class DemandesController extends AppController {
         $this->set('file_name', '2016-06' . '_June_CLM.pdf');
         $this->response->type('pdf');
     }
-	
+
 	public function mission($id = null) {
-		   
+
 		$this->ArraySum->setConfig($this->arraysum);
 
         $demande = $this->Demandes->get($id, [
             'contain' => ['ConfigEtats', 'Organisateurs', 'Dimensionnements.Dispositifs.Equipes', 'Antennes']
         ]);
-		
+
 		$demande = $this->ArraySum->somme($demande);
-		
+
 		$demande['total_cout_total'] = Number::format( $demande->total_cout );
-		
+
         $this->set('demande', $demande);
 
 		$this->viewBuilder()->setLayout('default1');
-		
+
         $this->viewBuilder()->setLayout('ajax');
 		$this->set('title', 'My Great Title');
         $this->set('file_name', '2016-06' . '_June_CLM.pdf');
@@ -1297,70 +1284,70 @@ class DemandesController extends AppController {
     }
 
 	public function recrutement() {
-		
+
 		$demandes = $this->Demandes->find('all',[
-			'contain' => [	'ConfigEtats', 
-							'Organisateurs', 
-							'Dimensionnements.Dispositifs.Equipes', 
+			'contain' => [	'ConfigEtats',
+							'Organisateurs',
+							'Dimensionnements.Dispositifs.Equipes',
 							'Antennes'],
 		])
 		->where(['ConfigEtats.ordre >='=>0,'ConfigEtats.ordre <='=>5])
 		->order(['config_etat_id'=>'asc'])
 		->mapReduce( $this->ArraySum->getMapper() , $this->ArraySum->getReduce());
-		
+
 		//var_dump($demandes->toArray());
-		
+
 		$demandes = $demandes->toArray();
-		
+
 		$demandes = Hash::sort($demandes,'{n}.dates_limits.round_min','asc');
-		
+
 		$this->set('demandes', $demandes);
 
 		/*
 		$this->ArraySum->setConfig($this->arraysum);
-		
+
         $demande = $this->Demandes->get($id, [
             'contain' => ['ConfigEtats', 'Organisateurs', 'Dimensionnements.Dispositifs.Equipes', 'Antennes']
         ]);
-		
+
 		$demande = $this->ArraySum->somme($demande);
-		
+
 		$demande['total_cout_total'] = Number::format( $demande->total_cout );
-		
+
         $this->set('demande', $demande);
 */
 		$this->viewBuilder()->setLayout('default1');
-		
+
         $this->viewBuilder()->setLayout('ajax');
 		$this->set('title', 'My Great Title');
         $this->set('file_name', 'recrutement_' . '_June_CLM.pdf');
 		$this->response->type('pdf');
 
     }
-	
+
 	public function planning($id = null) {
-		   
+
 		$this->autoRender = false;
-		
+
 		$this->ArraySum->setConfig($this->arraysum);
-		
+
 		$demande = $this->Demandes->get($id, [
             'contain' => ['ConfigEtats', 'Organisateurs', 'Dimensionnements.Dispositifs.Equipes', 'Antennes']
         ]);
-		
+
 		$demande = $this->ArraySum->somme($demande);
 		$demande['total_cout_total'] = Number::format( $demande->total_cout );
 
 		$file = $this->Xtcpdf->getStart('L','MM','A3');
 		$file = $this->Xtcpdf->getPlanning($demande,$file);
 		$file = $this->Xtcpdf->getAttachement($file);
-		
+
 		$this->response->body($file);
-		
+
         $this->viewBuilder()->setLayout('ajax');
 		$this->set('title', 'My Great Title');
         $this->set('file_name', '2016-06' . '_June_CLM.pdf');
-		
+
         $this->response->type('pdf');
 
     }
@@ -1373,7 +1360,7 @@ class DemandesController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function duplicate($id = null)
-    {	
+    {
 		$this->autoRender = false;
         //$this->request->allowMethod(['post', 'delete']);
 
@@ -1392,9 +1379,9 @@ class DemandesController extends AppController {
      * @return \Cake\Http\Response|void
      */
     public function cleaning() {
-		
+
 		$this->autoRender = false;
-		
+
 		$demandes = $this->Demandes->find('all',['contain'=>['Dimensionnements.Dispositifs.Equipes','ConfigEtats']]);
 
 		foreach($demandes as $demande){
@@ -1405,55 +1392,55 @@ class DemandesController extends AppController {
 				$this->Demandes->delete($demande);
 			}
 		}
-		
+
 		$dimensionnements = $this->Demandes->Dimensionnements->find('all',['contain'=>['Dispositifs.Equipes','Demandes']]);
-		
+
 		foreach($dimensionnements as $dimensionnement){
 			if(empty($dimensionnement->demande)){
-				$this->Demandes->Dimensionnements->delete($dimensionnement);				
+				$this->Demandes->Dimensionnements->delete($dimensionnement);
 			}
 		}
-		
+
 		$dispositifs = $this->Demandes->Dimensionnements->Dispositifs->find('all',['contain'=>['Equipes','Dimensionnements.Demandes']]);
-		
-		foreach($dispositifs as $dispositif){	
+
+		foreach($dispositifs as $dispositif){
 			if(empty($dispositif->dimensionnement)){
-				var_dump($dispositif->dimensionnement);	
+				var_dump($dispositif->dimensionnement);
 			}
 		}
-		
+
 		$equipes = $this->Demandes->Dimensionnements->Dispositifs->Equipes->find('all',['contain'=>['Dispositifs.Dimensionnements']]);
-		
+
 		foreach($equipes as $equipe){
 			if(empty($equipe->dispositif)){
-				var_dump($equipe->dispositif);	
+				var_dump($equipe->dispositif);
 			}
 		}
-		
+
 		return $this->redirect(['action' => 'index']);
     }
 
 	public function grille($id = null) {
-		
+
 		$this->autoRender = false;
-		
+
 		$demande = $this->Demandes->get($id, [
             'contain' => ['ConfigEtats', 'Organisateurs', 'Dimensionnements.Dispositifs.Equipes', 'Antennes']
         ]);
-		
+
 		$demande = $this->ArraySum->somme($demande);
 
 		$file = $this->Xtcpdf->getStart('L','MM','A3');
 		$file = $this->Xtcpdf->getPlanning($demande,$file);
 		$file = $this->Xtcpdf->getAttachement($file);
-		
+
 		$this->response->body($file);
-		
+
         $this->viewBuilder()->setLayout('ajax');
 		$this->set('title', 'My Great Title');
         $this->set('file_name', '2016-06' . '_June_CLM.pdf');
-		
-        $this->response->type('pdf');		
+
+        $this->response->type('pdf');
 	}
 
 }
