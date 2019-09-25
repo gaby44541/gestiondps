@@ -100,14 +100,14 @@ ob_start();
     			<div class="td-logo"><?php echo $this->Html->image('logo.svg', ['width'=>'102px','fullBase' => true]); ?></div>
     			<div class="td-blue">PROTECTION CIVILE</div>
     			<div class="td-orange td-size">AIDER - FORMER - SECOURIR</div>
-    			<div class="td-blue td-size">| VOSGES</div>
+    			<div class="td-blue td-size">| LOIRE-ATLANTIQUE</div>
         </header>
         <!-- Wrap the content of your PDF inside a main tag -->
         <?php echo $this->fetch('content'); ?>
         <!-- Define footer blocks before your content -->
         <footer>
-Association Départementale de Protection Civile des Vosges - ADPC 88 - Maison des associations, 6 quartier de la Madeleine, 88000 EPINAL, France<br/>
-Tél : 09 63 40 08 01 - Fax: 03 29 64 24 89 - Email: vosges@protection-civile.org - Site Internet : vosges.protection-civile.org<br/>
+Protection Civile de Loire-Atlantique - ADPC 44 - 8 Rue Paul Beaupère, 44300 Nantes, France<br/>
+Tél : 02 40 47 87 34 - Email: loire-atlantique@protection-civile.org - Site Internet : protection-civile44.fr<br/>
 Association régie par la loi de 1901 - Membre de la Fédération Nationale de Protection Civile - Association agréée de sécurité civile - Reconnue d’utilité publique
         </footer>
 
