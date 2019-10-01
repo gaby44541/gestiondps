@@ -1,5 +1,7 @@
 <?php
 /**
+ * N'est pas utilisé pour le moment.
+ * L'ajout de dispositif se fait directement à partir du dimensionnement.
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Dispositif $dispositif
  */
@@ -30,14 +32,14 @@ $this->prepend( 'css' , $this->Html->css('bootstrap-datetimepicker.min',['media'
 	?>
     <?= $this->Form->create($dispositif, ['horizontal' => true]) ?>
     <fieldset>
-        
+
 		<div class="col-lg-6 col-md-12 columns">
-		<h3><?= __('Demande associée') ?></h3>        
+		<h3><?= __('Demande associée') ?></h3>
         <?php
             echo $this->Form->control('dimensionnement_id', ['options' => $dimensionnements,'class' => 'form-control','help' => __('')]);
             echo $this->Form->control('title', ['class' => 'form-control','help' => __('')]);
 		?>
-		<h3><?= __('Pré-saisie public') ?></h3>        
+		<h3><?= __('Pré-saisie public') ?></h3>
         <?php
             echo $this->Form->control('config_typepublic_id', ['options' => $configTypepublics,'class' => 'form-control','empty' => true ,'help' => __('')]);
             echo $this->Form->control('config_environnement_id', ['options' => $configEnvironnements,'class' => 'form-control','empty' => true ,'help' => __('')]);
@@ -51,8 +53,8 @@ $this->prepend( 'css' , $this->Html->css('bootstrap-datetimepicker.min',['media'
 		?>
 		</div>
 		<div class="col-lg-6 col-md-12 columns">
-		<h3><?= __('Configuration générale') ?></h3>  
-		<?php            
+		<h3><?= __('Configuration générale') ?></h3>
+		<?php
 			// echo $this->Form->control('organisation_acteurs', ['class' => 'form-control','help' => __('')]);
             // echo $this->Form->control('personnels_total', ['class' => 'form-control','help' => __('')]);
             //echo $this->Form->control('organisation_poste', ['class' => 'form-control','help' => __('')]);

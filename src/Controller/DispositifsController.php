@@ -183,23 +183,30 @@ class DispositifsController extends AppController
             'contain' => []
         ]);
 
+        /* Actions = Recalculer ou Sortir */
 		$actions = (int) $this->request->getData('actions');
 
         if ($this->request->is(['patch', 'post', 'put'])) {
 
 			$dispositif = $this->Dispositifs->patchEntity($dispositif, $this->request->getData());
 
-            if ($result = $this->Dispositifs->save($dispositif)) {
-                $this->Flash->success(__('Le dispositif a bien été sauvegardé.'));
+            $msgErreurVerif = $this->verifierAvantSauvegarde($dispositif);
 
-				if($actions){
-					return $this->redirect(['action' => 'index']);
-				}
+            if($msgErreurVerif == null){
+                if ($result = $this->Dispositifs->save($dispositif)) {
+                    $this->Flash->success(__('Le dispositif a bien été sauvegardé.'));
 
-				return $this->redirect(['action' => 'edit',$result->id]);
+                    if($actions){
+                        return $this->redirect(['action' => 'index']);
+                    }
 
-            } else {
-				$this->Flash->error(__('Le dispositif n\'a pas été sauvegardé. Merci de rééssayer.'));
+                    return $this->redirect(['action' => 'edit',$result->id]);
+
+                } else {
+                    $this->Flash->error(__('Le dispositif n\'a pas été sauvegardé. Merci de rééssayer.'));
+                }
+			}else{
+			    $this->Flash->error(__($msgErreurVerif));
 			}
         }
 
@@ -254,4 +261,19 @@ class DispositifsController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    /**
+     * Vérification du dispositif avant sauvegarde.
+     * Renvoie un message d'erreur si la vérification a échoué. Renvoie null si succès.
+     */
+    public function verifierAvantSauvegarde($dispositif = null){
+        if($dispositif != null){
+            // Vérification de la somme des membres de l'équipe avec le personnel total, excepté les stagiaires.
+            $sommePersonnel = $dispositif->nb_chef_equipe + $dispositif->nb_pse2 + $dispositif->nb_pse1 + $dispositif->nb_lat + $dispositif->nb_medecin + $dispositif->nb_infirmier + $dispositif->nb_cadre_operationnel;
+            $totalPersonnel = $dispositif->personnels_total;
+            return (($sommePersonnel == $totalPersonnel) ? NULL : 'Merci de vérifier le nombre de chef d\'équipe, pse2... (actuellement '.$sommePersonnel.') pour qu\'il concorde avec le nombre de personnel total ('.$totalPersonnel.')');
+        }
+        return null;
+    }
+
 }

@@ -41,7 +41,7 @@ class DispositifsTable extends Table
     public function initialize(array $config)
     {
         parent::initialize($config);
-
+        //Log::write('debug', 'DispositifsTable - initialize');
         $this->setTable('dispositifs');
         $this->setDisplayField('title');
         $this->setPrimaryKey('id');
@@ -75,6 +75,8 @@ class DispositifsTable extends Table
      */
     public function validationDefault(Validator $validator)
     {
+        //Log::write('debug', 'DispositifsTable - validationDefault');
+
         $validator
             ->integer('id')
             ->allowEmpty('id', 'create');
@@ -172,6 +174,41 @@ class DispositifsTable extends Table
             ->maxLength('accord_siege', 255)
             ->allowEmpty('accord_siege');
 
+        $validator
+            ->integer('nb_chef_equipe')
+            ->allowEmpty('nb_chef_equipe');
+
+        $validator
+            ->integer('nb_pse2')
+            ->allowEmpty('nb_pse2');
+
+        $validator
+            ->integer('nb_pse1')
+            ->allowEmpty('nb_pse1');
+
+        $validator
+            ->integer('nb_lat')
+            ->allowEmpty('nb_lat');
+
+        $validator
+            ->integer('nb_medecin')
+            ->allowEmpty('nb_medecin');
+
+        $validator
+            ->integer('nb_infirmier')
+            ->allowEmpty('nb_infirmier');
+
+        $validator
+            ->integer('nb_cadre_operationnel')
+            ->allowEmpty('nb_cadre_operationnel');
+
+        $validator
+            ->integer('nb_stagiaire')
+            ->allowEmpty('nb_stagiaire');
+
+        //Log::write('debug', 'DispositifsTable - validationDefault - fin');
+
+
         return $validator;
     }
 
@@ -184,16 +221,22 @@ class DispositifsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
+       // Log::write('debug', 'DispositifsTable - buildRules');
+
         $rules->add($rules->existsIn(['dimensionnement_id'], 'Dimensionnements'));
         $rules->add($rules->existsIn(['config_typepublic_id'], 'ConfigTypepublics'));
         $rules->add($rules->existsIn(['config_environnement_id'], 'ConfigEnvironnements'));
         $rules->add($rules->existsIn(['config_delai_id'], 'ConfigDelais'));
+
+       // Log::write('debug', 'DispositifsTable - buildRules - fin');
 
         return $rules;
     }
 
 	public function precreate($dimensionnement=0)
 	{
+        //Log::write('debug', 'DispositifsTable - precreate');
+
 		$dimension = TableRegistry::get('Dimensionnements');
 		$dimension = $dimension->findById($dimensionnement)->first();
 
@@ -223,6 +266,8 @@ class DispositifsTable extends Table
 
 		$data['personnels_public'] = $effectif;
 		$data['recommandation_poste'] = $this->typeposte($effectif);
+
+       // Log::write('debug', 'DispositifsTable - precreate fin');
 
 	}
 	protected function typeposte($effectif=0,$sort='type')
@@ -342,7 +387,7 @@ class DispositifsTable extends Table
 	public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
 	{
 		//$this->precreate($data['dimensionnement_id']);
-
+        //Log::write('debug', 'DispositifsTable - beforeMarshal');
 		$parametre = TableRegistry::get('ConfigParametres');
 		$parametre = $parametre->find('all',['order'=>['id'=>'asc']])->all()->last();
 
@@ -427,6 +472,7 @@ class DispositifsTable extends Table
 
 		$data['personnels_total'] = (int) $data['personnels_public'] + (int) $data['personnels_acteurs'];
 
+
 		$tmp = [];
 
 		if(isset( $data['organisation_poste'] )){
@@ -437,8 +483,39 @@ class DispositifsTable extends Table
 			$tmp[1] = '';
 		}
 
-		$data['organisation_poste'] = 'Le poste sera composé de '.$data['personnels_total'].' personnels et dont la répartition est la suivante : '.$data['personnels_acteurs'].' pour les acteurs et '.$data['personnels_public'].' pour le public.
+        $texte_organisation = 'Le poste sera composé de '.$data['personnels_total'].' personnels, avec ';
+        if($data['nb_chef_equipe'] > 0){
+            $texte_organisation = $texte_organisation.$data['nb_chef_equipe'].' chef(s) d\'équipe, ';
+        }
+        if($data['nb_pse2'] > 0){
+            $texte_organisation = $texte_organisation.$data['nb_pse2'].' PSE2, ';
+        }
+        if($data['nb_pse1'] > 0){
+            $texte_organisation = $texte_organisation.$data['nb_pse1'].' PSE1, ';
+        }
+        if($data['nb_lat'] > 0){
+            $texte_organisation = $texte_organisation.$data['nb_lat'].' LAT, ';
+        }
+        if($data['nb_medecin'] > 0){
+            $texte_organisation = $texte_organisation.$data['nb_medecin'].' médecin(s), ';
+        }
+        if($data['nb_infirmier'] > 0){
+            $texte_organisation = $texte_organisation.$data['nb_infirmier'].' infirmier(s), ';
+        }
+        if($data['nb_cadre_operationnel'] > 0){
+            $texte_organisation = $texte_organisation.$data['nb_cadre_operationnel'].' cadre(s) opérationnel(s), ';
+        }
+        if($data['nb_stagiaire'] > 0){
+            $texte_organisation = $texte_organisation.$data['nb_stagiaire'].' stagiaire(s) (les stagiaires ne sont pas compris dans le personnel), ';
+        }
+        // On supprime le dernier caractère qui est une virgule.
+        $texte_organisation = substr_replace($texte_organisation ,"", -2);
+
+		$data['organisation_poste'] = $texte_organisation.'.
 ---'.$tmp[1];
+
+        //Log::write('debug', 'DispositifsTable - beforeMarshal fin');
+
 
 	}
 
@@ -451,6 +528,9 @@ class DispositifsTable extends Table
      */
     public function generateSave($id=0)
     {
+           // Log::write('debug', 'DispositifsTable - generateSave');
+
+
         $dimensionnements = $this->Dimensionnements->find('all',['contain'=>['Dispositifs']])->where(['demande_id'=>$id])->toArray();
 
 		$parametre = TableRegistry::get('ConfigParametres');
@@ -571,9 +651,15 @@ class DispositifsTable extends Table
 
 				$preset['accord_siege'] =  uniqid(date('Ymd').'-');
 
+                //Log::write('debug', 'generateSave - nb chef dequipe : '.$preset['nb_chef_equipe']);
+
+
+
+
 				$this->generateSaveAlone($preset);
 			}
 		}
+           // Log::write('debug', 'DispositifsTable - generateSave - fin');
 
 	}
 
@@ -587,6 +673,8 @@ class DispositifsTable extends Table
     public function generateSaveAlone( $preset = [] )
     {
         $dispositif = $this->newEntity();
+        //Log::write('debug', 'dispositif :'.$dispositif);
+       // Log::write('debug', 'dispositif - preset :'.$preset);
 
 		$dispositif = $this->patchEntity($dispositif, $preset);
 

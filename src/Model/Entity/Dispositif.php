@@ -82,6 +82,14 @@ class Dispositif extends Entity
         'config_typepublic' => true,
         'config_environnement' => true,
         'config_delai' => true,
-        'equipes' => true
+        'equipes' => true,
+        'nb_chef_equipe' => true,
+        'nb_pse2' => true,
+        'nb_pse1' => true,
+        'nb_lat' => true,
+        'nb_medecin' => true,
+        'nb_infirmier' => true,
+        'nb_cadre_operationnel' => true,
+        'nb_stagiaire' => true
     ];
 }

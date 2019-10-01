@@ -57,9 +57,18 @@ $this->prepend( 'css' , $this->Html->css('bootstrap-datetimepicker.min',['media'
 		<div class="col-lg-6 col-md-12 columns">
 		<h3><?= __('Organisation générale') ?></h3>
 		<?php
-            echo $this->Form->control('personnels_total', ['class' => 'form-control','help' => __('')]);
+            echo $this->Form->control('personnels_total', ['class' => 'form-control','help' => __('Nombre de personnel total sur le dispositif '),'legend'=>'test']);
+            echo $this->Form->control('nb_chef_equipe', ['class' => 'form-control','help' => __(''),'label'=>'Dont nb chef d\'équipe']);
+            echo $this->Form->control('nb_pse2', ['class' => 'form-control','help' => __('')]);
+            echo $this->Form->control('nb_pse1', ['class' => 'form-control','help' => __('')]);
+            echo $this->Form->control('nb_lat', ['class' => 'form-control','help' => __('')]);
+            echo $this->Form->control('nb_medecin', ['class' => 'form-control','help' => __('')]);
+            echo $this->Form->control('nb_infirmier', ['class' => 'form-control','help' => __('')]);
+            echo $this->Form->control('nb_cadre_operationnel', ['class' => 'form-control','help' => __('')]);
+            echo $this->Form->control('nb_stagiaire', ['class' => 'form-control','help' => __('')]);
             echo $this->Form->control('organisation_poste', ['class' => 'form-control','help' => __('')]);
             echo $this->Form->control('organisation_transport', ['class' => 'form-control','help' => __('Laisser vide pour appliquer les consignes par défaut.')]);
+
 		?>
 		<h3><?= __('Divers') ?></h3>
 		<?php
