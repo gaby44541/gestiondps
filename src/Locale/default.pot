@@ -143,7 +143,7 @@ msgid "The config typepublic could not be deleted. Please, try again."
 msgstr ""
 
 #: Controller/DemandesController.php:70;96
-msgid "The demande has been saved."
+msgid "La demande a été sauvegardée."
 msgstr ""
 
 #: Controller/DemandesController.php:74;100
