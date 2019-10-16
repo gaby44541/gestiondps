@@ -189,11 +189,18 @@ class DemandesController extends AppController {
             $demande->set('config_etat_id',$this->Demandes->ConfigEtats->firstid());
 
 			if($this->Demandes->save($demande)) {
-                $this->Flash->success(__('The demande has been saved.'));
+                $this->Flash->success(__('La demande a été sauvegardée.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The demande could not be saved. Please, try again.'));
+            $msgErreur = "<p>La demande n'a pas pu être sauvegardée.</p><p> Merci de réessayer.</p> \r\n\r";
+            foreach($demande->errors() as $cleDemandeErreur => $valeurDemandeErreur){
+                $msgErreur .= $cleDemandeErreur . '=>';
+                foreach($valeurDemandeErreur as $cleChamp => $valeurChamp){
+                    $msgErreur .= '('.$cleChamp.'=>'.$valeurChamp.')';
+                }
+            }
+            $this->Flash->error(__($msgErreur),['escape' => false]);
         }
 
         $configEtats = $this->Demandes->ConfigEtats->find('list', ['order' => ['ordre' => 'asc']]);
@@ -252,7 +259,7 @@ class DemandesController extends AppController {
 
 			if($this->Demandes->save($demande)) {
 
-                $this->Flash->success(__('The demande has been saved.'));
+                $this->Flash->success(__('La demande a été sauvegardée.'));
                 return $this->redirect(['action' => 'view',$id]);
             }
 
@@ -1081,7 +1088,7 @@ class DemandesController extends AppController {
 				$result = $this->Demandes->save($demande);
 
 				if($result) {
-					$this->Flash->success(__('The demande has been saved.'));
+					$this->Flash->success(__('La demande a été sauvegardée.'));
 					return $this->redirect(['action'=>'wizard','next',$result->id]);
 				}
 
@@ -1093,7 +1100,7 @@ class DemandesController extends AppController {
 					$result = $this->Demandes->save($demande);
 
 					if( $result ) {
-						$this->Flash->success(__('The demande has been saved.'));
+						$this->Flash->success(__('La demande a été sauvegardée.'));
 
 						//return $this->redirect(['action' => 'index']);
 						return $this->redirect(['action'=>'wizard','next',$result->id]);

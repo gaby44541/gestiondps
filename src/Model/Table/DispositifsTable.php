@@ -206,6 +206,10 @@ class DispositifsTable extends Table
             ->integer('nb_stagiaire')
             ->allowEmpty('nb_stagiaire');
 
+        $validator
+            ->integer('numero_coa')
+            ->allowEmpty('numero_coa');
+
         //Log::write('debug', 'DispositifsTable - validationDefault - fin');
 
 

@@ -74,6 +74,8 @@ $this->prepend( 'css' , $this->Html->css('bootstrap-datetimepicker.min',['media'
 		<?php
             echo $this->Form->control('consignes_generales', ['class' => 'form-control','help' => __('Consignes générales à destination des équipiers qui seront sur ce dispositif. Laisser vide pour appliquer les consignes par défaut.')]);
             echo $this->Form->control('accord_siege', ['type'=>'hidden','class' => 'form-control','help' => __('')]);
+            echo $this->Form->control('numero_coa', ['class' => 'form-control','help' => __('')]);
+
             //echo $this->Form->control('remise', ['class' => 'form-control','help' => __('En pourcentage, exemple : écrire 10 pour consentir d\'une remise de 10%')]);
         ?>
 		<h3><?= __('Enregistrement') ?></h3>

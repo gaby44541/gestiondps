@@ -90,6 +90,7 @@ class Dispositif extends Entity
         'nb_medecin' => true,
         'nb_infirmier' => true,
         'nb_cadre_operationnel' => true,
-        'nb_stagiaire' => true
+        'nb_stagiaire' => true,
+        'numero_coa' => true
     ];
 }
