@@ -29,16 +29,16 @@ foreach($demandes as $line):
 
 	$horaires_debut = Hash::extract($line->dimensionnements,'0.horaires_debut');
 	//var_dump(Hash::extract($line,'dimensionnements.{n}.dispositif.equipes.{n}.effectif'));
-	
+
 	if($mini==9||$mini==8){
 		$total = Hash::extract($line,'dimensionnements.{n}.dispositif.equipes.{n}.cout_remise');
-		$solde_total += array_sum($total);	
+		$solde_total += array_sum($total);
 	}
 
 	if(isset($horaires_debut[0])){
-		
+
 		$time = $horaires_debut[0]->format('m / Y');
-		
+
 		if($mini!=9&&$mini!=8){
 			if($horaires_debut[0]->isWithinNext('3 months')){
 				$this->append('demandes_3months');
@@ -64,7 +64,7 @@ foreach($demandes as $line):
 														]
 												]
 									]);
-									
+
 		}
 		if($mini==9){
 			$return = [];
@@ -72,7 +72,7 @@ foreach($demandes as $line):
 			$return[] = ['li'=>'divider'];
 			$return[] = ['li'=>'postlink','icon'=>'envelope','label'=>'Faire une relance','url'=>['controller'=>'demandes','action'=>'relance-facture',$line->id],'attr'=>['title'=>__('Relance de paiement'),'data-toggle'=>'tooltip','escape'=>false,'confirm' => __('Voulez vous faire la relance pour cette facture numéro : # {0} ?', $line->id)]];
 			$return[] = ['li'=>'postlink','icon'=>'euro','label'=>'Valider le règlement','url'=>['controller'=>'demandes','action'=>'poste-paye',$line->id],'attr'=>['title'=>__('Valider le règlement du dossier'),'data-toggle'=>'tooltip','escape'=>false,'confirm' => __('Voulez vous vraiment valider le règlement du dossier # {0} ?', $line->id)]];
-			
+
 			echo $this->element('drop',['color'=>'btn-inverse btn-default btn-xs','align'=>'dropdown-menu-left','label'=>$time,'icon'=>'pencil','actions' => $return]);
 		}
 		echo '&nbsp'.$line->manifestation;
@@ -86,11 +86,11 @@ foreach($demandes as $line):
 endforeach;
 $this->append('demandes_top');
 	if($mini==8){
-		echo __('Total en attente de facturation : ').'<b>'.$this->Number->currency($solde_total).'</b>';	
+		echo __('Total en attente de facturation : ').'<b>'.$this->Number->currency($solde_total).'</b>';
 		echo '<hr/>';
 	}
 	if($mini==9){
-		echo __('Total des factures impayées : ').'<b>'.$this->Number->currency($solde_total).'</b>';	
+		echo __('Total des factures impayées : ').'<b>'.$this->Number->currency($solde_total).'</b>';
 		echo '<hr/>';
 	}
 	if(empty($demandes)){
@@ -122,7 +122,7 @@ if($this->fetch('demandes_3months')):
 	}
     echo $this->fetch('demandes_3months');
 endif;
-if($this->fetch('demandes_6months')):	
+if($this->fetch('demandes_6months')):
 	echo $this->Html->label(__('Dossier plus tard dans l\'année'),$type).'<br/>';
     echo $this->fetch('demandes_6months');
 endif;

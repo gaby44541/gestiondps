@@ -39,60 +39,46 @@
 		echo '<td style="width:2%;">';
 		echo '</td>';
 		echo '<td style="width:49%;">';
-		/*
-		$actions = [
-						['li'=>'header','label'=>'Dossier :'],
-						3=>['icon'=>'flash','label'=>'Modifier le dossier','url'=>['controller'=>'demandes','action'=>'wizard',3,'demandes__'.$demande->id]],
-						4=>['li'=>'postlink','icon'=>'envelope','label'=>'Envoyer l\'étude pour signature','url'=>['controller'=>'demandes','action'=>'etude-envoyee',$demande->id],'attr'=>['title'=>__('Envoyer l\'étude manuellement pour signature'),'data-toggle'=>'tooltip','escape'=>false,'confirm' => __('Voulez vous vraiment envoyer l\'étude à l\'organisateur manuellement # {0} ?', $demande->id)]],
-						5=>['li'=>'postlink','icon'=>'ok','label'=>'Retour de l\'étude signée','url'=>['controller'=>'demandes','action'=>'etude-signee',$demande->id],'attr'=>['title'=>__('Envoyer l\'étude manuellement pour signature'),'data-toggle'=>'tooltip','escape'=>false,'confirm' => __('Voulez vous vraiment envoyer l\'étude à l\'organisateur manuellement # {0} ?', $demande->id)]],
-						6=>['li'=>'postlink','icon'=>'envelope','label'=>'Envoyer la convention pour signature','url'=>['controller'=>'demandes','action'=>'convention-envoyee',$demande->id],'attr'=>['title'=>__('Envoyer la convention manuellement pour signature'),'data-toggle'=>'tooltip','escape'=>false,'confirm' => __('Voulez vous vraiment envoyer la convention à l\'organisateur manuellement # {0} ?', $demande->id)]],
-						7=>['li'=>'postlink','icon'=>'ok','label'=>'Retour de la convention signée','url'=>['controller'=>'demandes','action'=>'convention-signee',$demande->id],'attr'=>['title'=>__('Envoyer l\'étude manuellement pour signature'),'data-toggle'=>'tooltip','escape'=>false,'confirm' => __('Voulez vous vraiment envoyer l\'étude à l\'organisateur manuellement # {0} ?', $demande->id)]],
-						8=>['li'=>'postlink','icon'=>'calendar','label'=>'Poste réalisé','url'=>['controller'=>'demandes','action'=>'poste-realise',$demande->id],'attr'=>['title'=>__('Le poste a été réalisé'),'data-toggle'=>'tooltip','escape'=>false]],
-						9=>['li'=>'postlink','icon'=>'list-alt','label'=>'Rédiger le bilan','url'=>['controller'=>'demandes','action'=>'poste-bilan',$demande->id],'attr'=>['title'=>__('Le poste a été réalisé'),'data-toggle'=>'tooltip','escape'=>false]],
-						10=>['li'=>'postlink','icon'=>'envelope','label'=>'Envoyer la facture','url'=>['controller'=>'demandes','action'=>'poste-facture',$demande->id],'attr'=>['title'=>__('Envoyer la facture manuellement pour signature'),'data-toggle'=>'tooltip','escape'=>false,'confirm' => __('Voulez vous vraiment envoyer la convention à l\'organisateur manuellement # {0} ?', $demande->id)]],
-						11=>['li'=>'postlink','icon'=>'euro','label'=>'Valider le règlement','url'=>['controller'=>'demandes','action'=>'poste-paye',$demande->id],'attr'=>['title'=>__('Valider le règlement du dossier'),'data-toggle'=>'tooltip','escape'=>false,'confirm' => __('Voulez vous vraiment valider le règlement du dossier # {0} ?', $demande->id)]],
-						12=>['li'=>'postlink','icon'=>'remove','label'=>'Annuler le dossier','url'=>['controller'=>'demandes','action'=>'poste-annule',$demande->id],'attr'=>['title'=>__('Annuler ce dossier'),'data-toggle'=>'tooltip','escape'=>false,'confirm' => __('Voulez vous vraiment annuler le dossier # {0} ?', $demande->id)]],
-						//['li'=>'header','label'=>'Demande :'],
-						//['icon'=>'pencil','label'=>'Modifier la demande','url'=>['controller'=>'demandes','action'=>'edit',$demande->id]],
-						//['li'=>'postlink','icon'=>'trash','label'=>'Supprimer','url'=>['controller'=>'demandes','action'=>'view',$demande->id],'attr'=>['title'=>__('Supprimer'),'data-toggle'=>'tooltip','escape'=>false,'confirm' => __('Etes-vous sûr de vouloir supprimer # {0}?', $demande->id)]],
-						//['li'=>'divider'],
-						//['li'=>'header','label'=>'Documents disponibles :']
-					];
-		*/
 		$return =[0=>['li'=>'header','label'=>'Dossier :']];
-		if($demande->config_etat->ordre <11){
-			$return[12] = ['li'=>'postlink','icon'=>'remove','label'=>'Annuler le dossier','url'=>['controller'=>'demandes','action'=>'poste-annule',$demande->id],'attr'=>['title'=>__('Annuler ce dossier'),'data-toggle'=>'tooltip','escape'=>false,'confirm' => __('Voulez vous vraiment annuler le dossier # {0} ?', $demande->id)]];
-		}
-		if($demande->config_etat->ordre <=4){
+		if($demande->config_etat->ordre <= 8){
 			$return[1] = ['icon'=>'flash','label'=>'Modifier le dossier','url'=>['controller'=>'demandes','action'=>'wizard',3,'demandes__'.$demande->id]];
 		}
-		if($demande->config_etat->ordre ==3){
-			$return[2] = ['li'=>'postlink','icon'=>'envelope','label'=>'Envoyer l\'étude pour signature','url'=>['controller'=>'demandes','action'=>'etude-envoyee',$demande->id],'attr'=>['title'=>__('Envoyer l\'étude manuellement pour signature'),'data-toggle'=>'tooltip','escape'=>false,'confirm' => __('Voulez vous vraiment envoyer l\'étude à l\'organisateur manuellement # {0} ?', $demande->id)]];
+		if($demande->config_etat->ordre == 3){
+        	$return[2] = ['li'=>'postlink','icon'=>'envelope','label'=>'Demander le COA','url'=>['controller'=>'demandes','action'=>'demander-coa',$demande->id],'attr'=>['title'=>__('Envoyer l\'étude au chef de secteur pour avoir le COA'),'data-toggle'=>'tooltip','escape'=>false,'confirm' => __('Envoyer l\'étude au chef de secteur ?')]];
+        }
+        if($demande->config_etat->ordre == 4){
+            $return[3] = ['li'=>'postlink','icon'=>'envelope','label'=>'COA reçu','url'=>['controller'=>'demandes','action'=>'reception-coa',$demande->id],'attr'=>['title'=>__('Valider la réception du COA'),'data-toggle'=>'tooltip','escape'=>false,'confirm' => __('Confirmez-vous la réception du COA ?')]];
+        }
+		if($demande->config_etat->ordre == 5){
+			$return[4] = ['li'=>'postlink','icon'=>'envelope','label'=>'Envoyer l\'étude pour signature','url'=>['controller'=>'demandes','action'=>'etude-envoyee',$demande->id],'attr'=>['title'=>__('Envoyer l\'étude manuellement pour signature'),'data-toggle'=>'tooltip','escape'=>false,'confirm' => __('Voulez vous vraiment envoyer l\'étude à l\'organisateur manuellement # {0} ?', $demande->id)]];
 		}
-		if($demande->config_etat->ordre ==4){
-				$return[3] = ['li'=>'postlink','icon'=>'ok','label'=>'Retour de l\'étude signée','url'=>['controller'=>'demandes','action'=>'etude-signee',$demande->id],'attr'=>['title'=>__('Envoyer l\'étude manuellement pour signature'),'data-toggle'=>'tooltip','escape'=>false,'confirm' => __('Voulez vous vraiment envoyer l\'étude à l\'organisateur manuellement # {0} ?', $demande->id)]];
+		if($demande->config_etat->ordre == 6){
+			$return[5] = ['li'=>'postlink','icon'=>'ok','label'=>'Retour de l\'étude signée','url'=>['controller'=>'demandes','action'=>'etude-signee',$demande->id],'attr'=>['title'=>__('Envoyer l\'étude manuellement pour signature'),'data-toggle'=>'tooltip','escape'=>false,'confirm' => __('Voulez vous vraiment envoyer l\'étude à l\'organisateur manuellement # {0} ?', $demande->id)]];
 		}
-		if($demande->config_etat->ordre ==5){
-			$return[5] = ['li'=>'postlink','icon'=>'envelope','label'=>'Envoyer la convention pour signature','url'=>['controller'=>'demandes','action'=>'convention-envoyee',$demande->id],'attr'=>['title'=>__('Envoyer la convention manuellement pour signature'),'data-toggle'=>'tooltip','escape'=>false,'confirm' => __('Voulez vous vraiment envoyer la convention à l\'organisateur manuellement # {0} ?', $demande->id)]];
+		if($demande->config_etat->ordre == 7){
+			$return[6] = ['li'=>'postlink','icon'=>'envelope','label'=>'Envoyer la convention pour signature','url'=>['controller'=>'demandes','action'=>'convention-envoyee',$demande->id],'attr'=>['title'=>__('Envoyer la convention manuellement pour signature'),'data-toggle'=>'tooltip','escape'=>false,'confirm' => __('Voulez vous vraiment envoyer la convention à l\'organisateur manuellement # {0} ?', $demande->id)]];
 		}
-		if($demande->config_etat->ordre ==6){
-			$return[6] = ['li'=>'postlink','icon'=>'ok','label'=>'Retour de la convention signée','url'=>['controller'=>'demandes','action'=>'convention-signee',$demande->id],'attr'=>['title'=>__('Envoyer l\'étude manuellement pour signature'),'data-toggle'=>'tooltip','escape'=>false,'confirm' => __('Voulez vous vraiment envoyer l\'étude à l\'organisateur manuellement # {0} ?', $demande->id)]];
+		if($demande->config_etat->ordre == 8){
+			$return[7] = ['li'=>'postlink','icon'=>'ok','label'=>'Retour de la convention signée','url'=>['controller'=>'demandes','action'=>'convention-signee',$demande->id],'attr'=>['title'=>__('Envoyer l\'étude manuellement pour signature'),'data-toggle'=>'tooltip','escape'=>false,'confirm' => __('Voulez vous vraiment envoyer l\'étude à l\'organisateur manuellement # {0} ?', $demande->id)]];
 		}
-		if($demande->config_etat->ordre ==7){
-			$return[7] = ['li'=>'postlink','icon'=>'calendar','label'=>'Poste réalisé','url'=>['controller'=>'demandes','action'=>'poste-realise',$demande->id],'attr'=>['title'=>__('Le poste a été réalisé'),'data-toggle'=>'tooltip','escape'=>false]];
+		if($demande->config_etat->ordre == 9){
+			$return[8] = ['li'=>'postlink','icon'=>'calendar','label'=>'Poste réalisé','url'=>['controller'=>'demandes','action'=>'poste-realise',$demande->id],'attr'=>['title'=>__('Le poste a été réalisé'),'data-toggle'=>'tooltip','escape'=>false]];
 		}
-		if($demande->config_etat->ordre ==8){
-			$return[8] = ['li'=>'postlink','icon'=>'list-alt','label'=>'Rédiger le bilan','url'=>['controller'=>'demandes','action'=>'poste-bilan',$demande->id],'attr'=>['title'=>__('Le poste a été réalisé'),'data-toggle'=>'tooltip','escape'=>false]];
+		if($demande->config_etat->ordre == 10){
+			$return[9] = ['li'=>'postlink','icon'=>'list-alt','label'=>'Rédiger le bilan','url'=>['controller'=>'demandes','action'=>'poste-bilan',$demande->id],'attr'=>['title'=>__('Le poste a été réalisé'),'data-toggle'=>'tooltip','escape'=>false]];
 		}
-		if($demande->config_etat->ordre ==9){
-			$return[9] = ['li'=>'postlink','icon'=>'envelope','label'=>'Envoyer la facture','url'=>['controller'=>'demandes','action'=>'poste-facture',$demande->id],'attr'=>['title'=>__('Envoyer la facture manuellement pour signature'),'data-toggle'=>'tooltip','escape'=>false,'confirm' => __('Voulez vous vraiment envoyer la facture à l\'organisateur manuellement # {0} ?', $demande->id)]];
+		if($demande->config_etat->ordre == 11){
+			$return[10] = ['li'=>'postlink','icon'=>'envelope','label'=>'Envoyer la facture','url'=>['controller'=>'demandes','action'=>'poste-facture',$demande->id],'attr'=>['title'=>__('Envoyer la facture manuellement pour signature'),'data-toggle'=>'tooltip','escape'=>false,'confirm' => __('Voulez vous vraiment envoyer la facture à l\'organisateur manuellement # {0} ?', $demande->id)]];
 		}
-		if($demande->config_etat->ordre ==10){
-			$return[10] = ['li'=>'postlink','icon'=>'euro','label'=>'Valider le règlement','url'=>['controller'=>'demandes','action'=>'poste-paye',$demande->id],'attr'=>['title'=>__('Valider le règlement du dossier'),'data-toggle'=>'tooltip','escape'=>false,'confirm' => __('Voulez vous vraiment valider le règlement du dossier # {0} ?', $demande->id)]];
+		if($demande->config_etat->ordre == 12){
+			$return[11] = ['li'=>'postlink','icon'=>'euro','label'=>'Valider le règlement','url'=>['controller'=>'demandes','action'=>'poste-paye',$demande->id],'attr'=>['title'=>__('Valider le règlement du dossier'),'data-toggle'=>'tooltip','escape'=>false,'confirm' => __('Voulez vous vraiment valider le règlement du dossier # {0} ?', $demande->id)]];
 		}
+		if($demande->config_etat->ordre <= 8){
+            $return[12] = ['li'=>'postlink','icon'=>'remove','label'=>'Annuler le dossier','url'=>['controller'=>'demandes','action'=>'poste-annule',$demande->id],'attr'=>['title'=>__('Annuler ce dossier'),'data-toggle'=>'tooltip','escape'=>false,'confirm' => __('Voulez vous vraiment annuler le dossier # {0} ?', $demande->id)]];
+        }
 		if($demande->config_etat->ordre >10){
-			$return[14] = ['li'=>'header','label'=>'Ce dossier est clôturé vous ne pouvez plus rien faire.'];
-			$return[15] = ['li'=>'header','label'=>'Prochainement une option pour dupliquer un dossier.'];
+			$return[13] = ['li'=>'header','label'=>'Ce dossier est clôturé vous ne pouvez plus rien faire.'];
+			$return[14] = ['li'=>'header','label'=>'Prochainement une option pour dupliquer un dossier.'];
 		}
 		ksort($return);
 		echo $this->element('drop',['align'=>'dropdown-menu-right','label'=>'Traiter ce dossier','icon'=>'list','actions' => $return]);
@@ -134,37 +120,36 @@
 		echo '</td>';
 		echo '<td style="width:49%;">';
 		if(isset($dimensionnements->dispositif)){
-		echo '<b>'.h('Composition du dispositif :').'</b><br/>';
-		echo '<small>';
-		echo h($dimensionnements->dispositif->personnels_total).' équipiers sont prévus<br/>';
-		if(count($dimensionnements->dispositif->equipes)>0){
-			echo '<br/>';
-			echo count($dimensionnements->dispositif->equipes).' équipes sont prévues<br/>';
-		} else {
-			//echo $this->element('actions',['td'=>false,'controller'=>'demandes','group'=>'toolbar','pull'=>'left','options'=>['wizard'=>['type'=>'wizard','label'=>__('<i class="glyphicon glyphicon-flash"></i> Créer les équipes correspondantes'),'url'=>['controller'=>'demandes','action' => 'wizard',5,'demandes__'.$demande->id],'params'=>['class' => 'btn btn-xs btn-primary', 'data-toggle' => 'tooltip', 'title' => 'Sélectionner cet item et passer à la suite du dossier', 'escape' => false]]],'action_id'=>$demande->id]);
-			echo $this->Html->label(_('Pour calculer le tarif, créez toutes les équipes'),'warning');
-			echo '<br/>';
-			echo $this->element('buttons',[	'controller'=>'demandes',
-									'text'=>true,
-									'space'=>' ',
-									'link'=>false,
-									//'action_id'=>$demande_id,
-									'options'=>['divers'],
-									'merge'=>[
-												'divers'=>[
-															'url'  =>['controller'=>'equipes','action'=>'generate',$demande->id,0],
-															'attr' =>['class'=>'btn btn-inverse btn-default btn-xs','title'=>__('Crée toutes les équipes par défaut en une seule action'),'data-toggle'=>'tooltip','escape'=>false],
-															'label'=>['icon'=>'flash','text'=>__('Créer les équipes pour continuer')]
-														]
-												]
-									]);
-		}
+            echo '<b>'.h('Composition du dispositif :').'</b><br/>';
+            echo '<small>';
+            echo h($dimensionnements->dispositif->personnels_total).' équipiers sont prévus<br/>';
+            if(count($dimensionnements->dispositif->equipes)>0){
+                echo '<br/>';
+                echo count($dimensionnements->dispositif->equipes).' équipes sont prévues<br/>';
+            } else {
+                //echo $this->element('actions',['td'=>false,'controller'=>'demandes','group'=>'toolbar','pull'=>'left','options'=>['wizard'=>['type'=>'wizard','label'=>__('<i class="glyphicon glyphicon-flash"></i> Créer les équipes correspondantes'),'url'=>['controller'=>'demandes','action' => 'wizard',5,'demandes__'.$demande->id],'params'=>['class' => 'btn btn-xs btn-primary', 'data-toggle' => 'tooltip', 'title' => 'Sélectionner cet item et passer à la suite du dossier', 'escape' => false]]],'action_id'=>$demande->id]);
+                echo $this->Html->label(_('Pour calculer le tarif, créez toutes les équipes'),'warning');
+                echo '<br/>';
+                echo $this->element('buttons',[	'controller'=>'demandes',
+                                        'text'=>true,
+                                        'space'=>' ',
+                                        'link'=>false,
+                                        //'action_id'=>$demande_id,
+                                        'options'=>['divers'],
+                                        'merge'=>[
+                                                    'divers'=>[
+                                                                'url'  =>['controller'=>'equipes','action'=>'generate',$demande->id,0],
+                                                                'attr' =>['class'=>'btn btn-inverse btn-default btn-xs','title'=>__('Crée toutes les équipes par défaut en une seule action'),'data-toggle'=>'tooltip','escape'=>false],
+                                                                'label'=>['icon'=>'flash','text'=>__('Créer les équipes pour continuer')]
+                                                            ]
+                                                    ]
+                                        ]);
+            }
 		} else {
 			echo $this->element('actions',['td'=>false,'controller'=>'demandes','group'=>'toolbar','pull'=>'left','options'=>['wizard'=>['type'=>'wizard','label'=>__('<i class="glyphicon glyphicon-flash"></i> Créer le dispositif correspondant'),'url'=>['controller'=>'demandes','action' => 'wizard',4,'demandes__'.$demande->id],'params'=>['class' => 'btn btn-xs btn-primary', 'data-toggle' => 'tooltip', 'title' => 'Sélectionner cet item et passer à la suite du dossier', 'escape' => false]]],'action_id'=>$demande->id]);
 		}
 		echo '</small>';
 		echo '</td>';
-		//echo $this->element('actions',['controller'=>'Dimensionnements','action_id'=>$dimensionnements->id]);
 		echo '</tr>';
 		echo '</table>';
 		endforeach;

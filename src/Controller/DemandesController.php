@@ -276,8 +276,42 @@ class DemandesController extends AppController {
         $this->set(compact('demande', 'configEtats', 'organisateurs', 'antennes', 'navigation'));
     }
 
+    /**
+     * Cette méthode est appelée lorsqu'on appelle l'action "demander-coa"
+     *
+     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
+     */
+    public function demanderCoa($id = null) {
+        $messages = [
+            'step' => __('Votre dossier doit être en phase d\'étude avec toutes les données valides pour prétendre à l\'envoi.'),
+            'success' => __('La demande de COA a bien été faite.'),
+            'error' => __('Impossible de passer à l\'étape d\'après pour des raisons techniques.')
+        ];
+        $this->_traitementSteps($id,4,3,$messages);
+
+        Log::write('debug', 'Demander COA ');
+   		return $this->redirect(['controller' => 'demandes', 'action' => 'view',$id]);
+    }
+
+    /**
+     * Cette méthode est appelée lorsqu'on appelle l'action "reception-coa"
+     *
+     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
+     */
+    public function receptionCoa($id = null) {
+        Log::write('debug', 'Réception COA ');
+        $messages = [
+            'step' => __('Votre dossier doit être en phase de demande de COA pour pouvoir recevoir le COA.'),
+            'success' => __('La réception du COA a bien été validée.'),
+            'error' => __('Impossible de passer à l\'étape d\'après pour des raisons techniques.')
+        ];
+        $this->_traitementSteps($id,5,4,$messages);
+  		return $this->redirect(['controller' => 'demandes', 'action' => 'view',$id]);
+    }
+
+
 	/**
-     * Add method
+     * Cette méthode est appelée lorsqu'on appelle l'action "etude-envoyee"
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
@@ -383,7 +417,7 @@ class DemandesController extends AppController {
 	}
 
 	/**
-     * Add method
+     * Cette méthode est appelée lorsqu'on appelle l'action "etude-signee"
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */

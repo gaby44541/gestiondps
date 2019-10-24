@@ -10,8 +10,8 @@
 	echo $this->Breadcrumbs->render(
 		['class' => 'breadcrumb'],
 		[]
-	); 
-	?>	
+	);
+	?>
 	</div>
 </div>
 
@@ -20,10 +20,27 @@
 			<div class="col-md-4">
 			<?php
 				echo $this->Panel->create('i:menu-hamburger Mes demandes en cours de traitement', ['type' => 'danger']);
+				/*On appelle demandes.ctp en mettant les variables mini à 0 et maxi à 3*/
 				echo $this->element('demandes',['mini'=>0,'maxi'=>3,'type' => 'warning']);
 				echo $this->Panel->end();
 
-				echo $this->Panel->create('i:menu-hamburger Attente de la signature de l\'étude', ['type' => 'warning']);
+				echo $this->Panel->create('i:menu-hamburger En attente de validation du COA', ['type' => 'warning']);
+                echo $this->element('demandes',['mini'=>5,'maxi'=>5,'type' => 'warning','icon'=>['view']]);
+                echo $this->Panel->end();
+
+                echo $this->Panel->create('i:menu-hamburger COA validé', ['type' => 'warning']);
+                echo $this->element('demandes',['mini'=>7,'maxi'=>7,'type' => 'warning','icon'=>['view']]);
+                echo $this->Panel->end();
+			?>
+
+			</div>
+			<div class="col-md-4">
+			<?php
+				/*echo $this->Panel->create('i:menu-hamburger Recrutement(s)', ['type' => 'warning']);
+				echo $this->element('demandes',['mini'=>5,'maxi'=>5,'type' => 'warning','icon'=>['view']]);
+				echo $this->Panel->end();	*/
+
+                echo $this->Panel->create('i:menu-hamburger Attente de la signature de l\'étude', ['type' => 'warning']);
 				?>
 				<div id="countdown" class="panel panel-warning">
 					<div class=" panel-heading">
@@ -36,22 +53,14 @@
 				</div>
 				<?php
 				echo $this->element('demandes',['mini'=>4,'maxi'=>4,'type' => 'warning','icon'=>[]]);
-				echo $this->Panel->end();				
-			?>
-
-			</div>
-			<div class="col-md-4">		
-			<?php
-				echo $this->Panel->create('i:menu-hamburger Recrutement(s)', ['type' => 'warning']);
-				echo $this->element('demandes',['mini'=>5,'maxi'=>5,'type' => 'warning','icon'=>['view']]);
-				echo $this->Panel->end();	
+				echo $this->Panel->end();
 
 				echo $this->Panel->create('i:ok En attente de(s) convention(s) signée(s)', ['type' => 'success']);
-				echo $this->element('demandes',['mini'=>6,'maxi'=>6,'type' => 'success','icon'=>['view']]);
+				echo $this->element('demandes',['mini'=>8,'maxi'=>8,'type' => 'success','icon'=>['view']]);
 				echo $this->Panel->end();
-				
+
 				echo $this->Panel->create('i:ok Convention(s) signée(s)', ['type' => 'success']);
-				echo $this->element('demandes',['mini'=>7,'maxi'=>7,'type' => 'success','icon'=>['view']]);
+				echo $this->element('demandes',['mini'=>9,'maxi'=>9,'type' => 'success','icon'=>['view']]);
 				echo $this->Panel->end();
 			?>
 			</div>
@@ -59,15 +68,15 @@
 			<?php
 				echo $this->Panel->create('i:euro Poste(s) réalisé(s) non facturé(s)', ['type' => 'primary']);
 				echo $this->element('demandes',['mini'=>8,'maxi'=>8,'type' => 'primary','icon'=>['view']]);
-				echo $this->Panel->end();	
-				
+				echo $this->Panel->end();
+
 				echo $this->Panel->create('i:euro Règlements en attente', ['type' => 'primary']);
 				echo $this->element('demandes',['mini'=>9,'maxi'=>10,'type' => 'primary','icon'=>['view']]);
-				echo $this->Panel->end();	
+				echo $this->Panel->end();
 
 				echo $this->Panel->create('i:alert Demandes refusées', ['type' => 'danger']);
 				echo $this->element('demandes',['mini'=>12,'maxi'=>13,'type' => 'danger','icon'=>['view']]);
-				echo $this->Panel->end();					
+				echo $this->Panel->end();
 			?>
 			</div>
 		</div>
@@ -84,7 +93,7 @@
         min:  null,
         sec:  null
     },
-     
+
     // Initialisation du compte à rebours (à appeler 1 fois au chargement de la page)
     init: function(){
         // Récupération des références vers les éléments pour l'affichage
@@ -93,36 +102,36 @@
         this.displayElement.hour = jQuery('#countdown_hour');
         this.displayElement.min  = jQuery('#countdown_min');
         this.displayElement.sec  = jQuery('#countdown_sec');
-         
+
         // Lancement du compte à rebours
         this.tick(); // Premier tick tout de suite
         window.setInterval("countdownManager.tick();", 1000); // Ticks suivant, répété toutes les secondes (1000 ms)
     },
-     
+
     // Met à jour le compte à rebours (tic d'horloge)
     tick: function(){
         // Instant présent
         var timeNow  = new Date();
-         
+
         // On s'assure que le temps restant ne soit jamais négatif (ce qui est le cas dans le futur de targetTime)
         if( timeNow > this.targetTime ){
             timeNow = this.targetTime;
         }
-         
+
         // Calcul du temps restant
         var diff = this.dateDiff(timeNow, this.targetTime);
-         
+
         this.displayElement.day.text(  diff.day  );
         this.displayElement.hour.text( diff.hour );
         this.displayElement.min.text(  diff.min  );
         this.displayElement.sec.text(  diff.sec  );
     },
-     
+
     // Calcul la différence entre 2 dates, en jour/heure/minute/seconde
     dateDiff: function(date1, date2){
         var diff = {}                           // Initialisation du retour
         var tmp = date2 - date1;
- 
+
         tmp = Math.floor(tmp/1000);             // Nombre de secondes entre les 2 dates
         diff.sec = tmp % 60;                    // Extraction du nombre de secondes
         tmp = Math.floor((tmp-diff.sec)/60);    // Nombre de minutes (partie entière)
@@ -131,11 +140,11 @@
         diff.hour = tmp % 24;                   // Extraction du nombre d'heures
         tmp = Math.floor((tmp-diff.hour)/24);   // Nombre de jours restants
         diff.day = tmp;
- 
+
         return diff;
     }
 };
- 
+
 jQuery(function($){
     // Lancement du compte à rebours au chargement de la page
     countdownManager.init();
