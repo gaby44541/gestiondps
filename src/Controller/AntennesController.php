@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Log\Log;
 
 /**
  * Antennes Controller
@@ -12,13 +13,13 @@ use App\Controller\AppController;
  */
 class AntennesController extends AppController
 {
-	var $navigation = [ 
+	var $navigation = [
 		[ 'label' => 'New antenne', 'config' => [ 'controller' => 'Antennes', 'action' => 'add' ]],
 		[ 'label' => 'List antenne', 'config' => [ 'controller' => 'Antennes', 'action' => 'index' ]],
 		[ 'label' => 'List Personnels', 'config' => ['controller' => 'Personnels', 'action' => 'index' ]],
 		[ 'label' => 'Add Personnels', 'config' => ['controller' => 'Personnels', 'action' => 'add' ]],
     ];
-	
+
     /**
      * Index method
      *
@@ -27,31 +28,31 @@ class AntennesController extends AppController
     public function index()
     {
         $antennes = $this->paginate($this->Antennes);
-		
+
 		$navigation = $this->navigation;
 
         $this->set(compact('antennes','navigation'));
     }
 
 	public function ajax($function = false){
-		
+
 		$this->autoRender = false;
-		
+
 	    // Force le controller à rendre une réponse JSON.
         $this->RequestHandler->renderAs($this, 'json');
-		
+
         // Définit le type de réponse de la requete AJAX
         $this->response->type('application/json');
 
         // Chargement du layout AJAX
         $this->viewBuilder()->layout('ajax');
-		
+
 		// Chargement des données
 		$json_data[] = ['id'=>2500,'title'=>'test','start'=>'2018-07-16 12:30:00','end'=>'2018-07-18 05:45:00','url'=>'http://localhost/crud/antennes/view/1'];
 		$json_data[] = ['id'=>2501,'title'=>'test','start'=>'2018-07-18 05:45:00','end'=>'2018-07-27'];//,'rendering'=>'background'
 
 		$response = $this->response->withType('json')->withStringBody(json_encode($json_data));
-		
+
 		// Retour des données encodées en JSON
 		return $response;
 	}
@@ -91,9 +92,9 @@ class AntennesController extends AppController
             $this->Flash->error(__('The antenne could not be saved. Please, try again.'));
         }
         $personnels = $this->Antennes->Personnels->find('list', ['limit' => 200]);
-		
+
 		$navigation = $this->navigation;
-		
+
         $this->set(compact('antenne', 'personnels','navigation'));
     }
 
@@ -109,10 +110,8 @@ class AntennesController extends AppController
         $antenne = $this->Antennes->get($id, [
             'contain' => ['Personnels']
         ]);
-		
         if ($this->request->is(['patch', 'post', 'put'])) {
             $antenne = $this->Antennes->patchEntity($antenne, $this->request->getData());
-			var_dump($antenne);
             if ($this->Antennes->save($antenne)) {
                 $this->Flash->success(__('The antenne has been saved.'));
 
@@ -121,9 +120,9 @@ class AntennesController extends AppController
             $this->Flash->error(__('The antenne could not be saved. Please, try again.'));
         }
         $personnels = $this->Antennes->Personnels->find('list', ['limit' => 200]);
-		
+
 		$navigation = $this->navigation;
-		
+
         $this->set(compact('antenne', 'personnels','navigation'));
     }
 
@@ -156,9 +155,9 @@ class AntennesController extends AppController
      */
     public function calendar()
     {
-		
+
 		$navigation = $this->navigation;
-		
+
         $this->set(compact('navigation'));
     }
 }
