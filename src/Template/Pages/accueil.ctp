@@ -25,21 +25,17 @@
 				echo $this->Panel->end();
 
 				echo $this->Panel->create('i:menu-hamburger En attente de validation du COA', ['type' => 'warning']);
-                echo $this->element('demandes',['mini'=>5,'maxi'=>5,'type' => 'warning','icon'=>['view']]);
+                echo $this->element('demandes',['mini'=>4,'maxi'=>4,'type' => 'warning','icon'=>['view']]);
                 echo $this->Panel->end();
 
                 echo $this->Panel->create('i:menu-hamburger COA validé', ['type' => 'warning']);
-                echo $this->element('demandes',['mini'=>7,'maxi'=>7,'type' => 'warning','icon'=>['view']]);
+                echo $this->element('demandes',['mini'=>5,'maxi'=>5,'type' => 'warning','icon'=>['view']]);
                 echo $this->Panel->end();
 			?>
 
 			</div>
 			<div class="col-md-4">
 			<?php
-				/*echo $this->Panel->create('i:menu-hamburger Recrutement(s)', ['type' => 'warning']);
-				echo $this->element('demandes',['mini'=>5,'maxi'=>5,'type' => 'warning','icon'=>['view']]);
-				echo $this->Panel->end();	*/
-
                 echo $this->Panel->create('i:menu-hamburger Attente de la signature de l\'étude', ['type' => 'warning']);
 				?>
 				<div id="countdown" class="panel panel-warning">
@@ -52,7 +48,7 @@
 					</div>
 				</div>
 				<?php
-				echo $this->element('demandes',['mini'=>4,'maxi'=>4,'type' => 'warning','icon'=>[]]);
+				echo $this->element('demandes',['mini'=>6,'maxi'=>6,'type' => 'warning','icon'=>[]]);
 				echo $this->Panel->end();
 
 				echo $this->Panel->create('i:ok En attente de(s) convention(s) signée(s)', ['type' => 'success']);
@@ -67,15 +63,15 @@
 			<div class="col-md-4">
 			<?php
 				echo $this->Panel->create('i:euro Poste(s) réalisé(s) non facturé(s)', ['type' => 'primary']);
-				echo $this->element('demandes',['mini'=>8,'maxi'=>8,'type' => 'primary','icon'=>['view']]);
+				echo $this->element('demandes',['mini'=>10,'maxi'=>10,'type' => 'primary','icon'=>['view']]);
 				echo $this->Panel->end();
 
 				echo $this->Panel->create('i:euro Règlements en attente', ['type' => 'primary']);
-				echo $this->element('demandes',['mini'=>9,'maxi'=>10,'type' => 'primary','icon'=>['view']]);
+				echo $this->element('demandes',['mini'=>12,'maxi'=>13,'type' => 'primary','icon'=>['view']]);
 				echo $this->Panel->end();
 
 				echo $this->Panel->create('i:alert Demandes refusées', ['type' => 'danger']);
-				echo $this->element('demandes',['mini'=>12,'maxi'=>13,'type' => 'danger','icon'=>['view']]);
+				echo $this->element('demandes',['mini'=>14,'maxi'=>14,'type' => 'danger','icon'=>['view']]);
 				echo $this->Panel->end();
 			?>
 			</div>

@@ -487,7 +487,7 @@ class DispositifsTable extends Table
 			$tmp[1] = '';
 		}
 
-        $texte_organisation = 'Le poste sera composé de '.$data['personnels_total'].' personnels, avec ';
+        $texte_organisation = 'Le poste sera composé de '.$data['personnels_total'].' personnels, avec  ';
         if($data['nb_chef_equipe'] > 0){
             $texte_organisation = $texte_organisation.$data['nb_chef_equipe'].' chef(s) d\'équipe, ';
         }
