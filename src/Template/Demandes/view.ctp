@@ -83,7 +83,6 @@
 		ksort($return);
 		echo $this->element('drop',['align'=>'dropdown-menu-right','label'=>'Traiter ce dossier','icon'=>'list','actions' => $return]);
 
-		//echo $this->element('actions',['td'=>false,'controller'=>'demandes','group'=>'toolbar','pull'=>'left','options'=>['wizard'=>['type'=>'wizard','label'=>__('<i class="glyphicon glyphicon-flash"></i> Apporter des modifications au dossier'),'url'=>['controller'=>'demandes','action' => 'wizard',5,'demandes__'.$demande->id],'params'=>['class' => 'btn btn-xs btn-primary', 'data-toggle' => 'tooltip', 'title' => 'Sélectionner cet item et passer à la suite du dossier', 'escape' => false]]],'action_id'=>$demande->id]);
 		echo '<br/>';
 		echo '<br/>';
 		echo '<br/>';
@@ -93,12 +92,11 @@
 		echo '</table>';
 		echo $this->Panel->end();
 
+        /* Panel Déclaration(s) et dispositif(s)*/
 		echo $this->Panel->create('i:plus Déclaration(s) et dispositif(s)', ['type' => 'primary']);
 		echo '<small>';
 		echo __('Les déclarations suivantes ont été saisies :');
 		echo '</small>';
-		//echo $this->Panel->footer();
-		//echo $this->element('buttons',['controller'=>'Dimensionnements','options'=>'association','association'=>$demande->id,'text'=>['association'=>__('Déclarer une épreuve ou date')]]);
 		if(count($demande->dimensionnements)<1){
 			echo '&nbsp;'.$this->Html->badge(__('Le dossier est bloqué : saisir au moins une déclaration'),['class'=>'btn-danger']);
 			echo $this->element('actions',['td'=>false,'controller'=>'demandes','group'=>'toolbar','pull'=>'left','options'=>['wizard'=>['type'=>'wizard','label'=>__('<i class="glyphicon glyphicon-flash"></i> Faire au moins une déclaration'),'url'=>['controller'=>'demandes','action' => 'wizard',3,'demandes__'.$demande->id],'params'=>['class' => 'btn btn-xs btn-primary', 'data-toggle' => 'tooltip', 'title' => 'Sélectionner cet item et passer à la suite du dossier', 'escape' => false]]],'action_id'=>$demande->id]);
@@ -127,14 +125,12 @@
                 echo '<br/>';
                 echo count($dimensionnements->dispositif->equipes).' équipes sont prévues<br/>';
             } else {
-                //echo $this->element('actions',['td'=>false,'controller'=>'demandes','group'=>'toolbar','pull'=>'left','options'=>['wizard'=>['type'=>'wizard','label'=>__('<i class="glyphicon glyphicon-flash"></i> Créer les équipes correspondantes'),'url'=>['controller'=>'demandes','action' => 'wizard',5,'demandes__'.$demande->id],'params'=>['class' => 'btn btn-xs btn-primary', 'data-toggle' => 'tooltip', 'title' => 'Sélectionner cet item et passer à la suite du dossier', 'escape' => false]]],'action_id'=>$demande->id]);
                 echo $this->Html->label(_('Pour calculer le tarif, créez toutes les équipes'),'warning');
                 echo '<br/>';
                 echo $this->element('buttons',[	'controller'=>'demandes',
                                         'text'=>true,
                                         'space'=>' ',
                                         'link'=>false,
-                                        //'action_id'=>$demande_id,
                                         'options'=>['divers'],
                                         'merge'=>[
                                                     'divers'=>[
@@ -153,7 +149,34 @@
 		echo '</tr>';
 		echo '</table>';
 		endforeach;
+		echo $this->Panel->end();//Fin panel Déclaration(s) et dispositif(s)
+
+        /* Panel Tarif */
+		echo $this->Panel->create('i:plus Tarif', ['type' => 'primary']);
+		    echo '<h4>Véhicules</h4>'.$demande->somme_facturee;
+
+		    echo '</br>';
+		    echo 'Matériel :';
+		    echo '<table><tr><td></td></tr></table>';
+		    echo '</br>';
+		    echo 'Personnel :';
+		    echo '<table cellspacing="5" style="width:100%;"><tr><th>Compétence</th><th>Tarif (sur une base de 8h)</th><th>Nombre</th><th>Total</th></tr>
+                <tr><td>Chef d\'équipe</td><td></td><td></td><td></td></tr>
+                <tr><td>PSE2</td><td></td><td></td><td></td></tr>
+                <tr><td>PSE1</td><td></td><td></td><td></td></tr>
+                <tr><td>LAT</td><td></td><td></td><td></td></tr>
+                <tr><td>Stagiaire</td><td></td><td></td><td></td></tr>
+                <tr><td>Chef d\'équipe</td><td></td><td></td><td></td></tr>
+                <tr><td>Chef d\'équipe</td><td></td><td></td><td></td></tr>
+		    </table>';
+		    echo '</br>';
+		    echo 'Divers :';
+		    echo '<table><tr><td></td></tr></table>';
+		    echo '</br>';
+		    echo 'Frais kilométriques :';
+		    echo '<table><tr><td></td></tr></table>';
 		echo $this->Panel->end();
+
 	?>
 	</div>
 	<div class="col-md-3">

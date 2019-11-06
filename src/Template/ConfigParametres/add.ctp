@@ -30,18 +30,17 @@ $this->prepend( 'css' , $this->Html->css('bootstrap-datetimepicker.min',['media'
 	?>
     <?= $this->Form->create($configParametre, ['horizontal' => true]) ?>
     <fieldset>
-        
+
 		<div class="col-lg-6 col-md-12 columns">
-		<h3><?= __('configParametre') ?></h3>        
+		<h3><?= __('configParametre') ?></h3>
         <?php
 
             echo $this->Form->control('pourcentage', ['class' => 'form-control','help' => __('')]);
-            echo $this->Form->control('cout_personnel', ['class' => 'form-control','help' => __('')]);
             echo $this->Form->control('cout_kilometres', ['class' => 'form-control','help' => __('')]);
 		?>
 		</div>
 		<div class="col-lg-6 col-md-12 columns">
-		<h3><?= __('configParametre') ?></h3>  
+		<h3><?= __('configParametre') ?></h3>
 		<?php            echo $this->Form->control('cout_repas', ['class' => 'form-control','help' => __('')]);
         ?>
 		</div>

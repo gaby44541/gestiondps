@@ -146,13 +146,6 @@ class AntennesController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
-	    /**
-     * Delete method
-     *
-     * @param string|null $id Antenne id.
-     * @return \Cake\Http\Response|null Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
     public function calendar()
     {
 

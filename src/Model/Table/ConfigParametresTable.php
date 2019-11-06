@@ -53,10 +53,6 @@ class ConfigParametresTable extends Table
             ->allowEmpty('pourcentage');
 
         $validator
-            ->decimal('cout_personnel')
-            ->allowEmpty('cout_personnel');
-
-        $validator
             ->decimal('cout_kilometres')
             ->allowEmpty('cout_kilometres');
 

@@ -85,14 +85,6 @@
 			<td><?= $this->Number->format($equipe->remise) ?></td>
 		</tr>
 		<tr>
-			<th><?= __('Cout Personnel') ?></th>
-			<td><?= $this->Number->format($equipe->cout_personnel) ?></td>
-		</tr>
-		<tr>
-			<th><?= __('Cout Kilometres') ?></th>
-			<td><?= $this->Number->format($equipe->cout_kilometres) ?></td>
-		</tr>
-		<tr>
 			<th><?= __('Cout Repas') ?></th>
 			<td><?= $this->Number->format($equipe->cout_repas) ?></td>
 		</tr>
@@ -128,7 +120,7 @@
 			<th><?= __('Repas Charge') ?></th>
 			<td><?= $equipe->repas_charge ? __('Yes') : __('No'); ?></td>
 		</tr>
-	
+
 	</table>
 <div class="related">
 	<h3>

@@ -115,19 +115,20 @@ class Dimensionnement extends Entity
 		'strtotime_fin',
 		'calendar',
 		'arrays',
-		'environnements'
+		'environnements',
+		'nb_heures'
 	];
     protected function _getCalendar()
-    {	
+    {
 		$array = [];
 
 		$array['id'] = $this->_properties['id'];
 		$array['title'] = $this->_properties['intitule'];
-	
+
 		$array['url'] = Router::url(['controller'=>'demandes','action'=>'dispatch',$this->_properties['demande_id']]);
 
 		if( isset($this->_properties['demande']['config_etat']['ordre'])){
-			$ordre = (int) $this->_properties['demande']['config_etat']['ordre'];		
+			$ordre = (int) $this->_properties['demande']['config_etat']['ordre'];
 		} else {
 			$ordre = false;
 		}
@@ -143,7 +144,7 @@ class Dimensionnement extends Entity
 			case 5:
 			case 6:
 				$array['color'] = 'orange';
-				break;	
+				break;
 			case 7:
 			case 8:
 				$array['color'] = 'YellowGreen';
@@ -151,18 +152,18 @@ class Dimensionnement extends Entity
 			case 9:
 			case 10:
 				$array['color'] = 'LightBlue';
-				break;					
+				break;
 			default:
 				$array['color'] = 'Gainsboro';
-				break;						
-		endswitch;	
-		
+				break;
+		endswitch;
+
 		$start = is_object( $this->_properties['horaires_debut'] ) ? $this->_properties['horaires_debut']->toUnixString() : strtotime($this->_properties['horaires_debut']);
 		$end = is_object( $this->_properties['horaires_fin'] ) ? $this->_properties['horaires_fin']->toUnixString() : strtotime($this->_properties['horaires_fin']);
 
         $array['start'] = date('Y-m-d H:i:s',$start);
 		$array['end'] = date('Y-m-d H:i:s',$end);
-		
+
 		return $array;
 
 	}
@@ -179,14 +180,14 @@ class Dimensionnement extends Entity
     {
 		$start = is_object( $this->_properties['horaires_debut']) ? $this->_properties['horaires_debut']->i18nFormat(\IntlDateFormatter::FULL) :  $this->_properties['horaires_debut'];
 		$end = is_object( $this->_properties['horaires_fin']) ? $this->_properties['horaires_fin']->i18nFormat(\IntlDateFormatter::FULL) :  $this->_properties['horaires_fin'];
-		
+
         return 'du '.$start.' au '.$end;
-    }	
+    }
     protected function _getContactFull()
     {
         return $this->_properties['contact_present'].' - '.$this->_properties['contact_fonction'].' ('.$this->_properties['contact_portable'].' - '.$this->_properties['contact_telephone'].')';
     }
-	
+
 	protected function _getArrays(){
 
 		return [
@@ -202,18 +203,26 @@ class Dimensionnement extends Entity
 		$environnements['moyen'] = ['gradin','tribune','chapiteau'];
 		$environnements['difficile'] = ['difficile','pente','champ','ville'];
 		$environnements['très difficile'] = ['public','talu','escalier','chemin','forêt','accidenté'];
-		
+
 		$output = [];
-		
+
 		foreach($environnements as $key => $environnement){
 			foreach($environnement as $item){
 				$output[$key][$item] = ucfirst($item);
 			}
 		}
-		
+
 		return $output;
 	}
-	
+
+    protected function _getNbHeures(){
+        $debut = $this->_properties['horaires_debut'];
+        $fin = $this->_properties['horaires_fin'];
+        $hours = $fin->diff($debut)->h + $fin->diff($debut)->days*24;
+        return $hours;
+    }
+
+
 	protected function arrayExplode($array = '')
 	{
 		if(isset($this->_properties[$array])){
@@ -224,193 +233,10 @@ class Dimensionnement extends Entity
 
 			return $this->_properties[$array];
 		}
-		
+
 		return [];
 
 	}
+
 }
 
-/*
-<?php
-namespace App\Model\Entity;
-
-use Cake\ORM\Entity;
-use Cake\Routing\Router;
-
-class Dimensionnement extends Entity
-{
-    protected $_accessible = [
-        'demande_id' => true,
-        'intitule' => true,
-        'horaires_debut' => true,
-        'horaires_fin' => true,
-        'lieu_manifestation' => true,
-        'risques_particuliers' => true,
-        'contact_portable' => true,
-        'contact_present' => true,
-        'contact_fonction' => true,
-        'contact_telephone' => true,
-        'public_effectif' => true,
-        'public_age' => true,
-        'acteurs_effectif' => true,
-        'acteurs_age' => true,
-        'assis' => true,
-        'circuit' => true,
-        'ouvert' => true,
-        'superficie' => true,
-        'distance_maxi' => true,
-        'acces' => true,
-        'besoins_particuliers' => true,
-        'pompier' => true,
-        'pompier_distance' => true,
-        'hopital' => true,
-        'hopital_distance' => true,
-        'medecin' => true,
-        'medecin_telephone' => true,
-        'infirmier' => true,
-        'kiné' => true,
-        'medecin_autres' => true,
-		'secours_presents' => true,
-		'documents_officiels' => true,
-        'ambulancier' => true,
-        'ambulancier_telephone' => true,
-        'autres_public' => true,
-        'autres' => true,
-        'demande' => true,
-        'dispositif' => true
-    ];
-
-	protected $_virtual = [
-		'du_au',
-		'contact_full',
-		'strtotime_debut',
-		'strtotime_fin',
-		'calendar'
-	];
-    protected function _getCalendar()
-    {	
-		$array = [];
-
-		$array['id'] = $this->_properties['id'];
-		$array['title'] = $this->_properties['intitule'];
-	
-		$array['url'] = Router::url(['controller'=>'demandes','action'=>'dispatch',$this->_properties['demande_id']]);
-
-		if( isset($this->_properties['demande']['config_etat']['ordre'])){
-			$ordre = (int) $this->_properties['demande']['config_etat']['ordre'];		
-		} else {
-			$ordre = false;
-		}
-
-		switch($ordre):
-			case 0:
-			case 1:
-			case 2:
-			case 3:
-			case 4:
-				$array['color'] = 'red';
-				break;
-			case 5:
-			case 6:
-				$array['color'] = 'orange';
-				break;	
-			case 7:
-			case 8:
-				$array['color'] = 'YellowGreen';
-				break;
-			case 9:
-			case 10:
-				$array['color'] = 'LightBlue';
-				break;					
-			default:
-				$array['color'] = 'Gainsboro';
-				break;						
-		endswitch;	
-		
-		$start = is_object( $this->_properties['horaires_debut'] ) ? $this->_properties['horaires_debut']->toUnixString() : strtotime($this->_properties['horaires_debut']);
-		$end = is_object( $this->_properties['horaires_fin'] ) ? $this->_properties['horaires_fin']->toUnixString() : strtotime($this->_properties['horaires_fin']);
-
-        $array['start'] = date('Y-m-d H:i:s',$start);
-		$array['end'] = date('Y-m-d H:i:s',$end);
-		
-		return $array;
-
-	}
-
-    protected function _getStrtotimeDebut()
-    {
-        return is_object( $this->_properties['horaires_debut'] ) ? $this->_properties['horaires_debut']->toUnixString() : strtotime($this->_properties['horaires_debut']);
-    }
-   protected function _getStrtotimeFin()
-    {
-        return is_object( $this->_properties['horaires_fin'] ) ? $this->_properties['horaires_fin']->toUnixString() : strtotime($this->_properties['horaires_fin']);
-    }
-    protected function _getDuAu()
-    {
-		$start = is_object( $this->_properties['horaires_debut']) ? $this->_properties['horaires_debut']->i18nFormat(\IntlDateFormatter::FULL) :  $this->_properties['horaires_debut'];
-		$end = is_object( $this->_properties['horaires_fin']) ? $this->_properties['horaires_fin']->i18nFormat(\IntlDateFormatter::FULL) :  $this->_properties['horaires_fin'];
-		
-        return 'du '.$start.' au '.$end;
-    }
-	
-    protected function _getContactFull()
-    {
-        return $this->_properties['contact_present'].' - '.$this->_properties['contact_fonction'].' ('.$this->_properties['contact_portable'].' - '.$this->_properties['contact_telephone'].')';
-    }
-	protected function _setAssis($assis)
-    {
-		return $this->arrayImplode($assis);
-    }
-	protected function _setAcces($acces)
-    {
-		return $this->arrayImplode($acces);
-    }
-	protected function _setSecoursPresents($secours_presents)
-    {
-		return $this->arrayImplode($secours_presents);
-    }
-	protected function _setDocumentsOfficiels($documents_officiels)
-    {
-		return $this->arrayImplode($documents_officiels);
-    }	
-	protected function _getAssis()
-    {
-		return $this->arrayExplode('assis');
-    }
-	protected function _getAcces()
-    {
-		return $this->arrayExplode('acces');
-    }	
-	protected function _getSecoursPresents()
-    {
-		return $this->arrayExplode('secours_presents');
-    }
-	protected function _getDocumentsOfficiels()
-    {
-		return $this->arrayExplode('documents_officiels');
-    }
-
-	protected function arrayImplode($array = '')
-	{
-		if(is_array($array)){
-			return implode(',',$array);
-		}
-
-		return $array;
-	}
-	protected function arrayExplode($array = '')
-	{
-		if(isset($this->_properties[$array])){
-
-			if(!is_array($this->_properties[$array])){
-				return explode(',',$this->_properties[$array]);
-			}
-
-			return $this->_properties[$array];
-		}
-		
-		return '';
-
-	}
-}
-*/

@@ -50,7 +50,7 @@ $this->prepend( 'css' , $this->Html->css('bootstrap-datetimepicker.min',['media'
 		?>
 		<h3><?= __('Organisation pour les acteurs') ?></h3>
 		<?php
-            echo $this->Form->control('personnels_acteurs', ['class' => 'form-control','help' => __('')]);
+            echo $this->Form->control('personnels_acteurs', ['class' => 'form-control','help' => __('Le total du personnel est calculé en fonction du RIS')]);
 			echo $this->Form->control('organisation_acteurs', ['class' => 'form-control','help' => __('')]);
 		?>
 		</div>

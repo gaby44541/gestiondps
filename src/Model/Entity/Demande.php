@@ -3,6 +3,7 @@ namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
 use Cake\Utility\Hash;
+use Cake\Log\Log;
 
 
 /**
@@ -135,11 +136,16 @@ class Demande extends Entity
     }
 	protected function _getSommeFacturee()
     {
+        Log::write('debug','getSommeFacturee');
 		if(isset($this->_properties['dimensionnements'])){
+            $coutPersonnel = Hash::extract($this->_properties['dimensionnements'],'{n}.dispositif->cout_personnel');
+            $coutPersonnel = array_sum($coutPersonnel);
+            Log::write('debug','$coutPersonnel = '.$coutPersonnel);
+			//$somme = Hash::extract($this->_properties['dimensionnements'],'{n}.dispositif.equipes.{n}.cout_remise');
+			//$somme = array_sum($somme);
 
-			$somme = Hash::extract($this->_properties['dimensionnements'],'{n}.dispositif.equipes.{n}.cout_remise');
-			$somme = array_sum($somme);
-
+             //TODO : Ajouter les autres couts (véhicules + matériels + ...)
+			$somme = $coutPersonnel;
 			return $somme;
 		} else {
 			return 0;

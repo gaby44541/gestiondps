@@ -49,7 +49,7 @@ echo $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.4
     <?= $this->Form->create($dimensionnement, ['horizontal' => true]) ?>
     <fieldset>
 		<div class="col-lg-6 col-md-12 columns">
-		<h3><?= __('dimensionnement') ?></h3>        
+		<h3><?= __('dimensionnement') ?></h3>
         <?php
             echo $this->Form->control('demande_id', ['options' => $demandes,'class' => 'form-control','help' => __('')]);
             echo $this->Form->control('intitule', ['class' => 'form-control','help' => __('')]);
@@ -74,39 +74,39 @@ echo $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.4
 		// </script>
 		// </div>
 
-		<h3><?= __('Contact présent') ?></h3> 
+		<h3><?= __('Contact présent') ?></h3>
 		<?php
             echo $this->Form->control('contact_portable', ['class' => 'form-control','help' => __('')]);
             echo $this->Form->control('contact_present', ['class' => 'form-control','help' => __('')]);
             echo $this->Form->control('contact_fonction', ['class' => 'form-control','help' => __('')]);
             echo $this->Form->control('contact_telephone', ['class' => 'form-control','help' => __('')]);
 		?>
-		<h3><?= __('Public') ?></h3> 
+		<h3><?= __('Public') ?></h3>
 		<?php
 			echo $this->Panel->create();
 			echo $this->Panel->body();
 			echo __('L\'effectif a inscrire doit être l\'effectif pondéré, soit au plus fort de la journée ou manifestation, quel est le maximum de public présent simultanément.');
 			echo $this->Panel->end();
-			
+
             echo $this->Form->control('public_effectif', ['class' => 'form-control','help' => __('')]);
             echo $this->Form->control('public_age', ['class' => 'form-control','help' => __('')]);
-			
+
 			echo $this->Form->control('assis', ['class' => 'selectpicker','options'=>['Assis'=>'Assis','Debout'=>'Debout','Statique'=>'Statique','Dynamique'=>'Dynamique'],'multiple'=>true,'help' => __('Décrire les modalités d\'accès pour les véhicules et la circulation sur la manifestation')]);
 			echo $this->Form->control('besoins_particuliers', ['class' => 'form-control','help' => __('Traducteur, Déplacements, ...')]);
 		?>
-		<h3><?= __('Acteurs') ?></h3> 
+		<h3><?= __('Acteurs') ?></h3>
 		<?php
 			echo $this->Panel->create();
 			echo $this->Panel->body();
 			echo __('Sont considérés comme acteurs toutes personnes concourant ou à l\'initiative de la manifestation et présentes sur place. Exemple : traileur, pilotes sur un rallye, artistes sur un concert, ...');
 			echo $this->Panel->end();
-			
+
             echo $this->Form->control('acteurs_effectif', ['class' => 'form-control','help' => __('')]);
             echo $this->Form->control('acteurs_age', ['class' => 'form-control','help' => __('')]);
 		?>
-		<h3><?= __('Configuration') ?></h3> 
+		<h3><?= __('Configuration') ?></h3>
 		<?php
-            echo $this->Form->control('circuit', ['class' => 'form-control','data-toggle'=>'toggle','data-on'=>'Circuit','data-off'=>'Espace public','help' => __('')]);
+            echo $this->Form->control('circuit', ['class' => 'form-control','data-toggle'=>'toggle','data-on'=>'Oui','data-off'=>'Non','help' => __('')]);
             echo $this->Form->control('ouvert', ['class' => 'form-control','data-toggle'=>'toggle','data-on'=>'Circuit ouvert','data-off'=>'Circuit fermé','help' => __('')]);
             echo $this->Form->control('superficie', ['class' => 'form-control','append'=>'hectares','help' => __('')]);
             echo $this->Form->control('distance_maxi', ['class' => 'form-control','append'=>'mètres','help' => __('Entre les points les plus éloignés de la manifestation')]);
@@ -115,22 +115,22 @@ echo $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.4
 		?>
 		</div>
 		<div class="col-lg-6 col-md-12 columns">
-		<h3><?= __('Proximité des secours publics') ?></h3>  
-		<?php      
+		<h3><?= __('Proximité des secours publics') ?></h3>
+		<?php
             echo $this->Form->control('pompier', ['class' => 'form-control','help' => __('Caserne la plus proche')]);
-            echo $this->Form->control('pompier_distance', ['class' => 'form-control','append'=>'km','help' => __('')]);		
+            echo $this->Form->control('pompier_distance', ['class' => 'form-control','append'=>'km','help' => __('')]);
 			echo $this->Form->control('hopital', ['class' => 'form-control','help' => __('Hôpital avec des urgences le plus proche')]);
             echo $this->Form->control('hopital_distance', ['class' => 'form-control','append'=>'km','help' => __('')]);
 		?>
-		<h3><?= __('Secours publics présents') ?></h3> 
+		<h3><?= __('Secours publics présents') ?></h3>
 		<?php
 			echo $this->Form->control('secours_presents', ['class' => 'selectpicker','options'=>['SMUR'=>'SMUR','Police'=>'Police','Gendarmerie'=>'Gendarmerie','Peloton de Montagne'=>'Peloton de Montagne','Sapeurs-Pompiers'=>'Sapeurs-Pompiers','Médecin militaire'=>'Médecin militaire','Autres associations agréées'=>'Autres associations agréées'],'multiple'=>true,'help' => __('Décrire les modalités d\'accès pour les véhicules et la circulation sur la manifestation')]);
 		?>
-		<h3><?= __('Documents administratifs') ?></h3> 
-		<?php			
+		<h3><?= __('Documents administratifs') ?></h3>
+		<?php
 			echo $this->Form->control('documents_officiels', ['class' => 'selectpicker','options'=>['Arrêté préfectoral'=>'Arrêté préfectoral','Arrêté municipal'=>'Arrêté municipal','Rapport de commision'=>'Rapport de commision','Plans'=>'Plans','Annuaire'=>'Annuaire','Liste des participants'=>'Liste des participants'],'multiple'=>true,'help' => __('Décrire les modalités d\'accès pour les véhicules et la circulation sur la manifestation')]);
 		?>
-		<h3><?= __('Autres secours présents') ?></h3> 
+		<h3><?= __('Autres secours présents') ?></h3>
 		<?php
             echo $this->Form->control('medecin', ['class' => 'form-control','append'=>'nom et prénom','help' => __('')]);
             echo $this->Form->control('medecin_telephone', ['class' => 'form-control','help' => __('')]);

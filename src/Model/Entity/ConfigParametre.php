@@ -8,7 +8,6 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property int $pourcentage
- * @property float $cout_personnel
  * @property float $cout_kilometres
  * @property float $cout_repas
  */
@@ -26,8 +25,22 @@ class ConfigParametre extends Entity
      */
     protected $_accessible = [
         'pourcentage' => true,
-        'cout_personnel' => true,
         'cout_kilometres' => true,
-        'cout_repas' => true
+        'cout_repas' => true,
+        'cout_vpsp' => true,
+        'cout_vtu' => true,
+        'cout_vtp' => true,
+        'cout_quad' => true,
+        'cout_lot_a' => true,
+        'cout_lot_b' => true,
+        'cout_lot_c' => true,
+        'cout_pse2' => true,
+        'cout_pse1' => true,
+        'cout_lat' => true,
+        'cout_medecin' => true,
+        'cout_infirmier' => true,
+        'cout_ce_cp' => true,
+        'cout_stagiaire' => true,
+        'cout_hebergement' => true
     ];
 }

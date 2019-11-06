@@ -57,6 +57,10 @@ class Equipe extends Entity
         'vehicule_type' => true,
         'vehicules_km' => true,
         'vehicule_trajets' => true,
+        'nb_vpsp' => true,
+        'nb_vtu' => true,
+        'nb_vtp' => true,
+        'nb_quad' => true,
         'lot_a' => true,
         'lot_b' => true,
         'lot_c' => true,
@@ -70,6 +74,8 @@ class Equipe extends Entity
         'duree' => true,
         'remarques' => true,
 		'remise' => true,
+		'cout_divers' => true,
+		'explication_cout_divers' => true,
         'cout_personnel' => true,
         'cout_kilometres' => true,
         'cout_repas' => true,
@@ -84,7 +90,7 @@ class Equipe extends Entity
         'dispositif' => true,
         'personnels' => true
     ];
-	
+
 	protected $_virtual = [
 		'du_au',
 		'du_au_light',
@@ -105,29 +111,29 @@ class Equipe extends Entity
     {
 		$start = is_object( $this->_properties['horaires_place']) ? $this->_properties['horaires_place']->i18nFormat('dd/MM/YYYY HH:mm') :  $this->_properties['horaires_place'];
 		$end = is_object( $this->_properties['horaires_fin']) ? $this->_properties['horaires_fin']->i18nFormat('dd/MM/YYYY HH:mm') :  $this->_properties['horaires_fin'];
-		
+
         return 'du '.$start.' au '.$end;
-    }	
+    }
     protected function _getDuAu()
     {
 		$start = is_object( $this->_properties['horaires_place']) ? $this->_properties['horaires_place']->i18nFormat(\IntlDateFormatter::FULL) :  $this->_properties['horaires_place'];
 		$end = is_object( $this->_properties['horaires_fin']) ? $this->_properties['horaires_fin']->i18nFormat(\IntlDateFormatter::FULL) :  $this->_properties['horaires_fin'];
-		
+
         return 'du '.$start.' au '.$end;
     }
     protected function _getDepartRetour()
     {
 		$start = is_object( $this->_properties['horaires_convocation']) ? $this->_properties['horaires_convocation']->i18nFormat(\IntlDateFormatter::FULL) :  $this->_properties['horaires_convocation'];
 		$end = is_object( $this->_properties['horaires_retour']) ? $this->_properties['horaires_retour']->i18nFormat(\IntlDateFormatter::FULL) :  $this->_properties['horaires_retour'];
-		
+
         return 'départ du point de rendez-vous à '.$start.' et retour estimé à '.$end;
     }
-	
+
     protected function _getDurees()
     {
 		$start = $this->_properties['horaires_convocation']->toUnixString();
 		$end = $this->_properties['horaires_retour']->toUnixString();
-		
+
         return (($end - $start) / 3600);
     }
     protected function _getStrtotimeDistinct()
@@ -154,27 +160,27 @@ class Equipe extends Entity
     {
 		$start = $this->_properties['horaires_convocation']->toUnixString();
 		$end = $this->_properties['horaires_place']->toUnixString();
-		
+
         return $end - $start;
     }
     protected function _getDureePoste()
     {
 		$start = $this->_properties['horaires_place']->toUnixString();
 		$end = $this->_properties['horaires_fin']->toUnixString();
-		
+
         return $end - $start;
     }
     protected function _getDureeRetour()
     {
 		$start = $this->_properties['horaires_fin']->toUnixString();
 		$end = $this->_properties['horaires_retour']->toUnixString();
-		
+
         return $end - $start;
-    }	
+    }
     protected function _getListeRepas()
     {
 		$charge = (int) $this->_properties['repas_charge'];
-		
+
         return ($charge * (int) $this->_properties['repas_matin']).' Mat. '.($charge * (int) $this->_properties['repas_midi']).' Midi '.($charge * (int) $this->_properties['repas_soir']).' Soir';
     }
 }

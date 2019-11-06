@@ -13,10 +13,6 @@
 			<td><?= $this->Number->format($configParametre->pourcentage) ?></td>
 		</tr>
 		<tr>
-			<th><?= __('Cout Personnel') ?></th>
-			<td><?= $this->Number->format($configParametre->cout_personnel) ?></td>
-		</tr>
-		<tr>
 			<th><?= __('Cout Kilometres') ?></th>
 			<td><?= $this->Number->format($configParametre->cout_kilometres) ?></td>
 		</tr>
@@ -24,7 +20,7 @@
 			<th><?= __('Cout Repas') ?></th>
 			<td><?= $this->Number->format($configParametre->cout_repas) ?></td>
 		</tr>
-	
+
 	</table>
 </div>
 

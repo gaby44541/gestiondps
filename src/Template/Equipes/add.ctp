@@ -30,24 +30,24 @@ $this->prepend( 'css' , $this->Html->css('bootstrap-datetimepicker.min',['media'
 	?>
     <?= $this->Form->create($equipe, ['horizontal' => true]) ?>
     <fieldset>
-        
+
 		<div class="col-lg-6 col-md-12 columns">
-		<h3><?= __('Equipe') ?></h3>        
+		<h3><?= __('Equipe') ?></h3>
         <?php
             echo $this->Form->control('dispositif_id', ['options' => $dispositifs,'class' => 'form-control','help' => __('')]);
 		?>
-		<h3><?= __('Configuration') ?></h3> 		
+		<h3><?= __('Configuration') ?></h3>
 		<?php
             echo $this->Form->control('indicatif', ['class' => 'form-control','help' => __('Exemple : Equipe 1, RAB1, ...')]);
             echo $this->Form->control('effectif', ['class' => 'form-control','help' => __('Minimum 2 pour un binôme, maximum 4 pour une équipe')]);
 		?>
-		<h3><?= __('Véhicules') ?></h3> 		
+		<h3><?= __('Véhicules') ?></h3>
 		<?php
             echo $this->Form->control('vehicule_type', ['class' => 'form-control','help' => __('Exemple : 1 VPSP, 1 4x4, 1 VTP, 2 VL')]);
             echo $this->Form->control('vehicules_km', ['class' => 'form-control','help' => __('Prévoir les km au plus défavorable (antenne la plus loin)')]);
             echo $this->Form->control('vehicule_trajets', ['class' => 'form-control','help' => __('Prévoir autant de trajets que de véhicules')]);
 		?>
-		<h3><?= __('Lot de matériel') ?></h3> 		
+		<h3><?= __('Lot de matériel') ?></h3>
 		<?php
             echo $this->Form->control('lot_a', ['class' => 'form-control','help' => __('')]);
             echo $this->Form->control('lot_b', ['class' => 'form-control','help' => __('')]);
@@ -56,7 +56,7 @@ $this->prepend( 'css' , $this->Html->css('bootstrap-datetimepicker.min',['media'
 		?>
 		</div>
 		<div class="col-lg-6 col-md-12 columns">
-		<h3><?= __('Consignes à l\'équipe') ?></h3> 		
+		<h3><?= __('Consignes à l\'équipe') ?></h3>
 		<?php
             echo $this->Form->control('consignes', ['class' => 'form-control','help' => __('')]);
 			echo $this->Form->control('position', ['class' => 'form-control','help' => __('Position sur la manifestation : adresse, jalon, km, ...')]);
@@ -66,7 +66,7 @@ $this->prepend( 'css' , $this->Html->css('bootstrap-datetimepicker.min',['media'
 			echo $this->Form->control('horaires_retour', ['type'=>'datetimepicking','empty' => true,'class' => 'form-control','help' => __('')]);
             echo $this->Form->control('duree', ['class' => 'form-control','help' => __(''),'disabled']);
 		?>
-		<h3><?= __('Repas à prévoir sur l\'amplitude horaire') ?></h3> 		
+		<h3><?= __('Repas à prévoir sur l\'amplitude horaire') ?></h3>
 		<?php
             echo $this->Form->control('repas_charge', ['class' => 'form-control','help' => __('')]);
 			echo $this->Form->control('repas_matin', ['class' => 'form-control','help' => __('')]);
@@ -74,15 +74,13 @@ $this->prepend( 'css' , $this->Html->css('bootstrap-datetimepicker.min',['media'
             echo $this->Form->control('repas_soir', ['class' => 'form-control','help' => __('')]);
             //echo $this->Form->control('personnels._ids', ['options' => $personnels]);
 		?>
-		<h3><?= __('Mémo pour les années futures') ?></h3> 		
-		<?php			
+		<h3><?= __('Mémo pour les années futures') ?></h3>
+		<?php
 			echo $this->Form->control('remarques', ['class' => 'form-control','help' => __('')]);
 			echo $this->Form->control('remise', ['class' => 'form-control','help' => __('En pourcentage')]);
         ?>
-		<h3><?= __('Calculs automatiques') ?></h3>  
+		<h3><?= __('Calculs automatiques') ?></h3>
 		<?php
-            echo $this->Form->control('cout_personnel', ['class' => 'form-control','help' => __(''),'disabled']);
-            echo $this->Form->control('cout_kilometres', ['class' => 'form-control','help' => __(''),'disabled']);
             echo $this->Form->control('cout_repas', ['class' => 'form-control','help' => __(''),'disabled']);
             echo $this->Form->control('cout_remise', ['class' => 'form-control','help' => __(''),'disabled']);
 			echo $this->Form->control('cout_economie', ['class' => 'form-control','help' => __(''),'disabled']);

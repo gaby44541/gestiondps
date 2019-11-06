@@ -23,12 +23,9 @@ if($mini==9||$mini==8||$mini==5){
 	$demandes = $demande->listeMiniMaxi($mini,$maxi);
 }
 
-//$demandes = $demande->listeMiniMaxiAll($mini,$maxi);
-
 foreach($demandes as $line):
 
 	$horaires_debut = Hash::extract($line->dimensionnements,'0.horaires_debut');
-	//var_dump(Hash::extract($line,'dimensionnements.{n}.dispositif.equipes.{n}.effectif'));
 
 	if($mini==9||$mini==8){
 		$total = Hash::extract($line,'dimensionnements.{n}.dispositif.equipes.{n}.cout_remise');
