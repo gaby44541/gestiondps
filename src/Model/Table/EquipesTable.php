@@ -46,7 +46,7 @@ class EquipesTable extends Table
 
 		$this->addBehavior('Duplicatable');
 		$this->addBehavior('Listing');
-				
+
         $this->belongsTo('Dispositifs', [
             'foreignKey' => 'dispositif_id',
             'joinType' => 'INNER'
@@ -81,7 +81,7 @@ class EquipesTable extends Table
             ->allowEmpty('effectif')
 			->range('effectif',[1,5],__('Une équipe est composée au minimum de 2 et au maximum de 4 équipiers'));
 
-        $validator
+   /*     $validator
             ->scalar('vehicule_type')
             ->maxLength('vehicule_type', 255)
             ->allowEmpty('vehicule_type');
@@ -94,7 +94,7 @@ class EquipesTable extends Table
         $validator
             ->integer('vehicule_trajets')
             ->allowEmpty('vehicule_trajets')
-			->nonNegativeInteger('vehicule_trajets');
+			->nonNegativeInteger('vehicule_trajets');*/
 
         $validator
             ->integer('lot_a')
@@ -120,13 +120,13 @@ class EquipesTable extends Table
             ->scalar('consignes')
             ->maxLength('consignes', 4294967295)
             ->allowEmpty('consignes');
-			
+
         $validator
             ->scalar('position')
             ->maxLength('position', 255)
             ->requirePresence('position')
             ->notEmpty('position');
-			
+
         $validator
             ->dateTime('horaires_convocation')
             ->notEmpty('horaires_convocation');
@@ -155,7 +155,7 @@ class EquipesTable extends Table
         $validator
             ->decimal('remise')
             ->allowEmpty('remise');
-			
+
         $validator
             ->decimal('cout_personnel')
             ->allowEmpty('cout_personnel');
@@ -171,11 +171,11 @@ class EquipesTable extends Table
         $validator
             ->decimal('cout_remise')
             ->allowEmpty('cout_remise');
-			
+
         $validator
             ->decimal('cout_economie')
             ->allowEmpty('cout_economie');
-			
+
         $validator
             ->decimal('repartition_antenne')
             ->allowEmpty('repartition_antenne');
@@ -223,33 +223,27 @@ class EquipesTable extends Table
     }
 
     /**
-     * Returns a rules checker object that will be used for validating
-     * application integrity.
-     *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
+     * Calcul du coût des équipes.
+     * Prix véhicules + prix matériel + repas
      */
     public function calculs(&$data = [])
     {
-
 		$merge['horaire'] = 0;
-		$merge['km'] = 0;
 		$merge['repas'] = 0;
 		$merge['repartition'] = 0;
 
 		$parametre = TableRegistry::get('ConfigParametres');
-		
+
 		$parametres = $parametre->find('all')->last();
-		
+
 		$taux['horaire'] = $parametres->cout_personnel;
-		$taux['km'] = $parametres->cout_kilometres;
 		$taux['repas'] = $parametres->cout_repas;
 		$taux['repartition'] = $parametres->pourcentage;
-		
+
 		$taux = array_merge( $merge , $taux );
 
 		if( ! empty( $data ) && ! empty( $taux ) ){
-		
+
 			if(is_object($data['horaires_convocation'])){
 				$start 	= $data['horaires_convocation']->toUnixString();
 				$place 	= $data['horaires_place']->toUnixString();
@@ -259,28 +253,29 @@ class EquipesTable extends Table
 				$start 	= strtotime($data['horaires_convocation']);
 				$place 	= strtotime($data['horaires_place']);
 				$depart	= strtotime($data['horaires_fin']);
-				$end 	= strtotime($data['horaires_retour']);			
+				$end 	= strtotime($data['horaires_retour']);
 			}
-	
-			$data['duree']  = ( $end - $start ) / 3600; 
-			$data['cout_personnel']  = ((int) $data['effectif'] ) * ( ( ( ( $end - $start )  ) / 3600 ) + 1 ) * $taux['horaire']; 
-			$data['cout_kilometres']  = ((int) $data['vehicules_km'] ) * ((int) $data['vehicule_trajets'] ) * $taux['km'];
+
+			$data['duree']  = ( $end - $start ) / 3600;
+			// Coût des repas = Nombre total de repas * prix * 0 si pris en charge par l'adpc (ou 1 si pris en charge par l'organisateur)
 			$data['cout_repas']  = ((int) $data['repas_matin'] + (int) $data['repas_midi']  + (int) $data['repas_soir'] ) * $taux['repas'] * (int) $data['repas_charge'];
-			$data['cout_remise']  = ( (int) $data['cout_personnel'] + (int) $data['cout_kilometres'] + (int) $data['cout_repas'] ) * ( 100 - (int) $data['remise'] ) / 100;
-			$data['cout_economie']  = ( (int) $data['cout_personnel'] + (int) $data['cout_kilometres'] + (int) $data['cout_repas'] ) * ( (int) $data['remise'] ) / 100;
+			// Coût remise = Coût total après remise
+			$data['cout_remise']  = ( (int) $data['cout_personnel'] + (int) $data['cout_repas'] ) * ( 100 - (int) $data['remise'] ) / 100;
+			// Coût economie = Coût de l'économie grâce à la remise.
+			$data['cout_economie']  = ( (int) $data['cout_personnel'] + (int) $data['cout_repas'] ) * ( (int) $data['remise'] ) / 100;
 			$data['repartition_antenne']  = ( (int) $data['cout_remise'] ) * ( 100 - $taux['repartition'] ) / 100;
-			$data['repartition_adpc']  = ( (int) $data['cout_remise'] ) * $taux['repartition'] / 100; 
+			$data['repartition_adpc']  = ( (int) $data['cout_remise'] ) * $taux['repartition'] / 100;
 			$data['lot_a'] = (int) $data['lot_a'];
 			$data['lot_b'] = (int) $data['lot_b'];
 			$data['lot_c'] = (int) $data['lot_c'];
 			$data['effectif'] = (int) $data['effectif'];
 			$data['position'] = isset($data['position']) ? $data['position'] : 'A l\'adresse indiquée';
-				
+
 		}
-		
+
 		return $data;
     }
-	
+
     /**
      * Returns a rules checker object that will be used for validating
      * application integrity.
@@ -290,14 +285,14 @@ class EquipesTable extends Table
      */
     public function preset( $id = 0 , $effectif = 0 , $indicatif = '', $auto = false , $consignes = '' , $dates = [] )
     {
-		
+
 		$id = (int) $id;
 		$effectif = (int) $effectif;
-		
+
 		if(empty($id)){
 			return false;
 		}
-		
+
 		$dispositif = $this->Dispositifs->get($id, [
             'contain' => ['Dimensionnements']
         ]);
@@ -305,11 +300,11 @@ class EquipesTable extends Table
 		if(empty($dispositif)){
 			return false;
 		}
-		
+
 		$lot_a = 0;
 		$lot_b = 0;
 		$lot_c = 0;
-		
+
 		if( empty($effectif)){
 			if($dispositif->personnels_total == 2){
 				$effectif = 2;
@@ -319,7 +314,7 @@ class EquipesTable extends Table
 				$lot_a = 1;
 			}
 		}
-		
+
 		if($auto){
 			switch($effectif){
 				case 1:
@@ -330,27 +325,27 @@ class EquipesTable extends Table
 					break;
 				default:
 					$indicatif = 'Equipe '.$indicatif;
-					break;				
+					break;
 			}
 		}
-		
+
 		$data = [];
 
 		$data['dispositif_id'] = $id;
 		$data['indicatif'] = $indicatif;
-		
+
 		$data['horaires_convocation'] = $dispositif->dimensionnement->horaires_debut->modify('-2 hours')->format('Y-m-d H:i:s');
 		$data['horaires_place'] = $dispositif->dimensionnement->horaires_debut->modify('-1 hours')->format('Y-m-d H:i:s');
 		$data['horaires_fin'] = $dispositif->dimensionnement->horaires_fin->modify('+0 hours')->format('Y-m-d H:i:s');
 		$data['horaires_retour'] = $dispositif->dimensionnement->horaires_fin->modify('+1 hours')->format('Y-m-d H:i:s');
-			
+
 		if(!empty($dates)){
 			$data = array_merge($data,$dates);
 		}
-		
-		$data['vehicule_type'] = ($effectif == 4) ? '1 VPSP' : '1 VL';
+
+	/*	$data['vehicule_type'] = ($effectif == 4) ? '1 VPSP' : '1 VL';
 		$data['vehicules_km'] = 50;
-		$data['vehicule_trajets'] = 2;
+		$data['vehicule_trajets'] = 2;*/
 		$data['effectif'] = (int) $effectif;
 		$data['lot_a'] = (int) $lot_a;
 		$data['lot_b'] = (int) $lot_b;
@@ -361,13 +356,13 @@ class EquipesTable extends Table
 
 		$start 	= strtotime($data['horaires_convocation']);
 		$end 	= strtotime($data['horaires_retour']);
-		
-		$data['duree']  = ( $end - $start ) / 3600; 
-			
+
+		$data['duree']  = ( $end - $start ) / 3600;
+
 		$data = $this->repas($data['horaires_convocation'],$data['horaires_retour'],$data['effectif'],$data);
 
 		return $this->calculs($data);
-		
+
     }
 
     /**
@@ -382,18 +377,18 @@ class EquipesTable extends Table
 
 		$start 	= strtotime($start);
 		$end 	= strtotime($end);
-			
+
 		$debut = (int) date('H',$start);
 		$debut = $debut - 1;
-		
+
 		$calcul = [];
-		
+
 		$data['repas_matin'] = 0;
 		$data['repas_midi'] = 0;
 		$data['repas_soir'] = 0;
-		
+
 		$ranges = range($start,$end,3600);
-		
+
 		foreach($ranges as &$range){
 			$debut++;
 			if($debut>23){
@@ -408,15 +403,15 @@ class EquipesTable extends Table
 			}
 			if($debut == 19){
 				$data['repas_soir']++;
-			}				
+			}
 		}
 
 		$data['repas_matin'] = $effectif * $data['repas_matin'];
 		$data['repas_midi'] = $effectif * $data['repas_midi'];
 		$data['repas_soir'] = $effectif * $data['repas_soir'];
-		
+
 		return $data;
-		
+
 	}
 
     /**
@@ -433,45 +428,45 @@ class EquipesTable extends Table
 		} else {
 			$start = strtotime($start)-3600;
 		}
-		
+
 		if(is_object($end)){
 			$end = $end->modify('+0 hours')->toUnixString();
 		} else {
 			$end = strtotime($end);
 		}
-		
+
 		$duree = ($end - $start)/3600;
-			
+
 		$dates = [];
-		
+
 		if($duree > 14){
-			
+
 			$times = [7,8,9,10,11,12];
-			
+
 			$mini = [];
-			
+
 			foreach($times as $time){
 				$mini[$time] = $duree%$time;
 			}
-			
+
 			asort($mini);
-			
+
 			$min = min($mini);
 			$max = max($mini);
-			
+
 			$active = empty($min) ? $min : $max;
 
 			$null = array_keys($mini,$active);
 
 			arsort($null);
-			
+
 			$null = array_shift($null);
 
 			$firsts = ( $duree - $active ) / $null;
-			
+
 			$tmp_start = $start;
 			$tmp_end = $start + ($null * 3600);
-			
+
 			for ($i = 0; $i < $firsts; $i++) {
 				if(!empty($i)){
 					$tmp_start += ($null * 3600);
@@ -484,7 +479,7 @@ class EquipesTable extends Table
 					'horaires_retour' => date('Y-m-d H:i:s',$tmp_end+3600)
 					];
 			}
-		
+
 			if(!empty($active)){
 				$tmp_start += ($null * 3600);
 				$tmp_end += ($active * 3600);
@@ -505,7 +500,7 @@ class EquipesTable extends Table
 		}
 
 		return $dates;
-		
+
 	}
 
     /**
@@ -519,32 +514,32 @@ class EquipesTable extends Table
     {
 		$compteur = [];
 		$output = [];
-		
+
 		$dates = (array) $dates;
 
 		$effectifs = Hash::extract($dispositif,'equipes.{n}.effectif');
 		$exists = Hash::extract($dispositif,'equipes.{n}.strtotime_place');
 		$equipe = Hash::get($dispositif,'equipes');
-		
+
 		$combine = $result = Hash::combine(
 			$equipe,
 			'{n}.id',
 			['%s:%s:%s', '{n}.strtotime_place', '{n}.effectif','{n}.indicatif']
 		);
-		
+
 		$limit = 0;
-		
+
 		if(!empty($publics)){
-			$limit += count($publics); 
+			$limit += count($publics);
 		}
 		if(!empty($acteurs)){
-			$limit += count($acteurs); 
+			$limit += count($acteurs);
 		}
 		$counts = array_count_values( $effectifs );
 
 		$equipes = 0;
 		$compteur = 0;
-		
+
 		foreach($dates as $date){
 			if(!empty($publics)){
 				foreach($publics as $public){
@@ -557,9 +552,9 @@ class EquipesTable extends Table
 				}
 			}
 		}
-		
+
 		if(array_sum($effectifs)<$compteur){
-	
+
 			if(!empty($publics)){
 				foreach($publics as $public){
 					$preset = [];
@@ -578,7 +573,7 @@ class EquipesTable extends Table
 					}
 				}
 			}
-			
+
 			if(!empty($acteurs)){
 				foreach($acteurs as $acteur){
 					$preset = [];
@@ -594,7 +589,7 @@ class EquipesTable extends Table
 								$this->generateSaveAlone($preset);
 							}
 						}
-		
+
 					}
 				}
 			}
@@ -602,9 +597,9 @@ class EquipesTable extends Table
 		//$output['compteur'] = array_sum($compteur);
 
 		//return $output;
-		
+
 	}
-	
+
     /**
      * Returns a rules checker object that will be used for validating
      * application integrity.
@@ -615,7 +610,7 @@ class EquipesTable extends Table
     public function equipes( $equipiers = 0 )
     {
 		$equipiers = (int) $equipiers;
-		
+
 		if(empty($equipiers)){
 			return false;
 		}
@@ -624,7 +619,7 @@ class EquipesTable extends Table
 		// Modulo 4
 		$modulo4 = $equipiers%4;
 		$count4 = ($equipiers - $modulo4)/4;
-		
+
 		for ($i = 1; $i <= $count4; $i++) {
 			$equipes[] = 4;
 		}
@@ -639,13 +634,13 @@ class EquipesTable extends Table
 
 		// Modulo 2
 		$count1 = $modulo2;
-		
+
 		if( ! empty($count1)){
 			$equipes[] = 1;
 		}
-		
+
 		return $equipes;
-		
+
 	}
 
     /**
@@ -664,7 +659,7 @@ class EquipesTable extends Table
         ])->where(['Dimensionnements.demande_id'=>$id])->toArray();
 
 		$indicatif = 0;
-		
+
 		foreach($dispositifs as $dispositif){
 
 			$dates = $this->timing($dispositif->dimensionnement->horaires_debut,$dispositif->dimensionnement->horaires_fin);
@@ -674,41 +669,41 @@ class EquipesTable extends Table
 			$exists = array_sum($exists);
 
 			$indicatif++;
-			
+
 			$publics = $this->equipes($dispositif->personnels_public);
 			$acteurs = $this->equipes($dispositif->personnels_acteurs);
 
 			if(empty($exists)){
 
 				$equipes = 0;
-				
+
 				$equipes = $this->generateBoucle( $publics , $dispositif->id , $equipes , $indicatif , 'Attaché au dispositif dédié au public' , $dates );
 				$equipes = $this->generateBoucle( $acteurs , $dispositif->id , $equipes , $indicatif , 'Attaché au dispositif dédié aux acteurs' , $dates );
 
 			} else {
-				
+
 				$this->effectifs($dates,$publics,$acteurs,$dispositif,$indicatif);
-				
+
 				//$teams = $teams * (count($publics)+count($acteurs));
 /*
 				$exist = Hash::extract($dispositif,'equipes.{n}.strtotime_place');
-			
-				
-			
+
+
+
 				if($exists < $compteur){
-					
+
 					$ecart = $compteur - $exists;
-*/					
+*/
 					//$generiques = $this->equipes($ecart);
-					
+
 					//$equipes = $count;
-					
+
 					//$equipes = $this->generateBoucle( $generiques , $dispositif->id , $equipes , $indicatif , '' , $dates );
 
 				//}
 			}
 		}
-	
+
 	}
 
 	/**
@@ -720,9 +715,9 @@ class EquipesTable extends Table
      */
     public function generateBoucle( $boucles = [] , $id = 0 , $equipes = 0 , $indicatif = '' , $comment = '' , $dates = [] )
     {
-		
+
 		$dates = (array) $dates;
-		
+
 		if($boucles){
 			foreach($boucles as $boucle){
 				$preset = [];
@@ -731,14 +726,14 @@ class EquipesTable extends Table
 
 				foreach($dates as $date){
 					$preset = $this->preset( $id, $boucle , $indicatifs , true , $comment , $date );
-					$this->generateSaveAlone($preset);							
+					$this->generateSaveAlone($preset);
 				}
 			}
 		}
-		
+
 		return $equipes;
 	}
-	
+
     /**
      * Returns a rules checker object that will be used for validating
      * application integrity.
@@ -749,7 +744,7 @@ class EquipesTable extends Table
     public function generateSaveAlone( $preset = [] )
     {
         $equipe = $this->newEntity();
-		
+
 		$equipe = $this->patchEntity($equipe, $preset);
 
 		$this->calculs( $equipe );
@@ -758,12 +753,12 @@ class EquipesTable extends Table
 
 		if ($this->save($equipe)) {
 			return true;
-		} 
-		
+		}
+
 		return $equipe->getErrors();
 
 	}
-	
+
     /**
      * Returns a rules checker object that will be used for validating
      * application integrity.
@@ -780,22 +775,22 @@ class EquipesTable extends Table
 		if( ! $dispositifs ){
 			return false;
 		}
-		
+
 		$out = true;
-		
+
 		foreach($dispositifs as $dispositif){
-			
+
 			$exists = Hash::extract($dispositif,'equipes.{n}.effectif');
 			$count = count($exists);
 			$exists = array_sum($exists);
-			
+
 			$out = empty($count) ? false : $out;
 			$out = ($exists < $dispositif->personnels_total) ? false : $out;
-			
+
 		}
-		
+
 		return $out;
-		
+
 	}
     /**
      * Returns a rules checker object that will be used for validating
@@ -813,9 +808,9 @@ class EquipesTable extends Table
 		if( ! $dispositifs ){
 			return false;
 		}
-		
+
 		$exists = Hash::extract($dispositifs,'{n}.id');
-		
+
 		if($exists){
 			$deletes = $this->find('all')->where(['dispositif_id IN'=>(array)$exists])->toArray();
 			foreach($deletes as $delete){
@@ -823,7 +818,7 @@ class EquipesTable extends Table
 				$old = $this->delete($tmp);
 			}
 		}
-		
+
 	}
 
 	/**
@@ -835,7 +830,7 @@ class EquipesTable extends Table
      */
     public function getDistinctStrtotime()
     {
-		
+
 		$query = $this->find('all',[
 			'contain' => ['Dispositifs.Dimensionnements.Demandes.ConfigEtats'],
 		])
@@ -843,7 +838,7 @@ class EquipesTable extends Table
 
 		$concat = $query->func()->concat(['UNIX_TIMESTAMP(Equipes.horaires_place)'=>'identifier','UNIX_TIMESTAMP(Equipes.horaires_fin)'=>'identifier']);
 		$somme = $query->func()->sum('Equipes.effectif');
-		
+
 		$query->select(['strtotime_groupby' => $concat])
 		->select(['effectif_groupby' => $somme])
 		->select($this)
@@ -854,11 +849,11 @@ class EquipesTable extends Table
 		->group('strtotime_groupby')
 		->contain(['Dispositifs.Dimensionnements.Demandes.ConfigEtats'])
 		->order(['horaires_place'=>'asc']);
-		
+
 		//$results = Hash::sort($query->toArray(),'{n}.strtotime_convocation','asc');
-		
+
 		//foreach(){
-			
+
 		return $query->toArray();
 	}
 }

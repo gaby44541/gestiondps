@@ -140,11 +140,11 @@ class ConfigParametresController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $configParametre = $this->ConfigParametres->patchEntity($configParametre, $this->request->getData());
             if ($this->ConfigParametres->save($configParametre)) {
-                $this->Flash->success(__('The config parametre has been saved.'));
+                $this->Flash->success(__('Les paramètres ont bien été enregistrés.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The config parametre could not be saved. Please, try again.'));
+            $this->Flash->error(__('Les paramètres n\'ont pas été enregistrés. Merci de réessayer ou de contacter le webmaster.'));
         }
 
 		$navigation = $this->navigation;

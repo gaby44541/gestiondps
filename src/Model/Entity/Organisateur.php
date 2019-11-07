@@ -55,14 +55,11 @@ class Organisateur extends Entity
         'mail' => true,
         'representant_prenom' => true,
         'representant_nom' => true,
-        'tresorier_nom' => true,
-        'tresorier_prenom' => true,
-        'tresorier_mail' => true,
-        'tresorier_telephone' => true,
+
         'publish' => true,
         'demandes' => true
     ];
-	
+
 	protected $_virtual = [
 		'representant_fonction',
 		'representant',
@@ -93,18 +90,18 @@ class Organisateur extends Entity
 		$array[] = $this->_properties['adresse'];
 		$array[] = $this->_properties['adresse_suite'];
 		$array[] = $this->strcompose($this->_properties['code_postal'].' '.$this->_properties['ville']);
-		
+
         return implode(PHP_EOL,$array).PHP_EOL;
-    }	
+    }
     protected function _getCpVille()
     {
         return $this->strcompose($this->_properties['code_postal'].' '.$this->_properties['ville']);
-    }	
+    }
 	// Représentant
 	protected function _getRepresentantNom()
     {
         return ucwords(strtolower($this->_properties['representant_nom']));
-    }	
+    }
 	protected function _getRepresentantPrenom()
     {
         return $this->strcompose($this->_properties['representant_prenom']);
@@ -117,55 +114,10 @@ class Organisateur extends Entity
     {
         return $this->strcompose($this->_properties['representant_nom'].' '.$this->_properties['representant_prenom']).' - '.$this->_properties['fonction'];
     }
-	// Trésorier
-    protected function _getTresorier()
-    {
-        return $this->strcompose($this->_properties['tresorier_nom'].' '.$this->_properties['tresorier_prenom']);
-    }
-	protected function _getTresorierNom()
-    {
-		$exist = $this->_properties['tresorier_nom'];
-		$exist = trim($exist);
-		$exist = strtolower($exist);
-		
-		$liste = ['-','non communiqué','inconnu'];
-		
-        if(empty($exist)||in_array($exist,$liste)){
-			$this->_properties['tresorier_nom'] = $this->_properties['representant_nom'];
-		}
-		return $this->strcompose($this->_properties['tresorier_nom']);
-    }	
-	protected function _getTresorierPrenom()
-    {
-		$exist = $this->_properties['tresorier_prenom'];
-		$exist = trim($exist);
-		$exist = strtolower($exist);
-		
-		$liste = ['-','non communiqué'];
-		
-        if(empty($exist)||in_array($exist,$liste)){
-			$this->_properties['tresorier_prenom'] = $this->_properties['representant_prenom'];
-		}
-        return $this->strcompose($this->_properties['tresorier_prenom']);
-    }	
-	protected function _getTresorierMail()
-    {
-		if(empty($this->_properties['tresorier_mail'])){
-			$this->_properties['tresorier_mail'] = $this->_properties['mail'];
-		}
-        return $this->strmail($this->_properties['tresorier_mail']);
-    }
-	protected function _getTresorierTelephone()
-    {
-		if(empty($this->_properties['tresorier_telephone'])){
-			$this->_properties['tresorier_telephone'] = $this->_properties['portable'];
-		}
-        return str_replace(' ','',$this->_properties['tresorier_telephone']);
-    }
 	// Functions
 	protected function strmail($mail = '')
 	{
-		$mail = strtr( $mail, 
+		$mail = strtr( $mail,
 						'ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ:',
 						'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy-'
 					);

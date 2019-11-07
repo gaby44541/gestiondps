@@ -30,9 +30,9 @@ use Cake\Routing\Router;
  * @property string $acces
  * @property string $besoins_particuliers
  * @property string $pompier
- * @property int $pompier_distance
+ * @property int $pompier_delai
  * @property string $hopital
- * @property int $hopital_distance
+ * @property int $hopital_delai
  * @property bool $arrete
  * @property bool $commission
  * @property bool $plans
@@ -90,9 +90,9 @@ class Dimensionnement extends Entity
         'acces' => true,
         'besoins_particuliers' => true,
         'pompier' => true,
-        'pompier_distance' => true,
+        'pompier_delai' => true,
         'hopital' => true,
-        'hopital_distance' => true,
+        'hopital_delai' => true,
         'medecin' => true,
         'medecin_telephone' => true,
         'infirmier' => true,

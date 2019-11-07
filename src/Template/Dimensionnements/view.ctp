@@ -94,7 +94,7 @@
 		</tr>
 		<tr>
 			<th><?= __('Pompier Distance') ?></th>
-			<td><?= h($dimensionnement->pompier_distance) ?></td>
+			<td><?= h($dimensionnement->pompier_delai) ?></td>
 		</tr>
 		<tr>
 			<th><?= __('Hopital') ?></th>
@@ -102,7 +102,7 @@
 		</tr>
 		<tr>
 			<th><?= __('Hopital Distance') ?></th>
-			<td><?= h($dimensionnement->hopital_distance) ?></td>
+			<td><?= h($dimensionnement->hopital_delai) ?></td>
 		</tr>
 		<tr>
 			<th><?= __('Arrete') ?></th>
@@ -176,7 +176,7 @@
 			<th><?= __('Autres') ?></th>
 			<td><?= h($dimensionnement->autres) ?></td>
 		</tr>
-	
+
 	</table>
 <div class="related">
 	<h3>

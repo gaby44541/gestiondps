@@ -40,29 +40,6 @@ $this->prepend( 'css' , $this->Html->css('bootstrap-datetimepicker.min',['media'
             echo $this->Form->control('indicatif', ['class' => 'form-control','help' => __('Exemple : Equipe 1, RAB1, ...')]);
             echo $this->Form->control('effectif', ['class' => 'form-control','help' => __('')]);
 		?>
-		<h3><?= __('Véhicules') ?></h3>
-		<?php
-            /*echo $this->Form->control('vehicule_type', ['class' => 'form-control','help' => __('Exemple : 1 VPSP, 1 4x4, 1 VTP, 2 VL')]);
-            echo $this->Form->control('vehicules_km', ['class' => 'form-control','help' => __('Prévoir les km au plus défavorable (antenne la plus loin)')]);
-            echo $this->Form->control('vehicule_trajets', ['class' => 'form-control','help' => __('Prévoir autant de trajets que de véhicules')]);*/
-
-            echo $this->Form->control('nb_vpsp', ['class' => 'form-control','help' => __('Nombre de VPSP pour cette équipe')]);
-            echo $this->Form->control('nb_vtu', ['class' => 'form-control','help' => __('Nombre de VTU pour cette équipe')]);
-            echo $this->Form->control('nb_vtp', ['class' => 'form-control','help' => __('Nombre de VTP pour cette équipe')]);
-            echo $this->Form->control('nb_quad', ['class' => 'form-control','help' => __('Nombre de quad pour cette équipe')]);
-		?>
-		<h3><?= __('Lot de matériel') ?></h3>
-		<?php
-            echo $this->Form->control('lot_a', ['class' => 'form-control','help' => __('')]);
-            echo $this->Form->control('lot_b', ['class' => 'form-control','help' => __('')]);
-            echo $this->Form->control('lot_c', ['class' => 'form-control','help' => __('')]);
-            echo $this->Form->control('autre', ['class' => 'form-control','help' => __('Exemple : 2 tentes, ...')]);
-		?>
-		<h3><?= __('Divers') ?></h3>
-        <?php
-            echo $this->Form->control('cout_divers', ['label' => 'Coût divers','class' => 'form-control','help' => __('')]);
-            echo $this->Form->control('explication_cout_divers', ['label' => 'Explication du coût supplémentaire','class' => 'form-control','help' => __('')]);
-        ?>
 		</div>
 		<div class="col-lg-6 col-md-12 columns">
 		<h3><?= __('Consignes à l\'équipe') ?></h3>
@@ -75,25 +52,10 @@ $this->prepend( 'css' , $this->Html->css('bootstrap-datetimepicker.min',['media'
 			echo $this->Form->control('horaires_retour', ['type'=>'datetimepicking','empty' => true,'class' => 'form-control','help' => __('')]);
             echo $this->Form->control('duree', ['class' => 'form-control','help' => __(''),'disabled']);
 		?>
-		<h3><?= __('Repas à prévoir sur l\'amplitude horaire') ?></h3>
-		<?php
-            echo $this->Form->control('repas_charge', ['class' => 'form-control','help' => __('')]);
-			echo $this->Form->control('repas_matin', ['class' => 'form-control','help' => __('')]);
-            echo $this->Form->control('repas_midi', ['class' => 'form-control','help' => __('')]);
-            echo $this->Form->control('repas_soir', ['class' => 'form-control','help' => __('')]);
-            //echo $this->Form->control('personnels._ids', ['options' => $personnels]);
-		?>
 		<h3><?= __('Mémo pour les années futures') ?></h3>
 		<?php
-			echo $this->Form->control('remarques', ['class' => 'form-control','help' => __('')]);
-			echo $this->Form->control('remise', ['class' => 'form-control','help' => __('En pourcentage')]);
+			echo $this->Form->control('remarques', ['class' => 'form-control','help' => __('L\'organisateur n\'aura pas connaissance de ses remarques.')]);
         ?>
-		<h3><?= __('Calculs automatiques') ?></h3>
-		<?php
-            echo $this->Form->control('cout_repas', ['label' => 'Coût des repas (€)','class' => 'form-control','help' => __(''),'disabled']);
-            echo $this->Form->control('cout_remise', ['label' => 'Coût total (€)','class' => 'form-control','help' => __('Coût total en comptant la remise'),'disabled','type'=>'text']);
-			echo $this->Form->control('cout_economie', ['label' => 'Total de la remise (€)','class' => 'form-control','help' => __('Coût de la remise'),'disabled']);
-		?>
 		</div>
     </fieldset>
     <?= $this->Form->button(__('Soumettre le formulaire'),['class' => 'btn btn-large btn-primary']) ?>

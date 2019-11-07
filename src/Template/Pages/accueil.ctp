@@ -19,16 +19,16 @@
 		<div class="row">
 			<div class="col-md-4">
 			<?php
-				echo $this->Panel->create('i:menu-hamburger Mes demandes en cours de traitement', ['type' => 'danger']);
+				echo $this->Panel->create('i:menu-hamburger 1. Mes demandes en cours de traitement', ['type' => 'primary']);
 				/*On appelle demandes.ctp en mettant les variables mini à 0 et maxi à 3*/
-				echo $this->element('demandes',['mini'=>0,'maxi'=>3,'type' => 'warning']);
+				echo $this->element('demandes',['mini'=>0,'maxi'=>3,'type' => 'info']);
 				echo $this->Panel->end();
 
-				echo $this->Panel->create('i:menu-hamburger En attente de validation du COA', ['type' => 'warning']);
+				echo $this->Panel->create('i:menu-hamburger 2. En attente de validation du COA', ['type' => 'warning']);
                 echo $this->element('demandes',['mini'=>4,'maxi'=>4,'type' => 'warning','icon'=>['view']]);
                 echo $this->Panel->end();
 
-                echo $this->Panel->create('i:menu-hamburger COA validé', ['type' => 'warning']);
+                echo $this->Panel->create('i:menu-hamburger 3. COA validé', ['type' => 'success']);
                 echo $this->element('demandes',['mini'=>5,'maxi'=>5,'type' => 'warning','icon'=>['view']]);
                 echo $this->Panel->end();
 			?>
@@ -36,7 +36,7 @@
 			</div>
 			<div class="col-md-4">
 			<?php
-                echo $this->Panel->create('i:menu-hamburger Attente de la signature de l\'étude', ['type' => 'warning']);
+                echo $this->Panel->create('i:menu-hamburger 4. Attente de la signature de l\'étude', ['type' => 'warning']);
 				?>
 				<div id="countdown" class="panel panel-warning">
 					<div class=" panel-heading">
@@ -51,22 +51,22 @@
 				echo $this->element('demandes',['mini'=>6,'maxi'=>6,'type' => 'warning','icon'=>[]]);
 				echo $this->Panel->end();
 
-				echo $this->Panel->create('i:ok En attente de(s) convention(s) signée(s)', ['type' => 'success']);
+				echo $this->Panel->create('i:ok 5. En attente de(s) convention(s) signée(s)', ['type' => 'warning']);
 				echo $this->element('demandes',['mini'=>8,'maxi'=>8,'type' => 'success','icon'=>['view']]);
 				echo $this->Panel->end();
 
-				echo $this->Panel->create('i:ok Convention(s) signée(s)', ['type' => 'success']);
+				echo $this->Panel->create('i:ok 6. Convention(s) signée(s)', ['type' => 'success']);
 				echo $this->element('demandes',['mini'=>9,'maxi'=>9,'type' => 'success','icon'=>['view']]);
 				echo $this->Panel->end();
 			?>
 			</div>
 			<div class="col-md-4">
 			<?php
-				echo $this->Panel->create('i:euro Poste(s) réalisé(s) non facturé(s)', ['type' => 'primary']);
+				echo $this->Panel->create('i:euro 7. Poste(s) réalisé(s) non facturé(s)', ['type' => 'primary']);
 				echo $this->element('demandes',['mini'=>10,'maxi'=>10,'type' => 'primary','icon'=>['view']]);
 				echo $this->Panel->end();
 
-				echo $this->Panel->create('i:euro Règlements en attente', ['type' => 'primary']);
+				echo $this->Panel->create('i:euro 8. Règlements en attente', ['type' => 'primary']);
 				echo $this->element('demandes',['mini'=>12,'maxi'=>13,'type' => 'primary','icon'=>['view']]);
 				echo $this->Panel->end();
 

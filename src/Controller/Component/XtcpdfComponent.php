@@ -120,7 +120,7 @@ class XtcpdfComponent extends Component
     }
 
 	public function getStart($orientation = 'P', $mesure='MM',$taille='A4',$option1=true,$encodage='UTF-8',$option2=false){
-		
+
 		return new xtcpdf($orientation, $mesure, $taille, $option1, $encodage, $option2);
 
 	}
@@ -133,9 +133,9 @@ class XtcpdfComponent extends Component
 
 		return ($base64) ? base64_encode($pdf_data) : $pdf_data;
 	}
-	
+
 	public function getMission($demande,$pdf=false,$out=false,$name='etude.pdf',$output='I'){
-		
+
 		if(!$pdf){
 			$pdf = $this->getStart();
 		}
@@ -285,7 +285,7 @@ class XtcpdfComponent extends Component
 		$pdf->MultiCell(30, 0, 'Transports', 0, 'L', 1, 0, '', '', true, 1, false, true, 40, 'T');
 		$pdf->SetFont('helvetica', '', 8);
 		$pdf->SetTextColor(105);
-		$pdf->MultiCell(170, 0, 'Les modalités de transport vers une structure hospitalière sont précisées dans le détails de chaque dimensionnement ci-après. 
+		$pdf->MultiCell(170, 0, 'Les modalités de transport vers une structure hospitalière sont précisées dans le détails de chaque dimensionnement ci-après.
 		Par défaut nous n\'effectuons aucun transport vers structure hospitalière, sauf cas particulier. Si un transport doit être effectué hors du cadre de la convention, le cadre d\'astreinte doit être immédiatement avisé.
 
 		Respectez scrupuleusement les consignes inscrites dans les annexes.
@@ -319,19 +319,19 @@ class XtcpdfComponent extends Component
 		$pdf->SetTextColor(255, 0, 0);
 		$pdf->MultiCell(200, 0, '<b>Nous vous rappelons que vous devez impérativement lire le présent ordre de mission pour comprendre le dispositif dans lequel vous allez vous inscrire, et pouvoir poser les questions avant le dispositif au chef de dispositif ou au directeur opérationnel en charge du dossier.</b>', 0, 'J', 1, 1, '', '', true,1, true, true, 40, 'T');
 		$pdf->Ln(0);
-		
+
 		$this->getAnnexes($demande,$pdf,true,false);
 
 		//Close and output PDF document
 		if($out){
 			$pdf->Output($name,$output);
 		}
-			
+
 		return $pdf;
 	}
-	
+
 	public function getEtude($demande,$pdf=false,$out=false,$name='etude.pdf',$output='I'){
-		
+
 		if(!$pdf){
 			$pdf = $this->getStart();
 		}
@@ -492,7 +492,7 @@ class XtcpdfComponent extends Component
 		if($demande->total_cout != $demande->total_remise){
 		$pdf->MultiCell(40, 0, 'Valeur de la prestation : '.Number::format( $demande->total_cout ) .' €', 0, 'L', 1, 0, '', '', true, 1, false, true, 40, 'T');
 		} else {
-		$pdf->MultiCell(40, 0, 'Facturation de la prestation : '.Number::format( $demande->total_cout ) .' €', 0, 'L', 1, 0, '', '', true, 1, false, true, 40, 'T');	
+		$pdf->MultiCell(40, 0, 'Facturation de la prestation : '.Number::format( $demande->total_cout ) .' €', 0, 'L', 1, 0, '', '', true, 1, false, true, 40, 'T');
 		}
 		$pdf->SetFont('helvetica', '', 8);
 		$pdf->SetTextColor(105);
@@ -508,8 +508,8 @@ class XtcpdfComponent extends Component
 		$pdf->MultiCell(40, 0, 'Facturation de la prestation : '.Number::format( $demande->total_remise ) .' €', 0, 'L', 1, 0, '', '', true, 1, false, true, 40, 'T');
 		$pdf->SetFont('helvetica', '', 8);
 		$pdf->SetTextColor(105);
-		$pdf->MultiCell(160, 0, 'Le dispositif dimensionné vous aurait normalement coûté '. Number::format( $demande->total_cout ).' €, toutefois vous serez facturé de '.Number::format( $demande->total_remise ).' €. Cette adaptation du tarif est entre autre motivée par : 
-		'.nl2br($demande->remise_justification).' 
+		$pdf->MultiCell(160, 0, 'Le dispositif dimensionné vous aurait normalement coûté '. Number::format( $demande->total_cout ).' €, toutefois vous serez facturé de '.Number::format( $demande->total_remise ).' €. Cette adaptation du tarif est entre autre motivée par :
+		'.nl2br($demande->remise_justification).'
 		', 0, 'J', 1, 1, '', '', true,1, false, true, 40, 'T');
 		}
 		$pdf->Cell(0, 0, '', 0, 1, 'C', 0, '', 0);
@@ -536,19 +536,19 @@ class XtcpdfComponent extends Component
 
 		$pdf->MultiCell(100, 0, $demande->antenne->coordonnees, 0, 'L', 1, 0, '', '', true, 0, false, true, 40, 'T');
 		$pdf->MultiCell(100, 0, '', 0, 'C', 1, 1, '', '', true, 0, false, true, 40, 'T');
-		
+
 		$this->getAnnexes($demande,$pdf,false,false);
 
 		//Close and output PDF document
 		if($out){
 			$pdf->Output($name,$output);
 		}
-			
+
 		return $pdf;
 	}
-	
+
 	public function getConvention($demande,$convention,$flatten,$pdf=false,$out=false,$name='convention.pdf',$output='I'){
-		
+
 		if(!$pdf){
 			$pdf = $this->getStart();
 		}
@@ -645,10 +645,10 @@ class XtcpdfComponent extends Component
 		foreach ($demande->dimensionnements as $key => $dimensionnements):
 			$horaires_debut = new Time($dimensionnements->horaires_debut);
 			$horaires_fin = new Time($dimensionnements->horaires_fin);
-			
+
 			$pdf->SetFont('helvetica', '', 8);
 			$pdf->SetTextColor(105, 105, 105);
-			
+
 			$txt = 'Annexe n°'.$key.' : '.$dimensionnements->intitule.', '.$dimensionnements->du_au;
 			$pdf->Cell(0, 0, $txt, 0, 1, 'L', 0, '', 0);
 			//$txt = 'Annexe n°'.$key.' : '.$dimensionnements->intitule.', du '.$this->Time->format($dimensionnements->horaires_debut,\IntlDateFormatter::FULL).' au '.$this->Time->format($dimensionnements->horaires_fin,\IntlDateFormatter::FULL);
@@ -670,23 +670,23 @@ class XtcpdfComponent extends Component
 
 		$pdf->MultiCell(100, 0, __('Nom, prénom, fonction et signature'), 0, 'L', 1, 0, '', '', true, 0, false, true, 40, 'T');
 		$pdf->MultiCell(100, 0, __('Nom, prénom, fonction, cachet et signature'), 0, 'R', 1, 1, '', '', true, 0, false, true, 40, 'T');
-		
+
 		$this->getAnnexes($demande,$pdf,false,false);
 
 		//Close and output PDF document
 		if($out){
 			$pdf->Output($name,$output);
 		}
-			
-		return $pdf;	
+
+		return $pdf;
 	}
-	
+
 	public function getFacture($demande,$pdf=false,$out=false,$name='facture.pdf',$output='I'){
-		
+
 		if(!$pdf){
 			$pdf = $this->getStart();
 		}
-		
+
 		// set document information
 		$pdf->SetCreator('Protection Civile');
 		$pdf->SetAuthor('Protection Civile');
@@ -887,7 +887,7 @@ class XtcpdfComponent extends Component
 		$pdf->MultiCell(200, 0, $demande->gestionnaire_nom, 0, 'R', 1, 1, '', '', true, 0, false, true, 40, 'T');
 		$pdf->MultiCell(200, 0, $demande->gestionnaire_telephone, 0, 'R', 1, 1, '', '', true, 0, false, true, 40, 'T');
 		$pdf->MultiCell(200, 0, $demande->gestionnaire_mail, 0, 'R', 1, 1, '', '', true, 0, false, true, 40, 'T');
-		
+
 		// Get Annexe
 		//$this->getAnnexes($demande,$pdf,false,false);
 
@@ -895,10 +895,10 @@ class XtcpdfComponent extends Component
 		if($out){
 			$pdf->Output($name,$output);
 		}
-			
+
 		return $pdf;
 	}
-	
+
 	public function getAnnexes($demande,$pdf=false,$consignes=false,$out=false,$name='etude.pdf',$output='I'){
 
 		if(!$pdf){
@@ -915,10 +915,10 @@ class XtcpdfComponent extends Component
 			$pdf->SetFont('helvetica', '', 11);
 
 			$pdf->Cell(0, 7, __('Annexe n° ') . $key .' - '.$dimensionnements->intitule , 0, 1, 'C',1, '', 0,false,'T','M');
-			
+
 			$horaires_debut = new Time($dimensionnements->horaires_debut);
 			$horaires_fin = new Time($dimensionnements->horaires_fin);
-			
+
 			$pdf->SetTextColor(105, 105, 105);
 			$pdf->SetFont('helvetica', '', 9);
 			$pdf->Cell(0, 0, ucfirst( $dimensionnements->du_au ), 0, 1, 'C', 0, '', 0);
@@ -1026,14 +1026,14 @@ class XtcpdfComponent extends Component
 			// Data
 			$fill = 0;
 			foreach ($dimensionnements->dispositif->equipes as $equipe):
-			
+
 				$horaires_convocation = new Time($equipe->horaires_convocation);
 				$horaires_place = new Time($equipe->horaires_place);
 				$horaires_fin = new Time($equipe->horaires_fin);
-			
+
 				$pdf->Cell($w[0], 6, $equipe->indicatif, 0, 0, 'L', $fill);
 				$pdf->Cell($w[1], 6, $equipe->effectif, 0, 0, 'C', $fill);
-				$pdf->Cell($w[2], 6, $equipe->vehicule_type, 0, 0, 'C', $fill);
+			//	$pdf->Cell($w[2], 6, $equipe->vehicule_type, 0, 0, 'C', $fill);
 				$pdf->Cell($w[3], 6, $equipe->lot_a, 0, 0, 'C', $fill);
 				$pdf->Cell($w[4], 6, $equipe->lot_b, 0, 0, 'C', $fill);
 				$pdf->Cell($w[5], 6, $equipe->lot_c, 0, 0, 'C', $fill);
@@ -1045,7 +1045,7 @@ class XtcpdfComponent extends Component
 				$pdf->Ln();
 				$fill=!$fill;
 			endforeach;
-			
+
 			$pdf->Cell(array_sum($w), 0, '', 0);
 
 			if(isset($consignes)):
@@ -1059,10 +1059,10 @@ class XtcpdfComponent extends Component
 					$pdf->SetFont('helvetica', '', 11);
 
 					$pdf->Cell(0, 7, __('Annexe n° ') . $key .' - Consignes aux équipes - '.$dimensionnements->intitule , 0, 1, 'C',1, '', 0,false,'T','M');
-					
+
 					$horaires_debut = new Time($dimensionnements->horaires_debut);
 					$horaires_fin = new Time($dimensionnements->horaires_fin);
-			
+
 					$pdf->SetTextColor(105, 105, 105);
 					$pdf->SetFont('helvetica', '', 9);
 					$pdf->Cell(0, 0, 'Du '.$horaires_debut->i18nFormat(\IntlDateFormatter::FULL).' au '.$horaires_fin->i18nFormat(\IntlDateFormatter::FULL), 0, 1, 'C', 0, '', 0);
@@ -1116,10 +1116,10 @@ class XtcpdfComponent extends Component
 						$horaires_convocation = new Time($equipe->horaires_convocation);
 						$horaires_place = new Time($equipe->horaires_place);
 						$horaires_fin = new Time($equipe->horaires_fin);
-				
+
 						$pdf->Cell($w[0], 6, $equipe->indicatif, 0, 0, 'L', $fill);
 						$pdf->Cell($w[1], 6, $equipe->effectif, 0, 0, 'C', $fill);
-						$pdf->Cell($w[2], 6, $equipe->vehicule_type, 0, 0, 'C', $fill);
+				//		$pdf->Cell($w[2], 6, $equipe->vehicule_type, 0, 0, 'C', $fill);
 						$pdf->Cell($w[3], 6, $equipe->lot_a, 0, 0, 'C', $fill);
 						$pdf->Cell($w[4], 6, $equipe->lot_b, 0, 0, 'C', $fill);
 						$pdf->Cell($w[5], 6, $equipe->lot_c, 0, 0, 'C', $fill);
@@ -1138,16 +1138,16 @@ class XtcpdfComponent extends Component
 			endif;
 		endforeach;
 		endif;
-		
+
 		if($out){
 			$pdf->Output($name,$output);
 		}
-		
+
 		return $pdf;
 	}
-	
+
 	public function getEtapes($pdf=false,$out=false,$name='processus.pdf',$output='I'){
-		
+
 		if(!$pdf){
 			$pdf = $this->getStart();
 		}
@@ -1184,7 +1184,7 @@ class XtcpdfComponent extends Component
 
 		$config_etats = TableRegistry::get('ConfigEtats');
 		$config_etats = $config_etats->find('all')->order(['ordre'=>'asc']);
-		
+
 		// add a page
 		$pdf->AddPage();
 
@@ -1200,17 +1200,17 @@ class XtcpdfComponent extends Component
 
 		$pdf->SetFont('helvetica', '', 10);
 		$pdf->SetFillColor(255, 255, 255);
-		
+
 		// Lister toutes les étapes et en 3 colonne afficher les informations
 		foreach($config_etats as $config_etat){
-			
+
 			$pdf->SetFont('helvetica', 'B', 8);
 
 			$pdf->SetLineStyle(array('width' => 0.1));
 
-			$pdf->MultiCell(8, 0, $config_etat->ordre.PHP_EOL, 'T', 'L', 1, 0, '', '', true, 1, false, true, 40, 'T');			
+			$pdf->MultiCell(8, 0, $config_etat->ordre.PHP_EOL, 'T', 'L', 1, 0, '', '', true, 1, false, true, 40, 'T');
 			$pdf->MultiCell(32, 0, $config_etat->designation.PHP_EOL, 'T', 'L', 1, 0, '', '', true, 1, false, true, 40, 'T');
-			
+
 			$pdf->SetFont('helvetica', '', 8);
 
 			$pdf->MultiCell(160, 0, $config_etat->description.PHP_EOL.PHP_EOL, 'T', 'L', 1, 1, '', '', true, 1, false, true, 40, 'T');
@@ -1221,12 +1221,12 @@ class XtcpdfComponent extends Component
 		if($out){
 			$pdf->Output($name,$output);
 		}
-			
+
 		return $pdf;
 	}
-	
+
 	public function getPlanning($demande=false,$pdf=false,$type='_getPlanningPostes',$large=410,$out=false,$name='planning.pdf',$output='I'){
-		
+
 		if(!$pdf){
 			$pdf = $this->getStart();
 		}
@@ -1258,25 +1258,25 @@ class XtcpdfComponent extends Component
 
 		// set image scale factor
 		$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
-	
+
 		$type = ($type!='_getPlanningItem') ? '_getPlanningPostes' : '_getPlanningItem';
-		
+
 		if($demande->dates_limits){
-			$pdf = $this->{$type}($pdf,$demande);				
+			$pdf = $this->{$type}($pdf,$demande);
 		}
 
 		//Close and output PDF document
 		if($out){
 			$pdf->Output($name,$output);
 		}
-			
+
 		return $pdf;
 	}
 
 	protected function _getQuadrillage($pdf=false,$options=[]){
-		
+
 		$init = [];
-		
+
 		$init['max'] = 0;
 		$init['large'] = 410;
 		$init['title'] = 'COMPRENDRE LES ETAPES DE GESTION DE MON DOSSIER';
@@ -1286,13 +1286,13 @@ class XtcpdfComponent extends Component
 		$init['xmarge'] = 5;
 		$init['date'] = false;
 		$init['start'] = 0;
-		
+
 		$options = array_merge($init,(array)$options);
-		
+
 		extract($options);
-		
+
 		if($pdf){
-			
+
 			// add a page
 			$pdf->AddPage();
 
@@ -1308,16 +1308,16 @@ class XtcpdfComponent extends Component
 
 			$pdf->SetFont('helvetica', '', 10);
 			$pdf->SetFillColor(255, 255, 255);
-			
+
 			// Calcul de l'espacement des traits
 			$pas = $large / $max;
-			
-			// Générer les traits 
+
+			// Générer les traits
 			// == en gris pour heures normales
 			// == en gris foncé toutes les 6h
 			// == en noir toutes les 12h
 			$jour = 0;
-			
+
 			for($i=0;$i<=$max;$i++){
 				$marge = ($i * $pas)+$xmarge;
 				if(($i % 12) == 0){
@@ -1340,9 +1340,9 @@ class XtcpdfComponent extends Component
 				$start++;
 			}
 
-			$y = 40;			
+			$y = 40;
 		}
-		
+
 		return $pdf;
 
 	}
@@ -1358,80 +1358,80 @@ class XtcpdfComponent extends Component
 		$init['split'] = 15;
 
 		$options = array_merge($init,(array) $options);
-		
+
 		extract($options);
-		
+
 		if($pdf && $demande){
-			
+
 			$cols = ($demande->dates_limits['round_max'] - $demande->dates_limits['round_min'])/3600;
-			
+
 			$start = $demande->dates_limits['round_min'];
 			$end = $demande->dates_limits['round_max'];
-			
+
 			$diff = $end - $start;
 
 			$equipes = Hash::extract($demande->dimensionnements,'{n}.dispositif.equipes');
 			$equipes = Hash::extract($equipes,'{n}.{n}');
-			
+
 			$listes = array_chunk($equipes,$split);
-			
+
 			$pages = count($listes);
-			
+
 			foreach($listes as $key => $equipes){
-				
+
 				$init = [];
-		
+
 				$init['max'] = $cols;
 				$init['large'] = $large;
 				$init['title'] = 'PLANNIFICATION - PAGE '.($key+1).'/'.$pages.' - '.strtoupper($demande->manifestation);
 				$init['date'] = $demande->dates_limits['round_min'];
-		
+
 				$pdf = $this->_getQuadrillage($pdf,$init);
 
 				$pdf->SetX(0);
-				
+
 				$y = $ystart;
 
 				foreach($equipes as $equipe){
 					$y = $y + 15;
 					$pdf->SetY($y);
-					
+
 					$absice = $this->_getAbsice($equipe['strtotime_convocation'],$large,$diff,$start) + $xmarge;
 					$duree = $this->_getAbsice($equipe['duree_aller'],$large,$diff);
-					
+
 					$pdf->SetTextColor(0, 0, 0);
 					$pdf->Text($absice-15, $y, $equipe['effectif'].' Pers.');
 					$pdf->Rect($absice, $y, $duree, $hauteur, 'F', array(), array(0, 0, 128));
 					$pdf->Text($absice, $y+5, $equipe['horaires_convocation']);
-	
+
 					$absice = $this->_getAbsice($equipe['strtotime_place'],$large,$diff,$start) + $xmarge;
 					$duree = $this->_getAbsice($equipe['duree_poste'],$large,$diff);
-					
+
 					$pdf->SetTextColor(255, 255, 255);
 					$pdf->Rect($absice, $y, $duree, $hauteur, 'F', array(), array(0,102,255));
 					$pdf->Text($absice, $y, $equipe['indicatif']);
 					$pdf->SetTextColor(0, 0, 0);
-					
+
 					$absice = $this->_getAbsice($equipe['strtotime_fin'],$large,$diff,$start) + $xmarge;
 					$duree = $this->_getAbsice($equipe['duree_retour'],$large,$diff);
-					
+
 					$pdf->Rect($absice, $y, $duree, $hauteur, 'F', array(), array(0, 0, 128));
-					
+
 					$absice = $this->_getAbsice($equipe['strtotime_fin']+$equipe['duree_retour'],$large,$diff,$start) + $xmarge;
-					$pdf->Text($absice, $y, $equipe['vehicule_type'].' / '.$equipe['vehicules_km'].' km');
-					
+				//	$pdf->Text($absice, $y, $equipe['vehicule_type'].' / '.$equipe['vehicules_km'].' km');
+
 				}
-			}			
-			
+			}
+
 		}
-		
+
 		return $pdf;
 
 	}
-	
+
 
 	protected function _getPlanningPostes($pdf=false,$demande=false){
-		
+
 		$init = [];
 
 		$init['large'] = 410;
@@ -1441,104 +1441,104 @@ class XtcpdfComponent extends Component
 		$init['split'] = 15;
 
 		$options = array_merge($init,(array) $options);
-		
+
 		extract($options);
-		
+
 		if($pdf && $demande){
-			
+
 			$cols = ($demande->dates_limits['round_max'] - $demande->dates_limits['round_min'])/3600;
-			
+
 			$start = $demande->dates_limits['round_min'];
 			$end = $demande->dates_limits['round_max'];
-			
+
 			$diff = $end - $start;
 
 			foreach( $demande->dimensionnements as $dimensionnement){
-				
+
 				$equipes = Hash::extract($dimensionnement,'dispositif.equipes');
-				
+
 				$listes = array_chunk($equipes,$split);
-				
+
 				$pages = count($listes);
-				
+
 				foreach($listes as $key => $equipes){
-					
+
 					$init = [];
-			
+
 					$init['max'] = $cols;
 					$init['large'] = $large;
 					$init['title'] = 'PLANNIFICATION - '.strtoupper($demande->manifestation).' - '.$dimensionnement->intitule.' - PAGE '.($key+1).'/'.$pages;
 					$init['date'] = $demande->dates_limits['round_min'];
-			
+
 					$pdf = $this->_getQuadrillage($pdf,$init);
 
 					$pdf->Text(120, 5,$dimensionnement->contact_present);
 					$pdf->Text(120, 10,$dimensionnement->contact_fonction);
 					$pdf->Text(120, 20,$dimensionnement->contact_portable);
 					$pdf->Text(120, 15,$dimensionnement->contact_telephone);
-					
+
 					$pdf->Text(160, 5,'Médecin : '.$dimensionnement->medecin.' - Tel: '.$dimensionnement->medecin_telephone);
 					$pdf->Text(160, 10,'Autres médecins : '.$dimensionnement->medecin_autres);
 					$pdf->Text(160, 15,'Infirmier : '.$dimensionnement->infirmier);
 					$pdf->Text(160, 20,'Ambulancier : '.$dimensionnement->ambulancier.' - Tel: '.$dimensionnement->ambulancier_telephone);
 
-					$pdf->Text(260, 5,'Pompiers : '.$dimensionnement->pompier.' '.$dimensionnement->pompier_distance.' km - Hôpital : '.$dimensionnement->hopital.' '.$dimensionnement->hopital_distance.' km');
+					$pdf->Text(260, 5,'Pompiers : '.$dimensionnement->pompier.' '.$dimensionnement->pompier_delai.' km - Hôpital : '.$dimensionnement->hopital.' '.$dimensionnement->hopital_delai.' km');
 					$pdf->Text(260, 10,'Secours publics présents : '.$dimensionnement->secours_presents);
 					$pdf->Text(260, 15,'Documents officiels : '.$dimensionnement->documents_officiels);
 					$pdf->Text(260, 20,'Point de rendez-vous : '.$dimensionnement->lieu_manifestation);
-					
+
 					$pdf->SetX(0);
-					
+
 					$y = $ystart;
 
 					foreach($equipes as $equipe){
 						$y = $y + 15;
 						$pdf->SetY($y);
-						
+
 						$absice = $this->_getAbsice($equipe['strtotime_convocation'],$large,$diff,$start) + $xmarge;
 						$duree = $this->_getAbsice($equipe['duree_aller'],$large,$diff);
-						
+
 						$pdf->SetTextColor(0, 0, 0);
 						$pdf->Text($absice-15, $y, $equipe['effectif'].' Pers.');
 						$pdf->Rect($absice, $y, $duree, $hauteur, 'F', array(), array(0, 0, 128));
 						$pdf->Text($absice, $y+5, $equipe['horaires_convocation']);
-		
+
 						$absice = $this->_getAbsice($equipe['strtotime_place'],$large,$diff,$start) + $xmarge;
 						$duree = $this->_getAbsice($equipe['duree_poste'],$large,$diff);
-						
+
 						$pdf->SetTextColor(255, 255, 255);
 						$pdf->Rect($absice, $y, $duree, $hauteur, 'F', array(), array(0,102,255));
 						$pdf->Text($absice, $y, $equipe['indicatif']);
 						$pdf->SetTextColor(0, 0, 0);
-						
+
 						$absice = $this->_getAbsice($equipe['strtotime_fin'],$large,$diff,$start) + $xmarge;
 						$duree = $this->_getAbsice($equipe['duree_retour'],$large,$diff);
-						
+
 						$pdf->Rect($absice, $y, $duree, $hauteur, 'F', array(), array(0, 0, 128));
-						
+
 						$absice = $this->_getAbsice($equipe['strtotime_fin']+$equipe['duree_retour'],$large,$diff,$start) + $xmarge;
-						$pdf->Text($absice, $y, $equipe['vehicule_type'].' / '.$equipe['vehicules_km'].' km');
-						
+				//		$pdf->Text($absice, $y, $equipe['vehicule_type'].' / '.$equipe['vehicules_km'].' km');
+
 					}
 				}
-			
+
 			}
-			
+
 		}
-		
+
 		return $pdf;
 
 	}
-	
+
 	protected function _getLongueur($value=0,$large=0,$strtotime=0,$start=0,$plus=0){
-		
+
 		return ((($value + $plus) - $start) * $large) / $strtotime;
-		
+
 	}
 	protected function _getAbsice($value=0,$large=0,$strtotime=0,$start=0,$plus=0){
-		
+
 		return ((($value + $plus) - $start) * $large) / $strtotime;
-		
+
 	}
 }
 ?>

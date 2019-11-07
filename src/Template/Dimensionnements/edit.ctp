@@ -118,9 +118,9 @@ echo $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.4
 		<h3><?= __('Proximité des secours publics') ?></h3>
 		<?php
             echo $this->Form->control('pompier', ['class' => 'form-control','help' => __('Caserne la plus proche')]);
-            echo $this->Form->control('pompier_distance', ['class' => 'form-control','append'=>'km','help' => __('')]);
+            echo $this->Form->control('pompier_delai', ['class' => 'form-control','append'=>'min','help' => __('')]);
 			echo $this->Form->control('hopital', ['class' => 'form-control','help' => __('Hôpital avec des urgences le plus proche')]);
-            echo $this->Form->control('hopital_distance', ['class' => 'form-control','append'=>'km','help' => __('')]);
+            echo $this->Form->control('hopital_delai', ['class' => 'form-control','append'=>'min','help' => __('')]);
 		?>
 		<h3><?= __('Secours publics présents') ?></h3>
 		<?php

@@ -54,16 +54,6 @@ class Equipe extends Entity
         'dispositif_id' => true,
         'indicatif' => true,
         'effectif' => true,
-        'vehicule_type' => true,
-        'vehicules_km' => true,
-        'vehicule_trajets' => true,
-        'nb_vpsp' => true,
-        'nb_vtu' => true,
-        'nb_vtp' => true,
-        'nb_quad' => true,
-        'lot_a' => true,
-        'lot_b' => true,
-        'lot_c' => true,
         'autre' => true,
         'consignes' => true,
 		'position' => true,
@@ -73,20 +63,6 @@ class Equipe extends Entity
         'horaires_retour' => true,
         'duree' => true,
         'remarques' => true,
-		'remise' => true,
-		'cout_divers' => true,
-		'explication_cout_divers' => true,
-        'cout_personnel' => true,
-        'cout_kilometres' => true,
-        'cout_repas' => true,
-        'cout_remise' => true,
-		'cout_economie' => true,
-        'repartition_antenne' => true,
-        'repartition_adpc' => true,
-        'repas_matin' => true,
-        'repas_midi' => true,
-        'repas_soir' => true,
-        'repas_charge' => true,
         'dispositif' => true,
         'personnels' => true
     ];
@@ -96,7 +72,6 @@ class Equipe extends Entity
 		'du_au_light',
 		'depart_retour',
 		'durees',
-		'liste_repas',
 		'duree_aller',
 		'duree_poste',
 		'duree_retour',
@@ -176,11 +151,5 @@ class Equipe extends Entity
 		$end = $this->_properties['horaires_retour']->toUnixString();
 
         return $end - $start;
-    }
-    protected function _getListeRepas()
-    {
-		$charge = (int) $this->_properties['repas_charge'];
-
-        return ($charge * (int) $this->_properties['repas_matin']).' Mat. '.($charge * (int) $this->_properties['repas_midi']).' Midi '.($charge * (int) $this->_properties['repas_soir']).' Soir';
     }
 }

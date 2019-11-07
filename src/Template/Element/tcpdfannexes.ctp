@@ -1,6 +1,6 @@
 <?php if (!empty($demande->dimensionnements)): ?>
 <?php foreach ($demande->dimensionnements as $key => $dimensionnements): ?>
-<?php 
+<?php
 $pdf->AddPage();
 
 $pdf->setCellPaddings(0,0,0,0);
@@ -119,7 +119,7 @@ $fill = 0;
 foreach ($dimensionnements->dispositif->equipes as $equipe):
     $pdf->Cell($w[0], 6, $equipe->indicatif, 0, 0, 'L', $fill);
 	$pdf->Cell($w[1], 6, $equipe->effectif, 0, 0, 'C', $fill);
-	$pdf->Cell($w[2], 6, $equipe->vehicule_type, 0, 0, 'C', $fill);
+	//$pdf->Cell($w[2], 6, $equipe->vehicule_type, 0, 0, 'C', $fill);
 	$pdf->Cell($w[3], 6, $equipe->lot_a, 0, 0, 'C', $fill);
 	$pdf->Cell($w[4], 6, $equipe->lot_b, 0, 0, 'C', $fill);
 	$pdf->Cell($w[5], 6, $equipe->lot_c, 0, 0, 'C', $fill);
@@ -135,7 +135,7 @@ $pdf->Cell(array_sum($w), 0, '', 0);
 ?>
 <?php if (isset($consignes)): ?>
 <?php if ($consignes): ?>
-<?php 
+<?php
 $pdf->AddPage();
 
 $pdf->setCellPaddings(0,0,0,0);
@@ -197,7 +197,7 @@ $fill = 0;
 foreach ($dimensionnements->dispositif->equipes as $equipe):
     $pdf->Cell($w[0], 6, $equipe->indicatif, 0, 0, 'L', $fill);
 	$pdf->Cell($w[1], 6, $equipe->effectif, 0, 0, 'C', $fill);
-	$pdf->Cell($w[2], 6, $equipe->vehicule_type, 0, 0, 'C', $fill);
+	//$pdf->Cell($w[2], 6, $equipe->vehicule_type, 0, 0, 'C', $fill);
 	$pdf->Cell($w[3], 6, $equipe->lot_a, 0, 0, 'C', $fill);
 	$pdf->Cell($w[4], 6, $equipe->lot_b, 0, 0, 'C', $fill);
 	$pdf->Cell($w[5], 6, $equipe->lot_c, 0, 0, 'C', $fill);

@@ -186,6 +186,11 @@ class DispositifsController extends AppController
         /* Actions = Recalculer ou Sortir */
 		$actions = (int) $this->request->getData('actions');
 
+        /*Calcul du coût total*/
+        $dispositif->cout_total = number_format($dispositif->cout_vehicules + $dispositif->cout_materiel + $dispositif->cout_personnel + $dispositif->cout_kilometres + $dispositif->cout_hebergement + $dispositif->cout_repas + $dispositif->cout_divers,2,'.','');
+        $coutRemise = number_format($dispositif->cout_total * $dispositif->remise / 100,2,'.','');
+        $dispositif->cout_total_remise = number_format($dispositif->cout_total - $coutRemise,2,'.','');
+
         if ($this->request->is(['patch', 'post', 'put'])) {
 
 			$dispositif = $this->Dispositifs->patchEntity($dispositif, $this->request->getData());
@@ -267,12 +272,7 @@ class DispositifsController extends AppController
      * Renvoie un message d'erreur si la vérification a échoué. Renvoie null si succès.
      */
     public function verifierAvantSauvegarde($dispositif = null){
-        if($dispositif != null){
-            // Vérification de la somme des membres de l'équipe avec le personnel total, excepté les stagiaires.
-            $sommePersonnel = $dispositif->nb_chef_equipe + $dispositif->nb_pse2 + $dispositif->nb_pse1 + $dispositif->nb_lat + $dispositif->nb_medecin + $dispositif->nb_infirmier + $dispositif->nb_cadre_operationnel;
-            $totalPersonnel = $dispositif->personnels_total;
-            return (($sommePersonnel == $totalPersonnel) ? NULL : 'Merci de vérifier le nombre de chef d\'équipe, pse2... (actuellement '.$sommePersonnel.') pour qu\'il concorde avec le nombre de personnel total ('.$totalPersonnel.')');
-        }
+        // Pour l'instant on ne vérifie rien. On garde la méthode si besoin de rajouter des contrôles dans le futur
         return null;
     }
 }

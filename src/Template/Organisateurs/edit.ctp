@@ -31,7 +31,7 @@ $this->prepend( 'css' , $this->Html->css('bootstrap-datetimepicker.min',['media'
     <?= $this->Form->create($organisateur, ['horizontal' => true]) ?>
     <fieldset>
 		<div class="col-lg-6 col-md-12 columns">
-		<h3><?= __('Coordonnées juridiques') ?></h3>        
+		<h3><?= __('Coordonnées juridiques') ?></h3>
         <?php
 
             echo $this->Form->control('uuid', ['type'=>'hidden','class' => 'form-control','help' => __('')]);
@@ -42,28 +42,21 @@ $this->prepend( 'css' , $this->Html->css('bootstrap-datetimepicker.min',['media'
             echo $this->Form->control('code_postal', ['class' => 'form-control','help' => __('')]);
             echo $this->Form->control('ville', ['class' => 'form-control','help' => __('')]);
 		?>
-		<h3><?= __('Représentant légal') ?></h3>  
-		<?php   
+		<h3><?= __('Représentant légal') ?></h3>
+		<?php
             echo $this->Form->control('representant_prenom', ['class' => 'form-control','help' => __('')]);
             echo $this->Form->control('representant_nom', ['class' => 'form-control','help' => __('')]);
-            echo $this->Form->control('fonction', ['class' => 'form-control','help' => __('')]);		
+            echo $this->Form->control('fonction', ['class' => 'form-control','help' => __('')]);
 
 		?>
 		</div>
 		<div class="col-lg-6 col-md-12 columns">
-		<h3><?= __('Coordonnées téléphopniques') ?></h3>  
-		<?php            
+		<h3><?= __('Coordonnées téléphopniques') ?></h3>
+		<?php
             echo $this->Form->control('telephone', ['class' => 'form-control','help' => __('')]);
 			echo $this->Form->control('portable', ['class' => 'form-control','help' => __('')]);
-			echo $this->Form->control('mail', ['class' => 'form-control','help' => __('')]);          
+			echo $this->Form->control('mail', ['class' => 'form-control','help' => __('')]);
 		?>
-		<h3><?= __('En charge du règlement') ?></h3>  
-		<?php         
-            echo $this->Form->control('tresorier_nom', ['class' => 'form-control','help' => __('')]);
-            echo $this->Form->control('tresorier_prenom', ['class' => 'form-control','help' => __('')]);
-            echo $this->Form->control('tresorier_mail', ['class' => 'form-control','help' => __('')]);
-            echo $this->Form->control('tresorier_telephone', ['class' => 'form-control','help' => __('')]);
-        ?>
 		</div>
     </fieldset>
     <?= $this->Form->button(__('Soumettre le formulaire'),['class' => 'btn btn-large btn-primary']) ?>

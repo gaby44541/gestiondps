@@ -29,15 +29,6 @@ $this->prepend( 'css' , $this->Html->css('bootstrap-datetimepicker.min',['media'
 	?>
     <?= $this->Form->create($configParametre, ['horizontal' => true]) ?>
     <fieldset>
-
-		<div class="col-lg-6 col-md-12 columns">
-    	<h3><?= __('Général') ?></h3>
-        <?php
-            echo $this->Form->control('pourcentage', ['class' => 'form-control','help' => __('')]);
-            echo $this->Form->control('cout_kilometres', ['class' => 'form-control','help' => __('Prix d\'1 kilomètre')]);
-            echo $this->Form->control('cout_repas', ['class' => 'form-control','help' => __('')]);
-		?>
-		</div>
 		<div class="col-lg-6 col-md-12 columns">
 		<h3><?= __('Véhicules') ?></h3>
 		<?php
@@ -47,14 +38,7 @@ $this->prepend( 'css' , $this->Html->css('bootstrap-datetimepicker.min',['media'
             echo $this->Form->control('cout_quad', ['class' => 'form-control','help' => __('')]);
         ?>
 		</div>
-        <div class="col-lg-6 col-md-12 columns">
-        <h3><?= __('Matériel') ?></h3>
-        <?php
-            echo $this->Form->control('cout_lot_a', ['class' => 'form-control','help' => __('')]);
-            echo $this->Form->control('cout_lot_b', ['class' => 'form-control','help' => __('')]);
-            echo $this->Form->control('cout_lot_c', ['class' => 'form-control','help' => __('')]);
-        ?>
-        </div>
+
         <div class="col-lg-6 col-md-12 columns">
         <h3><?= __('Personnel') ?></h3>
         <p><i>Sur une base de 8h</i></p>
@@ -69,13 +53,24 @@ $this->prepend( 'css' , $this->Html->css('bootstrap-datetimepicker.min',['media'
         ?>
         </div>
         <div class="col-lg-6 col-md-12 columns">
+        <h3><?= __('Matériel') ?></h3>
+        <?php
+            echo $this->Form->control('cout_lot_a', ['class' => 'form-control','help' => __('')]);
+            echo $this->Form->control('cout_lot_b', ['class' => 'form-control','help' => __('')]);
+            echo $this->Form->control('cout_lot_c', ['class' => 'form-control','help' => __('')]);
+        ?>
+        </div>
+        <div class="col-lg-6 col-md-12 columns">
         <h3><?= __('Divers') ?></h3>
         <?php
             echo $this->Form->control('cout_hebergement', ['class' => 'form-control','help' => __('')]);
+            echo $this->Form->control('cout_kilometres', ['class' => 'form-control','help' => __('Prix d\'1 kilomètre')]);
+            echo $this->Form->control('cout_repas', ['class' => 'form-control','help' => __('')]);
+            echo $this->Form->control('cout_portatif', ['class' => 'form-control','help' => __('Licence inclue'),'step'=>'0.01', min=>'0','lang'=>'en']);
         ?>
         </div>
     </fieldset>
-    <?= $this->Form->button(__('Submit'),['class' => 'btn btn-large btn-primary']) ?>
+    <?= $this->Form->button(__('Enregistrer'),['class' => 'btn btn-large btn-primary']) ?>
     <?= $this->Form->end() ?>
 </div>
 

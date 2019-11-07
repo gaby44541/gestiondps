@@ -41,6 +41,7 @@ class ConfigParametre extends Entity
         'cout_infirmier' => true,
         'cout_ce_cp' => true,
         'cout_stagiaire' => true,
-        'cout_hebergement' => true
+        'cout_hebergement' => true,
+        'cout_portatif' => true
     ];
 }

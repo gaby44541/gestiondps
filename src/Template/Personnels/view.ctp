@@ -76,7 +76,7 @@
 			<th><?= __('Prevenir Telephone') ?></th>
 			<td><?= h($personnel->prevenir_telephone) ?></td>
 		</tr>
-	
+
 	</table>
 <div class="related">
 	<h3>
@@ -144,9 +144,6 @@
 				<td><?= h($equipes->dispositif_id) ?></td>
 				<td><?= h($equipes->indicatif) ?></td>
 				<td><?= h($equipes->effectif) ?></td>
-				<td><?= h($equipes->vehicule_type) ?></td>
-				<td><?= h($equipes->vehicules_km) ?></td>
-				<td><?= h($equipes->vehicule_trajets) ?></td>
 				<td><?= h($equipes->lot_a) ?></td>
 				<td><?= h($equipes->lot_b) ?></td>
 				<td class="actions">

@@ -13,7 +13,7 @@ use Cake\Utility\Hash;
  */
 class PersonnelsEquipesController extends AppController
 {
-	var $navigation = [ 
+	var $navigation = [
 		[ 'label' => 'New personnelsEquipe', 'config' => [ 'controller' => 'PersonnelsEquipes', 'action' => 'add' ]],
 		[ 'label' => 'List personnelsEquipe', 'config' => [ 'controller' => 'PersonnelsEquipes', 'action' => 'index' ]],
 		[ 'label' => 'List Equipes', 'config' => ['controller' => 'Equipes', 'action' => 'index' ]],
@@ -22,7 +22,7 @@ class PersonnelsEquipesController extends AppController
 		[ 'label' => 'Add Personnels', 'config' => ['controller' => 'Personnels', 'action' => 'add' ]],
     ];
 
-	
+
 	var $arraysum = ['paths'=>[
 							'total_cout'=>'+dimensionnements.{n}.dispositif.equipes.{n}.cout_personnel/dimensionnements.{n}.dispositif.equipes.{n}.cout_kilometres/dimensionnements.{n}.dispositif.equipes.{n}.cout_repas',
 							'total_personnel'=>'+dimensionnements.{n}.dispositif.personnels_public/dimensionnements.{n}.dispositif.personnels_acteurs',
@@ -36,13 +36,13 @@ class PersonnelsEquipesController extends AppController
 							'total_repas_matin'=>'*dimensionnements.{n}.dispositif.equipes.{n}.repas_matin/dimensionnements.{n}.dispositif.equipes.{n}.repas_charge',
 							'total_repas_midi'=>'*dimensionnements.{n}.dispositif.equipes.{n}.repas_midi/dimensionnements.{n}.dispositif.equipes.{n}.repas_charge',
 							'total_repas_soir'=>'*dimensionnements.{n}.dispositif.equipes.{n}.repas_soir/dimensionnements.{n}.dispositif.equipes.{n}.repas_charge',
-							'total_vehicules'=>'dimensionnements.{n}.dispositif.equipes.{n}.vehicule_type',
+							//'total_vehicules'=>'dimensionnements.{n}.dispositif.equipes.{n}.vehicule_type',
 							'total_lota'=>'dimensionnements.{n}.dispositif.equipes.{n}.lot_a',
 							'total_lotb'=>'dimensionnements.{n}.dispositif.equipes.{n}.lot_b',
 							'total_lotc'=>'dimensionnements.{n}.dispositif.equipes.{n}.lot_c',
 							]
 						];
-						
+
     /**
      * Index method
      *
@@ -54,31 +54,31 @@ class PersonnelsEquipesController extends AppController
             'contain' => ['Equipes', 'Personnels']
         ];
         $personnelsEquipes = $this->paginate($this->PersonnelsEquipes);
-		
+
 		$navigation = $this->navigation;
 
         $this->set(compact('personnelsEquipes','navigation'));
     }
 
 	public function ajax($function = false){
-		
+
 		$this->autoRender = false;
-		
+
 	    // Force le controller à rendre une réponse JSON.
         $this->RequestHandler->renderAs($this, 'json');
-		
+
         // Définit le type de réponse de la requete AJAX
         $this->response->type('application/json');
 
         // Chargement du layout AJAX
         $this->viewBuilder()->layout('ajax');
-		
+
 		// Chargement des données
 		$json_data[] = ['id'=>2500,'title'=>'test','start'=>'2018-07-16 12:30:00','end'=>'2018-07-18 05:45:00','url'=>'http://localhost/crud/antennes/view/1'];
 		$json_data[] = ['id'=>2501,'title'=>'test','start'=>'2018-07-18 05:45:00','end'=>'2018-07-27'];//,'rendering'=>'background'
 
 		$response = $this->response->withType('json')->withStringBody(json_encode($json_data));
-		
+
 		// Retour des données encodées en JSON
 		return $response;
 	}
@@ -119,9 +119,9 @@ class PersonnelsEquipesController extends AppController
         }
         $equipes = $this->PersonnelsEquipes->Equipes->listing(['group'=>'dispositif_id'],'id','indicatif');
         $personnels = $this->PersonnelsEquipes->Personnels->find('list', ['limit' => 200]);
-		
+
 		$navigation = $this->navigation;
-		
+
         $this->set(compact('personnelsEquipe', 'equipes', 'personnels','navigation'));
     }
 
@@ -148,9 +148,9 @@ class PersonnelsEquipesController extends AppController
         }
         $equipes = $this->PersonnelsEquipes->Equipes->listing('list', ['limit' => 200]);
         $personnels = $this->PersonnelsEquipes->Personnels->find('list', ['limit' => 200]);
-		
+
 		$navigation = $this->navigation;
-		
+
         $this->set(compact('personnelsEquipe', 'equipes', 'personnels','navigation'));
     }
 
@@ -179,12 +179,12 @@ class PersonnelsEquipesController extends AppController
 		$this->loadModel('Equipes');
 
 		//$inscriptions = Hash::sort($demandes->toArray(),'{n}.strtotime_convocation','asc');
-		
+
 		$inscriptions = $this->Equipes->getDistinctStrtotime();
-		
+
 		$this->set('inscriptions', $inscriptions);
-		
+
 		var_dump($this->request->getData());
     }
-	
+
 }

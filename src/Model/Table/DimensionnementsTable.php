@@ -37,7 +37,7 @@ class DimensionnementsTable extends Table
         $this->setTable('dimensionnements');
         $this->setDisplayField('intitule');
         $this->setPrimaryKey('id');
-		
+
 		$this->addBehavior('Listing');
 		$this->addBehavior('Duplicatable');
 		$this->addBehavior('Arrays',[
@@ -171,8 +171,8 @@ class DimensionnementsTable extends Table
             ->notEmpty('pompier');
 
         $validator
-            ->integer('pompier_distance')
-            ->notEmpty('pompier_distance');
+            ->integer('pompier_delai')
+            ->notEmpty('pompier_delai');
 
         $validator
             ->scalar('hopital')
@@ -180,8 +180,8 @@ class DimensionnementsTable extends Table
             ->notEmpty('hopital');
 
         $validator
-            ->integer('hopital_distance')
-            ->notEmpty('hopital_distance');
+            ->integer('hopital_delai')
+            ->notEmpty('hopital_delai');
 
         $validator
             ->scalar('medecin')
@@ -212,7 +212,7 @@ class DimensionnementsTable extends Table
             ->scalar('secours_presents')
             ->maxLength('secours_presents', 500)
             ->allowEmpty('secours_presents');
-			
+
 		$validator
             ->scalar('documents_officiels')
             ->maxLength('documents_officiels', 500)
@@ -255,11 +255,11 @@ class DimensionnementsTable extends Table
 
         return $rules;
     }
-	
+
 	/*
 	public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
 	{
-		
+
 		if (isset($data['assis'])&&is_array($data['assis'])) {
 			$data['assis'] = implode(',',$data['assis']);
 			//var_dump($data['assis']);

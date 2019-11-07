@@ -47,7 +47,7 @@ class DemandesController extends AppController {
 							'total_repas_matin'=>'*dimensionnements.{n}.dispositif.equipes.{n}.repas_matin/dimensionnements.{n}.dispositif.equipes.{n}.repas_charge',
 							'total_repas_midi'=>'*dimensionnements.{n}.dispositif.equipes.{n}.repas_midi/dimensionnements.{n}.dispositif.equipes.{n}.repas_charge',
 							'total_repas_soir'=>'*dimensionnements.{n}.dispositif.equipes.{n}.repas_soir/dimensionnements.{n}.dispositif.equipes.{n}.repas_charge',
-							'total_vehicules'=>'dimensionnements.{n}.dispositif.equipes.{n}.vehicule_type',
+							//'total_vehicules'=>'dimensionnements.{n}.dispositif.equipes.{n}.vehicule_type',
 							'total_lota'=>'dimensionnements.{n}.dispositif.equipes.{n}.lot_a',
 							'total_lotb'=>'dimensionnements.{n}.dispositif.equipes.{n}.lot_b',
 							'total_lotc'=>'dimensionnements.{n}.dispositif.equipes.{n}.lot_c',
@@ -156,8 +156,8 @@ class DemandesController extends AppController {
 		if(! $demande->id ){
 			return $this->redirect(['action'=>'index']);
 		}
+        Log::write('debug', 'DemandesController - demandes = '.$demande);
 
-		$demande = $this->ArraySum->somme($demande);
 
 		if($demande->config_etat->ordre > 4 && $demande->config_etat->ordre != 10){
 			$this->set('readonly', true);
@@ -674,7 +674,7 @@ class DemandesController extends AppController {
 			'from' => [$demande->gestionnaire_mail => 'Protection Civile - '.$demande->gestionnaire_nom],
 			'to' => [
 					$demande->organisateur->mail => $demande->organisateur->representant,
-					$demande->organisateur->tresorier_mail => $demande->organisateur->tresorier,
+					//$demande->organisateur->tresorier_mail => $demande->organisateur->tresorier,
 					$demande->gestionnaire_mail => 'Protection Civile - '.$demande->gestionnaire_nom,
 					$demande->antenne->tresorier_mail => 'Protection Civile - '.$demande->antenne->tresorier_nom
 			],
@@ -728,7 +728,7 @@ class DemandesController extends AppController {
 			'from' => [$demande->gestionnaire_mail => 'Protection Civile - '.$demande->gestionnaire_nom],
 			'to' => [
 					$demande->organisateur->mail => $demande->organisateur->representant,
-					$demande->organisateur->tresorier_mail => $demande->organisateur->tresorier,
+					//$demande->organisateur->tresorier_mail => $demande->organisateur->tresorier,
 					$demande->gestionnaire_mail => $demande->gestionnaire_nom
 			],
 			'attachements' => [
@@ -802,7 +802,7 @@ class DemandesController extends AppController {
 			'from' => [$demande->gestionnaire_mail => 'Protection Civile - '.$demande->gestionnaire_nom],
 			'to' => [
 					$demande->organisateur->mail => $demande->organisateur->representant,
-					$demande->organisateur->tresorier_mail => $demande->organisateur->tresorier,
+					//$demande->organisateur->tresorier_mail => $demande->organisateur->tresorier,
 					$demande->gestionnaire_mail => 'Protection Civile - '.$demande->gestionnaire_nom,
 					$demande->antenne->tresorier_mail => 'Protection Civile - '.$demande->antenne->tresorier_nom
 			],

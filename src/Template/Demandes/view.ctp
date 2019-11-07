@@ -120,7 +120,44 @@
 		if(isset($dimensionnements->dispositif)){
             echo '<b>'.h('Composition du dispositif :').'</b><br/>';
             echo '<small>';
-            echo h($dimensionnements->dispositif->personnels_total).' équipiers sont prévus<br/>';
+            echo h($dimensionnements->dispositif->nb_personnels_total).' équipiers sont prévus : <br/>';
+
+            echo '<ul>';
+            if($dimensionnements->dispositif->nb_chef_equipe > 0){
+                echo '<li>'.$dimensionnements->dispositif->nb_chef_equipe.' chefs d\'équipe</i></li>';
+            }
+
+            if($dimensionnements->dispositif->nb_pse1 > 0){
+                 echo '<li>'.$dimensionnements->dispositif->nb_pse1.' PSE1</i></li>';
+            }
+
+            if($dimensionnements->dispositif->nb_pse2 > 0){
+                echo '<li>'.$dimensionnements->dispositif->nb_pse2.' PSE2</i></li>';
+            }
+
+             if($dimensionnements->dispositif->nb_lat > 0){
+                  echo '<li>'.$dimensionnements->dispositif->nb_lat.' LAT</i></li>';
+             }
+
+            if($dimensionnements->dispositif->nb_medecin > 0){
+                echo '<li>'.$dimensionnements->dispositif->nb_medecin.' médecin(s)</i></li>';
+            }
+
+
+             if($dimensionnements->dispositif->nb_infirmier > 0){
+                  echo '<li>'.$dimensionnements->dispositif->nb_infirmier.' infirmier(s)</i></li>';
+             }
+
+            if($dimensionnements->dispositif->nb_cadre_operationnel > 0){
+                echo '<li>'.$dimensionnements->dispositif->nb_cadre_operationnel.' cadre(s) opérationnel(s)</i></li>';
+            }
+
+            if($dimensionnements->dispositif->nb_stagiaire > 0){
+                echo '<li>'.$dimensionnements->dispositif->nb_stagiaire.' stagiaire(s)</i></li>';
+            }
+
+            echo '</ul>';
+
             if(count($dimensionnements->dispositif->equipes)>0){
                 echo '<br/>';
                 echo count($dimensionnements->dispositif->equipes).' équipes sont prévues<br/>';
@@ -150,33 +187,6 @@
 		echo '</table>';
 		endforeach;
 		echo $this->Panel->end();//Fin panel Déclaration(s) et dispositif(s)
-
-        /* Panel Tarif */
-		echo $this->Panel->create('i:plus Tarif', ['type' => 'primary']);
-		    echo '<h4>Véhicules</h4>'.$demande->somme_facturee;
-
-		    echo '</br>';
-		    echo 'Matériel :';
-		    echo '<table><tr><td></td></tr></table>';
-		    echo '</br>';
-		    echo 'Personnel :';
-		    echo '<table cellspacing="5" style="width:100%;"><tr><th>Compétence</th><th>Tarif (sur une base de 8h)</th><th>Nombre</th><th>Total</th></tr>
-                <tr><td>Chef d\'équipe</td><td></td><td></td><td></td></tr>
-                <tr><td>PSE2</td><td></td><td></td><td></td></tr>
-                <tr><td>PSE1</td><td></td><td></td><td></td></tr>
-                <tr><td>LAT</td><td></td><td></td><td></td></tr>
-                <tr><td>Stagiaire</td><td></td><td></td><td></td></tr>
-                <tr><td>Chef d\'équipe</td><td></td><td></td><td></td></tr>
-                <tr><td>Chef d\'équipe</td><td></td><td></td><td></td></tr>
-		    </table>';
-		    echo '</br>';
-		    echo 'Divers :';
-		    echo '<table><tr><td></td></tr></table>';
-		    echo '</br>';
-		    echo 'Frais kilométriques :';
-		    echo '<table><tr><td></td></tr></table>';
-		echo $this->Panel->end();
-
 	?>
 	</div>
 	<div class="col-md-3">
@@ -198,10 +208,89 @@
 
 		//if($demande->remise_justification){
 		if(isset($dimensionnements->dispositif->equipes)&&$demande->config_etat->ordre<20){
-		echo $this->Panel->create('i:euro Facturation : '.$demande->total_remise.' €', ['type' => 'danger']);
-		echo $this->Form->create($demande, ['url' => ['action' => 'remise',$demande->id]]);
-		echo $this->Form->control('pourcentage', ['readonly'=>$readonly,'class' => 'form-control','label'=>false,'placeholder'=>__('Montant de l\'adaptation'),'append'=>'%','help' => __('Applicable au '.$demande->total_cout.' € d\'origine'),'value'=>$pourcent]);
-		echo $this->Form->control('remise_justification', ['readonly'=>$readonly,'type'=>'textarea','rows'=>2,'class' => 'form-control','label'=>false,'placeholder'=>__('Justification de l\'adaptation'),'help' => __('Justification de l\'adaptation'),'value'=>$demande->remise_justification]);
+		echo $this->Panel->create('i:euro Facturation : '.$dimensionnements->dispositif->cout_total_remise.' €', ['type' => 'danger']);
+		 echo '<table class="vertical-table table table-striped">';
+            echo '<tr>';
+                echo '<th scope="row">';
+                    echo 'Coût des véhicules';
+                echo '</th>';
+                echo '<td>';
+                    echo $dimensionnements->dispositif->cout_vehicules.'€';
+                echo '</td>';
+            echo '</tr>';
+            echo '<tr>';
+                echo '<th scope="row">';
+                    echo 'Coût du matériel';
+                echo '</th>';
+                echo '<td>';
+                    echo $dimensionnements->dispositif->cout_materiel.'€';
+                echo '</td>';
+            echo '</tr>';
+            echo '<tr>';
+                echo '<th scope="row">';
+                    echo 'Coût du personnel';
+                echo '</th>';
+                echo '<td>';
+                    echo $dimensionnements->dispositif->cout_personnel.'€';
+                echo '</td>';
+            echo '</tr>';
+            echo '<tr>';
+                echo '<th scope="row">';
+                    echo 'Coût kilomètres';
+                echo '</th>';
+                echo '<td>';
+                    echo $dimensionnements->dispositif->cout_kilometres.'€';
+                echo '</td>';
+            echo '</tr>';
+            echo '<tr>';
+                echo '<th scope="row">';
+                    echo 'Coût tentes';
+                echo '</th>';
+                echo '<td>';
+                    echo $dimensionnements->dispositif->cout_hebergement.'€';
+                echo '</td>';
+            echo '</tr>';
+            echo '<tr>';
+                echo '<th scope="row">';
+                    echo 'Coût repas';
+                echo '</th>';
+                echo '<td>';
+                    echo $dimensionnements->dispositif->cout_repas.'€';
+                echo '</td>';
+            echo '</tr>';
+            echo '<tr>';
+                echo '<th scope="row">';
+                    echo 'Coût divers';
+                echo '</th>';
+                echo '<td>';
+                    echo $dimensionnements->dispositif->cout_divers.'€';
+                echo '</td>';
+            echo '</tr>';
+            echo '<tr>';
+                echo '<th scope="row">';
+                    echo 'Coût total';
+                echo '</th>';
+                echo '<td>';
+                    echo $dimensionnements->dispositif->cout_total.'€';
+                echo '</td>';
+            echo '</tr>';
+            echo '<tr>';
+                echo '<th scope="row">';
+                    echo 'Remise (en %)';
+                echo '</th>';
+                echo '<td>';
+                   echo $dimensionnements->dispositif->remise.'%';
+                echo '</td>';
+            echo '</tr>';
+            echo '<tr>';
+                echo '<th scope="row">';
+                    echo 'COUT TOTAL (après remise)';
+                echo '</th>';
+                echo '<td>';
+                    echo $dimensionnements->dispositif->cout_total_remise.'€';
+                echo '</td>';
+            echo '</tr>';
+        echo '</table>';
 		if(!$readonly) {
 			echo $this->Form->button(__('Adapter la tarification'),['class' => 'btn btn-xs btn-danger']);
 		}

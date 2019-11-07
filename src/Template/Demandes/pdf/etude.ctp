@@ -32,10 +32,6 @@
                 <b>Représenté par :</b><br />
                 <?= h($demande->organisateur->representant_nom) ?> <?= h($demande->organisateur->representant_prenom) ?> -  <?= h($demande->organisateur->fonction) ?><br />
                 <br />
-                <b>Personne en charge des modalités financières :</b><br />
-                <?= h($demande->organisateur->tresorier_nom) ?> <?= h($demande->organisateur->tresorier_prenom) ?><br/>
-                <?= h($demande->organisateur->tresorier_telephone) ?><br />
-                <?= h($demande->organisateur->tresorier_mail) ?><br />
             </td>
         </tr>
     </thead>

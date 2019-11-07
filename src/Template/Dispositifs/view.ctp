@@ -57,20 +57,8 @@
 			<td><?= $this->Number->format($dispositif->personnels_public) ?></td>
 		</tr>
 		<tr>
-			<th><?= __('Organisation Public') ?></th>
-			<td><?= $this->Text->autoParagraph(h($dispositif->organisation_public)); ?></td>
-		</tr>
-		<tr>
 			<th><?= __('Personnels Acteurs') ?></th>
 			<td><?= $this->Number->format($dispositif->personnels_acteurs) ?></td>
-		</tr>
-		<tr>
-			<th><?= __('Organisation Acteurs') ?></th>
-			<td><?= $this->Text->autoParagraph(h($dispositif->organisation_acteurs)); ?></td>
-		</tr>
-		<tr>
-			<th><?= __('Personnels Total') ?></th>
-			<td><?= $this->Number->format($dispositif->personnels_total) ?></td>
 		</tr>
 		<tr>
 			<th><?= __('Organisation Poste') ?></th>
@@ -112,7 +100,7 @@
 			<th><?= __('Remise') ?></th>
 			<td><?= $this->Number->format($dispositif->remise) ?></td>
 		</tr>
-	
+
 	</table>
 <div class="related">
 	<h3>
@@ -139,9 +127,6 @@
 			<tr>
 				<td><?= h($equipes->indicatif) ?></td>
 				<td><?= h($equipes->effectif) ?></td>
-				<td><?= h($equipes->vehicule_type) ?></td>
-				<td><?= h($equipes->vehicules_km) ?></td>
-				<td><?= h($equipes->vehicule_trajets) ?></td>
 				<td><?= h($equipes->lot_a) ?></td>
 				<td><?= h($equipes->lot_b) ?></td>
 				<td><?= h($equipes->lot_c) ?></td>

@@ -29,22 +29,6 @@
 				</td>
 			</tr>
 			<tr>
-				<td>
-					<center>Organisation du dispositif public :</center>
-				</td>
-				<td>
-					<center>Organisation du dispositif acteurs :</center>
-				</td>
-			</tr>
-			<tr>
-				<td style="width:50%;">
-					<?= nl2br($dimensionnements->dispositif->organisation_public) ?>
-				</td>
-				<td>
-					<?= nl2br($dimensionnements->dispositif->organisation_acteurs) ?>
-				</td>
-			</tr>
-			<tr>
 				<td colspan="2">
 					<center>Organisation globale :</center>
 				</td>
@@ -72,7 +56,6 @@
 			<tr>
 				<td><?= __('Indicatif') ?></td>
 				<td><?= __('Equipier') ?></td>
-				<td><?= __('Véhicule') ?></td>
 				<td><?= __('Lot A') ?></td>
 				<td><?= __('Lot B') ?></td>
 				<td><?= __('Lot C') ?></td>
@@ -89,9 +72,6 @@
 				</td>
 				<td style="width:1%;">
 					<?= h($equipe->effectif) ?>
-				</td>
-				<td>
-					<?= h($equipe->vehicule_type) ?>
 				</td>
 				<td style="width:1%;">
 					<?= h($equipe->lot_a) ?>

@@ -135,20 +135,31 @@ class Demande extends Entity
 		}
     }
 	protected function _getSommeFacturee()
-    {
+    {/*
         Log::write('debug','getSommeFacturee');
 		if(isset($this->_properties['dimensionnements'])){
-            $coutPersonnel = Hash::extract($this->_properties['dimensionnements'],'{n}.dispositif->cout_personnel');
+            $coutPersonnel = Hash::extract($this->_properties['dimensionnements'],'{n}.dispositif.cout_personnel');
             $coutPersonnel = array_sum($coutPersonnel);
             Log::write('debug','$coutPersonnel = '.$coutPersonnel);
+
+            $coutKilometres = Hash::extract($this->_properties['dimensionnements'],'{n}.dispositif.cout_kilometres');
+            $coutKilometres = array_sum($coutKilometres);
+            Log::write('debug','Demande - $coutKilometres = '.$coutKilometres);
+
+            //Le coût de chaque équipe comprend le coût des véhicules et du matériel.
+            $coutEquipes = Hash::extract($this->_properties['dimensionnements'],'{n}.dispositif.equipes.{n}.cout_remise');
+            $coutEquipes = array_sum($coutEquipes);
 			//$somme = Hash::extract($this->_properties['dimensionnements'],'{n}.dispositif.equipes.{n}.cout_remise');
 			//$somme = array_sum($somme);
 
              //TODO : Ajouter les autres couts (véhicules + matériels + ...)
-			$somme = $coutPersonnel;
+			$somme = $coutPersonnel + $coutKilometres;
+            Log::write('debug','Demande - Somme total = '.$somme);
+
 			return $somme;
 		} else {
 			return 0;
-		}
+		}*/
+		return 1664.51;
     }
 }

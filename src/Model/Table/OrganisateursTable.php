@@ -36,7 +36,7 @@ class OrganisateursTable extends Table
         $this->setTable('organisateurs');
         $this->setDisplayField('nom');
         $this->setPrimaryKey('id');
-		
+
 		$this->addBehavior('PublishUnique');
 		$this->addBehavior('Listing');
 
@@ -52,7 +52,7 @@ class OrganisateursTable extends Table
         ]);
         return $query;
     }
-    
+
     /**
      * Default validation rules.
      *
@@ -131,30 +131,6 @@ class OrganisateursTable extends Table
             ->maxLength('representant_nom', 255)
 			->requirePresence('representant_nom')
             ->notEmpty('representant_nom');
-
-        $validator
-            ->scalar('tresorier_nom')
-            ->maxLength('tresorier_nom', 255)
-			->requirePresence('tresorier_nom')
-            ->notEmpty('tresorier_nom');
-
-        $validator
-            ->scalar('tresorier_prenom')
-            ->maxLength('tresorier_prenom', 255)
-			->requirePresence('tresorier_prenom')
-            ->notEmpty('tresorier_prenom');
-
-        $validator
-            ->scalar('tresorier_mail')
-            ->maxLength('tresorier_mail', 255)
-			->requirePresence('tresorier_mail')
-            ->notEmpty('tresorier_mail');
-
-        $validator
-            ->scalar('tresorier_telephone')
-            ->maxLength('tresorier_telephone', 255)
-			->requirePresence('tresorier_telephone')
-            ->notEmpty('tresorier_telephone');
 
         $validator
             ->boolean('publish')

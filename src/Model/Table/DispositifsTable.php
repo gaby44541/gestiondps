@@ -106,39 +106,8 @@ class DispositifsTable extends Table
             ->allowEmpty('personnels_public');
 
         $validator
-            ->scalar('organisation_public')
-            ->maxLength('organisation_public', 4294967295)
-			->requirePresence('organisation_public', 'update')
-            ->notEmpty('organisation_public','update');
-			//->requirePresence('organisation_public', 'create')
-
-        $validator
             ->integer('personnels_acteurs')
             ->allowEmpty('personnels_acteurs');
-
-        $validator
-            ->scalar('organisation_acteurs')
-            ->maxLength('organisation_acteurs', 4294967295)
-            ->requirePresence('organisation_acteurs', 'update')
-            ->notEmpty('organisation_acteurs','update');
-
-        $validator
-            ->integer('personnels_total')
-            ->allowEmpty('personnels_total');
-
-        $validator
-            ->scalar('organisation_poste')
-            ->maxLength('organisation_poste', 4294967295)
-			->allowEmpty('organisation_poste');
-            //->requirePresence('organisation_poste', 'update')
-            //->notEmpty('organisation_poste','update');
-
-        $validator
-            ->scalar('organisation_transport')
-            ->maxLength('organisation_transport', 4294967295)
-			->allowEmpty('organisation_transport');
-            //->requirePresence('organisation_transport')
-            //->notEmpty('organisation_transport');
 
         $validator
             ->scalar('consignes_generales')
@@ -210,8 +179,9 @@ class DispositifsTable extends Table
             ->integer('numero_coa')
             ->allowEmpty('numero_coa');
 
-        //Log::write('debug', 'DispositifsTable - validationDefault - fin');
-
+        $validator
+            ->integer('nb_kilometres')
+           ->allowEmpty('nb_kilometres');
 
         return $validator;
     }
@@ -259,7 +229,7 @@ class DispositifsTable extends Table
 
 		$p1 = $this->typepublic($dimension->assis,$dimension->circuit);
 		$e1 = $this->environnement($dimension->superficie,$dimension->distance_maxi);
-		$e2 = $this->typepublic($dimension->pompier_distance,$dimension->hopital_distance);
+		$e2 = $this->typepublic($dimension->pompier_delai,$dimension->hopital_delai);
 
 		$data['config_typepublic_id'] = $this->indice('ConfigTypepublics',$p1);
 		$data['config_environnement_id'] = $this->indice('ConfigEnvironnements',$e1);
@@ -415,18 +385,6 @@ class DispositifsTable extends Table
 			$data['rapport'] = ' ';
 		}
 
-		if (!isset($data['organisation_public'])) {
-			$data['organisation_public'] = 'A définir';
-		}
-
-		if (!isset($data['organisation_acteurs'])) {
-			$data['organisation_acteurs'] = 'A définir';
-		}
-
-		if (!isset($data['organisation_poste'])) {
-			$data['organisation_poste'] = 'A définir';
-		}
-
 		if (!isset($data['consignes_generales'])) {
 			$data['consignes_generales'] = 'A définir';
 		}
@@ -463,7 +421,6 @@ class DispositifsTable extends Table
 			$data['organisation_public'] = 'Aucun dispositif public nécessaire.';
 		}
 
-		//Log::write('debug', $data['personnels_public'] );
 
 		if (!isset($data['personnels_acteurs'])) {
 			if( ! empty( $dimension->acteurs_effectif ) ){
@@ -627,8 +584,8 @@ class DispositifsTable extends Table
 					$preset['config_environnement_id'] = 3;
 				}
 
-				$pompier = (int) $dimensionnement->pompier_distance;
-				$hopital = (int) $dimensionnement->hopital_distance;
+				$pompier = (int) $dimensionnement->pompier_delai;
+				$hopital = (int) $dimensionnement->hopital_delai;
 
 				$pompier = empty($pompier) ? 20 : $pompier;
 				$hopital = empty($hopital) ? 20 : $hopital;

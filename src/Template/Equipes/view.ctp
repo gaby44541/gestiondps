@@ -21,18 +21,6 @@
 			<td><?= $this->Number->format($equipe->effectif) ?></td>
 		</tr>
 		<tr>
-			<th><?= __('Vehicule Type') ?></th>
-			<td><?= h($equipe->vehicule_type) ?></td>
-		</tr>
-		<tr>
-			<th><?= __('Vehicules Km') ?></th>
-			<td><?= $this->Number->format($equipe->vehicules_km) ?></td>
-		</tr>
-		<tr>
-			<th><?= __('Vehicule Trajets') ?></th>
-			<td><?= $this->Number->format($equipe->vehicule_trajets) ?></td>
-		</tr>
-		<tr>
 			<th><?= __('Lot A') ?></th>
 			<td><?= $this->Number->format($equipe->lot_a) ?></td>
 		</tr>

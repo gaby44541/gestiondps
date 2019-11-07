@@ -43,9 +43,9 @@ $this->prepend( 'css' , $this->Html->css('bootstrap-datetimepicker.min',['media'
 		?>
 		<h3><?= __('Véhicules') ?></h3>
 		<?php
-            echo $this->Form->control('vehicule_type', ['class' => 'form-control','help' => __('Exemple : 1 VPSP, 1 4x4, 1 VTP, 2 VL')]);
-            echo $this->Form->control('vehicules_km', ['class' => 'form-control','help' => __('Prévoir les km au plus défavorable (antenne la plus loin)')]);
-            echo $this->Form->control('vehicule_trajets', ['class' => 'form-control','help' => __('Prévoir autant de trajets que de véhicules')]);
+            //echo $this->Form->control('vehicule_type', ['class' => 'form-control','help' => __('Exemple : 1 VPSP, 1 4x4, 1 VTP, 2 VL')]);
+            //echo $this->Form->control('vehicules_km', ['class' => 'form-control','help' => __('Prévoir les km au plus défavorable (antenne la plus loin)')]);
+           // echo $this->Form->control('vehicule_trajets', ['class' => 'form-control','help' => __('Prévoir autant de trajets que de véhicules')]);
 		?>
 		<h3><?= __('Lot de matériel') ?></h3>
 		<?php

@@ -71,7 +71,7 @@ class GestionDemandesComponent extends Component
 					'total_repas_matin'=>'*dimensionnements.{n}.dispositif.equipes.{n}.repas_matin/dimensionnements.{n}.dispositif.equipes.{n}.repas_charge',
 					'total_repas_midi'=>'*dimensionnements.{n}.dispositif.equipes.{n}.repas_midi/dimensionnements.{n}.dispositif.equipes.{n}.repas_charge',
 					'total_repas_soir'=>'*dimensionnements.{n}.dispositif.equipes.{n}.repas_soir/dimensionnements.{n}.dispositif.equipes.{n}.repas_charge',
-					'total_vehicules'=>'dimensionnements.{n}.dispositif.equipes.{n}.vehicule_type',
+					//'total_vehicules'=>'dimensionnements.{n}.dispositif.equipes.{n}.vehicule_type',
 					'total_lota'=>'dimensionnements.{n}.dispositif.equipes.{n}.lot_a',
 					'total_lotb'=>'dimensionnements.{n}.dispositif.equipes.{n}.lot_b',
 					'total_lotc'=>'dimensionnements.{n}.dispositif.equipes.{n}.lot_c',

@@ -22,7 +22,6 @@ use Cake\Log\Log;
  * @property string $recommandation_type
  * @property string $recommandation_poste
  * @property int $personnels_public
- * @property string $organisation_public
  * @property int $personnels_acteurs
  * @property string $organisation_acteurs
  * @property int $personnels_total
@@ -68,12 +67,7 @@ class Dispositif extends Entity
         'recommandation_type' => true,
         'recommandation_poste' => true,
         'personnels_public' => true,
-        'organisation_public' => true,
         'personnels_acteurs' => true,
-        'organisation_acteurs' => true,
-        'personnels_total' => true,
-        'organisation_poste' => true,
-        'organisation_transport' => true,
         'consignes_generales' => true,
         'assiste' => true,
         'leger' => true,
@@ -94,25 +88,99 @@ class Dispositif extends Entity
         'nb_infirmier' => true,
         'nb_cadre_operationnel' => true,
         'nb_stagiaire' => true,
-        'numero_coa' => true
+        'nb_vpsp' => true,
+        'nb_vtu' => true,
+        'nb_vtp' => true,
+        'nb_quad' => true,
+        'lot_a' => true,
+        'lot_b' => true,
+        'lot_c' => true,
+        'nb_repas' => true,
+        'nb_hebergement' => true,
+        'nb_portatifs' => true,
+        'cout_divers' => true,
+        'explication_cout_divers' => true,
+        'remise' => true,
+        'cout_total' => true,
+        'cout_total_remise' => true,
+        'numero_coa' => true,
+        'nb_kilometres' => true
     ];
 
-    protected $_virtual = [
-    	'cout_personnel'
+    public $_virtual = [
+        'nb_personnels_total',
+        'cout_vehicules',
+    	'cout_materiel',
+    	'cout_personnel',
+    	'cout_kilometres',
+    	'cout_hebergement',
+    	'cout_total_divers'
     ];
 
-    public function _getCoutPersonnel(){
-		$parametre = TableRegistry::get('ConfigParametres');
+    /* Nombre de personnel total */
+    public function _getNbPersonnelsTotal(){
+        return $this->nb_chef_equipe + $this->nb_pse2 + $this->nb_pse1 + $this->nb_lat + $this->nb_medecin + $this->nb_infirmier + $this->nb_cadre_operationnel + $this->nb_stagiaire;
+    }
+
+    /*
+        Calcul du coût des véhicules
+     */
+    public function _getCoutVehicules(){
+        $parametre = TableRegistry::get('ConfigParametres');
 		$parametres = $parametre->find('all')->last();
-		/*Coût du personnel sur une base de 8h*/
-		$coutPse1 = $parametres->cout_pse1;
-		$coutPse2 = $parametres->cout_pse2;
-		$coutCeCp = $parametres->cout_ce_cp;
-		$coutLat = $parametres->cout_lat;
-		$coutMedecin = $parametres->cout_medecin;
-		$coutInfirmier = $parametres->cout_infirmier;
-		$coutCadreOperationnel = 0;
-		$coutStagiaire = $parametres->cout_stagiaire;
+		/*Coût d'un véhicule sur un poste*/
+  		$coutVPSP = $parametres->cout_vpsp;
+   		$coutVTU = $parametres->cout_vtu;
+   		$coutVTP = $parametres->cout_vtp;
+   		$coutQuad = $parametres->cout_quad;
+   		/*Nombre de véhicules par catégories*/
+        $nbVPSP = $this->nb_vpsp;
+        $nbVTU = $this->nb_vtu;
+        $nbVTP = $this->nb_vtp;
+        $nbQuad = $this->nb_quad;
+
+        /*Cout total des véhicules pour ce poste*/
+        $coutVehicules = ($coutVPSP * $nbVPSP) + ($coutVTU * $nbVTU) + ($coutVTP * $nbVTP) + ($coutQuad * $nbQuad);
+        Log::write('debug','Dispositif.php - dimensionnement - cout vehicules = '.$coutVehicules);
+
+        return $coutVehicules;
+    }
+
+    /*
+        Calcul du coût du matériel
+    */
+    public function _getCoutMateriel(){
+        $parametre = TableRegistry::get('ConfigParametres');
+        $parametres = $parametre->find('all')->last();
+        /*Coût du matériel sur un poste*/
+        $coutLotA = $parametres->cout_lot_a;
+        $coutLotB = $parametres->cout_lot_b;
+        $coutLotC = $parametres->cout_lot_c;
+        /*Nombre de matériel par catégories*/
+        $nbLotA = $this->lot_a;
+        $nbLotB = $this->lot_b;
+        $nbLotC = $this->lot_c;
+
+        /*Cout total du matériel pour ce poste*/
+        $coutMateriel = ($coutLotA * $nbLotA) + ($coutLotB * $nbLotB) + ($coutLotC * $nbLotC);
+        return $coutMateriel;
+    }
+
+    /*
+        Calcul du coût personnel
+     */
+    public function _getCoutPersonnel(){
+        $parametre = TableRegistry::get('ConfigParametres');
+        $parametres = $parametre->find('all')->last();
+        /*Coût du personnel sur une base de 8h*/
+        $coutPse1 = $parametres->cout_pse1;
+        $coutPse2 = $parametres->cout_pse2;
+        $coutCeCp = $parametres->cout_ce_cp;
+        $coutLat = $parametres->cout_lat;
+        $coutMedecin = $parametres->cout_medecin;
+        $coutInfirmier = $parametres->cout_infirmier;
+        $coutCadreOperationnel = 0;
+        $coutStagiaire = $parametres->cout_stagiaire;
 
         /*Nombre de personnel par compétence*/
         $nbPse1 = $this->nb_pse1;
@@ -124,18 +192,64 @@ class Dispositif extends Entity
         $nbCadreOperationnel = $this->nb_cadre_operationnel;
         $nbStagiaire = $this->nb_stagiaire;
 
-        /**/
-   		$dimensionnementsTable = TableRegistry::get('Dimensionnements');
+        /*Récupération du nombre total d'heures*/
+        $dimensionnementsTable = TableRegistry::get('Dimensionnements');
         $dimensionnement = $dimensionnementsTable->findById($this->dimensionnement_id)->first();
+        $nbHeures = $dimensionnement->nb_heures;
 
         /*Cout du personnel sur une base de 8h*/
         $coutPersonnel = ($coutPse1 * $nbPse1) + ($coutPse2 * $nbPse2) + ($coutCeCp * $nbChefEquipe) + ($coutLat * $nbLat) + ($coutMedecin * $nbMedecin) + ($coutInfirmier * $nbInfirmier) + ($coutCadreOperationnel * $nbCadreOperationnel) + ($coutStagiaire * $nbStagiaire);
-        Log::write('debug','Dispositif.php - coutPersonnel = '.$coutPersonnel);
-        $nbHeures = $dimensionnement->nb_heures;
-        Log::write('debug','Dispositif.php - dimensionnement - nb heures = '.$nbHeures);
 
         $coutPersonnel = $coutPersonnel * $nbHeures / 8;
-        Log::write('debug','Dispositif.php - coutPersonnel(2) = '.$coutPersonnel);
         return $coutPersonnel;
+    }
+
+    /*
+        Calcul du coût kilométriques
+     */
+    public function _getCoutKilometres(){
+        $parametre = TableRegistry::get('ConfigParametres');
+        $parametres = $parametre->find('all')->last();
+        /*Coût d'un kilometre*/
+        $coutKilometre = $parametres->cout_kilometres;
+        $coutTotalKilometres = $coutKilometre * $this->nb_kilometres;
+        return $coutTotalKilometres;
+    }
+
+    /*
+        Cout hebergement (tentes)
+    */
+    public function _getCoutHebergement(){
+        $parametre = TableRegistry::get('ConfigParametres');
+        $parametres = $parametre->find('all')->last();
+        /*Coût unitaire d'une tente*/
+        $coutTente = $parametres->cout_hebergement;
+
+        return $coutTente * $this->nb_hebergement;
+    }
+
+    /*
+        Cout repas
+    */
+    public function _getCoutRepas(){
+        $parametre = TableRegistry::get('ConfigParametres');
+        $parametres = $parametre->find('all')->last();
+        /*Coût unitaire d'un repas*/
+        $coutTente = $parametres->cout_repas;
+
+        return $coutTente * $this->nb_repas;
+    }
+
+
+    /*
+        Cout portatifs et licences
+    */
+    public function _getCoutPortatifs(){
+        $parametre = TableRegistry::get('ConfigParametres');
+        $parametres = $parametre->find('all')->last();
+        /*Coût unitaire d'un portatif + licence*/
+        $coutPortatifs = $parametres->cout_portatifs;
+
+        return $coutPortatifs * $this->nb_portatifs;
     }
 }

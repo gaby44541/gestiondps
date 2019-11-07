@@ -10,9 +10,6 @@
         	            <th><?= __('Dispositif Id') ?></th>
         	            <th><?= __('Indicatif') ?></th>
         	            <th><?= __('Effectif') ?></th>
-        	            <th><?= __('Vehicule Type') ?></th>
-        	            <th><?= __('Vehicules Km') ?></th>
-        	            <th><?= __('Vehicule Trajets') ?></th>
         	            <th class="actions"><?= __('Actions') ?></th>
 	        </tr>
 	    </thead>
@@ -22,9 +19,6 @@
         	            <td><?= $equipe->has('dispositif') ? $this->Html->link($equipe->dispositif->title, ['controller' => 'Dispositifs', 'action' => 'view', $equipe->dispositif->id]) : '' ?></td>
         	            <td><?= h($equipe->indicatif) ?></td>
         	            <td><?= $this->Number->format($equipe->effectif) ?></td>
-        	            <td><?= h($equipe->vehicule_type) ?></td>
-        	            <td><?= $this->Number->format($equipe->vehicules_km) ?></td>
-        	            <td><?= $this->Number->format($equipe->vehicule_trajets) ?></td>
 					<?= $this->element('actions',['controller'=>'equipes','action_id'=>$equipe->id]) ?>
 	        </tr>
 	        <?php endforeach; ?>

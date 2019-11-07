@@ -79,7 +79,7 @@
 			<th><?= __('Tresorier Telephone') ?></th>
 			<td><?= h($organisateur->tresorier_telephone) ?></td>
 		</tr>
-	
+
 	</table>
 <div class="related">
 	<h3>

@@ -58,7 +58,7 @@ $this->prepend( 'css' , $this->Html->css('bootstrap-datetimepicker.min',['media'
 			echo __('Le contact doit être présent sur la manifestation et à disposition du chef de dispositif en cas de besoin. Il devra être présent pour l\'ouverture du poste ainsi que pour la fermeture pour signer les documents correspondants.');
 			echo $this->Panel->end();
 
-            echo $this->Form->control('contact_present', ['class' => 'form-control','help' => __('')]);
+            echo $this->Form->control('contact_present', ['label'=>'Nom et prénom du contact présent sur place','class' => 'form-control','help' => __('')]);
 			echo $this->Form->control('contact_portable', ['class' => 'form-control','help' => __('')]);
             echo $this->Form->control('contact_fonction', ['class' => 'form-control','help' => __('')]);
             echo $this->Form->control('contact_telephone', ['class' => 'form-control','help' => __('')]);
@@ -88,7 +88,7 @@ $this->prepend( 'css' , $this->Html->css('bootstrap-datetimepicker.min',['media'
 		?>
 		<h3><?= __('Configuration') ?></h3>
 		<?php
-            echo $this->Form->control('circuit', ['class' => 'form-control','data-toggle'=>'toggle','data-on'=>'Oui','data-off'=>'Non','label'=>false,'help' => __('')]);
+            echo $this->Form->control('circuit', ['class' => 'form-control','data-toggle'=>'toggle','data-on'=>'Oui','data-off'=>'Non','label'=>'Circuit','help' => __('')]);
             echo $this->Form->control('ouvert', ['class' => 'form-control','data-toggle'=>'toggle','data-on'=>'Circuit ouvert','data-off'=>'Circuit fermé','label'=>false,'help' => __('')]);
             echo $this->Form->control('superficie', ['class' => 'form-control','help' => __(''),'append'=>'hectares']);
             echo $this->Form->control('distance_maxi', ['class' => 'form-control','append'=>'mètres','help' => __('Entre les points les plus éloignés de la manifestation')]);
@@ -99,9 +99,9 @@ $this->prepend( 'css' , $this->Html->css('bootstrap-datetimepicker.min',['media'
 		<h3><?= __('Proximité des secours publics') ?></h3>
 		<?php
             echo $this->Form->control('pompier', ['class' => 'form-control','help' => __('Caserne la plus proche')]);
-            echo $this->Form->control('pompier_distance', ['class' => 'form-control','append'=>'km','help' => __('')]);
+            echo $this->Form->control('pompier_delai', ['class' => 'form-control','append'=>'min','help' => __('')]);
 			echo $this->Form->control('hopital', ['class' => 'form-control','help' => __('Hôpital avec des urgences le plus proche')]);
-            echo $this->Form->control('hopital_distance', ['class' => 'form-control','append'=>'km','help' => __('')]);
+            echo $this->Form->control('hopital_delai', ['class' => 'form-control','append'=>'min','help' => __('')]);
 		?>
 		<h3><?= __('Secours publics présents') ?></h3>
 		<?php

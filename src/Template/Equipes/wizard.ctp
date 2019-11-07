@@ -1,10 +1,6 @@
 <div class="equipes wizard content">
 	<h1>
 		<?= __('Equipes') ?>
-		<?= $this->element('dropdown',[	'controller'=>'equipes',
-										'label' => $this->Html->icon('plus').'&nbsp;'.__('Ajouter une équipe sur un dispositif').'&nbsp;',
-										'option'=>'add',
-										'actions'=>$dispositifs]) ?>
 		<?= $this->element('buttons',[	'controller'=>'demandes',
 									'text'=>true,
 									'space'=>' ',
@@ -14,8 +10,8 @@
 									'merge'=>[
 												'divers'=>[
 															'url'  =>['controller'=>'equipes','action'=>'generate',$demande_id,0],
-															'attr' =>['class'=>'btn btn-inverse btn-default btn-sm','title'=>__('Crée toutes les équipes par défaut en une seule action'),'data-toggle'=>'tooltip','escape'=>false],
-															'label'=>['icon'=>'flash','text'=>__('Création rapide de toutes les équipes')]
+															'attr' =>['class'=>'btn btn-inverse btn-default btn-sm','title'=>__('Créé toutes les équipes par défaut en une seule action'),'data-toggle'=>'tooltip','escape'=>false],
+															'label'=>['icon'=>'plus','text'=>__('Création rapide de toutes les équipes')]
 														]
 												]
 									]); ?>
@@ -34,24 +30,11 @@
 												]
 									]); ?>
 	</h1>
-	
-	<?php
-/*	
-		$this->ProgressGantt->setConfig('datas.conditions',['where'=>['Dimensionnements.demande_id'=>$demande_id],
-															'contain' => ['Dispositifs.Dimensionnements'],
-															'order'=>['dispositif_id'=>'asc','horaires_convocation'=>'asc']]);
-		$this->ProgressGantt->setConfig('limits',0);
-		
-		$this->ProgressGantt->getLimits(['demande_id'=>$demande_id]);
-		
-		$this->ProgressGantt->build(); 
-*/
-	?>
 
-	<div class="container-fluid" style="background-image:	linear-gradient(transparent 0px, rgba(200,200,180,0.5) 1px, transparent 1px),  
-															linear-gradient(90deg,transparent 0px,rgba(220,220,200,.5) 1px,transparent 1px),  
-															linear-gradient(90deg,transparent 0px,black 1px,transparent 1px),  
-															linear-gradient(90deg,transparent 0px,grey 1px,transparent 1px); 
+	<div class="container-fluid" style="background-image:	linear-gradient(transparent 0px, rgba(200,200,180,0.5) 1px, transparent 1px),
+															linear-gradient(90deg,transparent 0px,rgba(220,220,200,.5) 1px,transparent 1px),
+															linear-gradient(90deg,transparent 0px,black 1px,transparent 1px),
+															linear-gradient(90deg,transparent 0px,grey 1px,transparent 1px);
 															background-size: 100% 28px, <?= $strtotime['heure'] ?>% 100%, <?= $strtotime['day'] ?>% 100%, <?= $strtotime['6h'] ?>% 100%;">
 		<div class="row" style="height: 28px; background-color:white;">
 			<center>1 graduation = 1h, traits moyennements foncés = 6h, traits foncés = 1 journée</center>
@@ -73,9 +56,9 @@
 			</div>
 			<div style="height: 26px; width:<?= $equipe->pourcent_retour ?>%; float:left; background-color:rgb(3, 60, 115);"  data-toggle="tooltip" data-placement="top" title="<?= $equipe->horaires_fin ?>">&nbsp;</div>
 			<div style="height: 26px; width:<?= $equipe->pourcent_reste ?>%; float:left; background-color:transparent;">&nbsp;
-			<?php 
+			<?php
 				$return = [];
-				
+
 				$return[] = ['li'=>'header','icon'=>'user','label'=>$equipe->effectif.' personnel(s)' ];
 				$return[] = ['li'=>'header','icon'=>'map-marker','label'=>$equipe->position];
 				$return[] = ['li'=>'header','icon'=>'time','label'=>$equipe->duree.' heure(s)' ];
@@ -86,10 +69,10 @@
 				$return[] = ['li'=>'divider' ];
 				$return[] = ['li'=>'header','icon'=>'calendar','label'=>$equipe->horaires_convocation.' (convocation)' ];
 				$return[] = ['li'=>'header','icon'=>'calendar','label'=>$equipe->horaires_retour.' (retour caserne)' ];
-				
+
 				echo $this->element('drop',['align'=>'dropdown-menu-right','size'=>'btn-group-xs','label'=>false,'icon'=>'cog','actions' => $return]);
 			?>
-			</div>			
+			</div>
 		</div>
 		<?php endforeach; ?>
 	</div>

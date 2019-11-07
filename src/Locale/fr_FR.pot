@@ -207,7 +207,7 @@ msgid "The equipe could not be deleted. Please, try again."
 msgstr ""
 
 #: Controller/OrganisateursController.php:63;87
-msgid "The organisateur has been saved."
+msgid "L\'organisateur a été sauvegardé."
 msgstr ""
 
 #: Controller/OrganisateursController.php:67;91
