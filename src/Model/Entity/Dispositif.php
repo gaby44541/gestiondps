@@ -109,17 +109,25 @@ class Dispositif extends Entity
 
     public $_virtual = [
         'nb_personnels_total',
+        'nb_is_total',
         'cout_vehicules',
     	'cout_materiel',
     	'cout_personnel',
     	'cout_kilometres',
     	'cout_hebergement',
-    	'cout_total_divers'
+    	'cout_total_divers',
+    	'param_frais_gestion'
     ];
 
     /* Nombre de personnel total */
     public function _getNbPersonnelsTotal(){
         return $this->nb_chef_equipe + $this->nb_pse2 + $this->nb_pse1 + $this->nb_lat + $this->nb_medecin + $this->nb_infirmier + $this->nb_cadre_operationnel + $this->nb_stagiaire;
+    }
+
+    /* Nombre de secouristes total.
+       Permet de générer les équipes modulo 4. (sans les stagiaires, médecins, ...)*/
+    public function _getNbIsTotal(){
+        return $this->nb_chef_equipe + $this->nb_pse2 + $this->nb_pse1;
     }
 
     /*
@@ -141,7 +149,6 @@ class Dispositif extends Entity
 
         /*Cout total des véhicules pour ce poste*/
         $coutVehicules = ($coutVPSP * $nbVPSP) + ($coutVTU * $nbVTU) + ($coutVTP * $nbVTP) + ($coutQuad * $nbQuad);
-        Log::write('debug','Dispositif.php - dimensionnement - cout vehicules = '.$coutVehicules);
 
         return $coutVehicules;
     }
@@ -248,8 +255,17 @@ class Dispositif extends Entity
         $parametre = TableRegistry::get('ConfigParametres');
         $parametres = $parametre->find('all')->last();
         /*Coût unitaire d'un portatif + licence*/
-        $coutPortatifs = $parametres->cout_portatifs;
+        $coutPortatifs = $parametres->cout_portatif;
 
         return $coutPortatifs * $this->nb_portatifs;
+    }
+
+    public function _getParamFraisGestion(){
+        $parametre = TableRegistry::get('ConfigParametres');
+        $parametres = $parametre->find('all')->last();
+        /*Frais de gestion en %*/
+        $fraisGestion = $parametres->frais_gestion;
+
+        return $fraisGestion;
     }
 }

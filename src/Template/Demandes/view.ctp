@@ -124,7 +124,7 @@
 
             echo '<ul>';
             if($dimensionnements->dispositif->nb_chef_equipe > 0){
-                echo '<li>'.$dimensionnements->dispositif->nb_chef_equipe.' chefs d\'équipe</i></li>';
+                echo '<li>'.$dimensionnements->dispositif->nb_chef_equipe.' chef(s) d\'équipe</i></li>';
             }
 
             if($dimensionnements->dispositif->nb_pse1 > 0){

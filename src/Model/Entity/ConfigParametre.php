@@ -42,6 +42,7 @@ class ConfigParametre extends Entity
         'cout_ce_cp' => true,
         'cout_stagiaire' => true,
         'cout_hebergement' => true,
-        'cout_portatif' => true
+        'cout_portatif' => true,
+        'frais_gestion' => true
     ];
 }

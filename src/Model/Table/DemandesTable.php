@@ -338,7 +338,7 @@ class DemandesTable extends Table
 								}
 							}
 
-							if($exists < $dispositif['personnels_total']){
+							if($exists < $dispositif['nb_personnels_total']){
 								if(!in_array('equipes.incompletes',$errors)){
 									$this->modifyEtat($id,3);
 									$errors[] = 'equipes.incompletes';

@@ -3,6 +3,8 @@ namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
 use Cake\Routing\Router;
+use Cake\Log\Log;
+
 
 /**
  * Dimensionnement Entity
@@ -218,7 +220,8 @@ class Dimensionnement extends Entity
     protected function _getNbHeures(){
         $debut = $this->_properties['horaires_debut'];
         $fin = $this->_properties['horaires_fin'];
-        $hours = $fin->diff($debut)->h + $fin->diff($debut)->days*24;
+        $diff = $fin->diff($debut);
+        $hours = round($diff->s / 3600 + $diff->i / 60 + $diff->h + $diff->days * 24, 2);
         return $hours;
     }
 

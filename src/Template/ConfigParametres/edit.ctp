@@ -66,7 +66,8 @@ $this->prepend( 'css' , $this->Html->css('bootstrap-datetimepicker.min',['media'
             echo $this->Form->control('cout_hebergement', ['class' => 'form-control','help' => __('')]);
             echo $this->Form->control('cout_kilometres', ['class' => 'form-control','help' => __('Prix d\'1 kilomètre')]);
             echo $this->Form->control('cout_repas', ['class' => 'form-control','help' => __('')]);
-            echo $this->Form->control('cout_portatif', ['class' => 'form-control','help' => __('Licence inclue'),'step'=>'0.01', min=>'0','lang'=>'en']);
+            echo $this->Form->control('cout_portatif', ['class' => 'form-control','help' => __('Licence inclue'),'step'=>'0.01', 'min'=>'0','lang'=>'en']);
+            echo $this->Form->control('frais_gestion', ['class' => 'form-control','help' => __('en % du prix du DPS'),'min='>'0','lang'=>'en']);
         ?>
         </div>
     </fieldset>

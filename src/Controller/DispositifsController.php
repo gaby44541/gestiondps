@@ -187,7 +187,9 @@ class DispositifsController extends AppController
 		$actions = (int) $this->request->getData('actions');
 
         /*Calcul du coût total*/
-        $dispositif->cout_total = number_format($dispositif->cout_vehicules + $dispositif->cout_materiel + $dispositif->cout_personnel + $dispositif->cout_kilometres + $dispositif->cout_hebergement + $dispositif->cout_repas + $dispositif->cout_divers,2,'.','');
+        $dispositif->cout_total = number_format(($dispositif->cout_vehicules + $dispositif->cout_materiel + $dispositif->cout_personnel + $dispositif->cout_kilometres + $dispositif->cout_hebergement + $dispositif->cout_repas + $dispositif->cout_portatifs + $dispositif->cout_divers),2,'.','');
+        $coutFraisGestion = $dispositif->cout_total*($dispositif->param_frais_gestion/100);
+        $dispositif->cout_total =  number_format($coutFraisGestion + $dispositif->cout_total,2,'.','');
         $coutRemise = number_format($dispositif->cout_total * $dispositif->remise / 100,2,'.','');
         $dispositif->cout_total_remise = number_format($dispositif->cout_total - $coutRemise,2,'.','');
 

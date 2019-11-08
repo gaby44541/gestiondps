@@ -46,14 +46,14 @@ $this->prepend( 'css' , $this->Html->css('bootstrap-datetimepicker.min',['media'
             echo $this->Form->control('ris', ['type'=>'hidden','class' => 'form-control','help' => __('')]);
             echo $this->Form->control('recommandation_type', ['type'=>'hidden','class' => 'form-control','help' => __('')]);
             echo $this->Form->control('recommandation_poste', ['type'=>'hidden','class' => 'form-control','help' => __('')]);
-            echo $this->Form->control('personnels_public', ['class' => 'form-control','help' => __('Le RIS étant de : '.$dispositif->ris.', la recommandation est un dispositif de type '.$dispositif->recommandation_type)]);
+            echo $this->Form->control('personnels_public', ['disabled','class' => 'form-control','help' => __('Le RIS étant de : '.$dispositif->ris.', la recommandation est un dispositif de type '.$dispositif->recommandation_type)]);
 		?>
 		</div>
 		<div class="col-lg-6 col-md-12 columns">
 		<h2><?= __('Devis') ?></h2>
 		<h3><?= __('Personnel') ?></h3>
 		<?php
-            echo $this->Form->control('nb_chef_equipe', ['class' => 'form-control','help' => __(''),'label'=>'Nombre de chefs d\'équipe']);
+            echo $this->Form->control('nb_chef_equipe', ['class' => 'form-control','help' => __(''),'label'=>'Nombre de chef(s) d\'équipe']);
             echo $this->Form->control('nb_pse2', ['class' => 'form-control','help' => __(''),'label'=>'Nombre de PSE2']);
             echo $this->Form->control('nb_pse1', ['class' => 'form-control','help' => __(''),'label'=>'Nombre de PSE1']);
             echo $this->Form->control('nb_lat', ['class' => 'form-control','help' => __(''),'label'=>'Nombre de LAT']);
@@ -143,10 +143,26 @@ $this->prepend( 'css' , $this->Html->css('bootstrap-datetimepicker.min',['media'
                 echo '</tr>';
                 echo '<tr>';
                     echo '<th scope="row">';
+                        echo 'Coût portatifs';
+                    echo '</th>';
+                    echo '<td>';
+                        echo $dispositif->cout_portatifs.'€';
+                    echo '</td>';
+                echo '</tr>';
+                echo '<tr>';
+                    echo '<th scope="row">';
                         echo 'Coût divers';
                     echo '</th>';
                     echo '<td>';
                         echo $dispositif->cout_divers.'€';
+                    echo '</td>';
+                echo '</tr>';
+                echo '<tr>';
+                    echo '<th scope="row">';
+                        echo 'Frais de gestion';
+                    echo '</th>';
+                    echo '<td>';
+                        echo $dispositif->param_frais_gestion.'%';
                     echo '</td>';
                 echo '</tr>';
                 echo '<tr>';

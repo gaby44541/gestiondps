@@ -81,21 +81,6 @@ class EquipesTable extends Table
             ->allowEmpty('effectif')
 			->range('effectif',[1,5],__('Une équipe est composée au minimum de 2 et au maximum de 4 équipiers'));
 
-   /*     $validator
-            ->scalar('vehicule_type')
-            ->maxLength('vehicule_type', 255)
-            ->allowEmpty('vehicule_type');
-
-        $validator
-            ->integer('vehicules_km')
-            ->allowEmpty('vehicules_km')
-			->nonNegativeInteger('vehicules_km');
-
-        $validator
-            ->integer('vehicule_trajets')
-            ->allowEmpty('vehicule_trajets')
-			->nonNegativeInteger('vehicule_trajets');*/
-
         $validator
             ->integer('lot_a')
             ->allowEmpty('lot_a')
@@ -157,49 +142,6 @@ class EquipesTable extends Table
             ->allowEmpty('remise');
 
         $validator
-            ->decimal('cout_personnel')
-            ->allowEmpty('cout_personnel');
-
-        $validator
-            ->decimal('cout_kilometres')
-            ->allowEmpty('cout_kilometres');
-
-        $validator
-            ->decimal('cout_repas')
-            ->allowEmpty('cout_repas');
-
-        $validator
-            ->decimal('cout_remise')
-            ->allowEmpty('cout_remise');
-
-        $validator
-            ->decimal('cout_economie')
-            ->allowEmpty('cout_economie');
-
-        $validator
-            ->decimal('repartition_antenne')
-            ->allowEmpty('repartition_antenne');
-
-        $validator
-            ->decimal('repartition_adpc')
-            ->allowEmpty('repartition_adpc');
-
-        $validator
-            ->integer('repas_matin')
-            ->allowEmpty('repas_matin')
-			->nonNegativeInteger('repas_matin');
-
-        $validator
-            ->integer('repas_midi')
-            ->allowEmpty('repas_midi')
-			->nonNegativeInteger('repas_midi');
-
-        $validator
-            ->integer('repas_soir')
-            ->allowEmpty('repas_soir')
-			->nonNegativeInteger('repas_soir');
-
-        $validator
             ->boolean('repas_charge')
 			->allowEmpty('repas_charge');
             //->requirePresence('repas_charge', 'create')
@@ -257,20 +199,8 @@ class EquipesTable extends Table
 			}
 
 			$data['duree']  = ( $end - $start ) / 3600;
-			// Coût des repas = Nombre total de repas * prix * 0 si pris en charge par l'adpc (ou 1 si pris en charge par l'organisateur)
-			$data['cout_repas']  = ((int) $data['repas_matin'] + (int) $data['repas_midi']  + (int) $data['repas_soir'] ) * $taux['repas'] * (int) $data['repas_charge'];
-			// Coût remise = Coût total après remise
-			$data['cout_remise']  = ( (int) $data['cout_personnel'] + (int) $data['cout_repas'] ) * ( 100 - (int) $data['remise'] ) / 100;
-			// Coût economie = Coût de l'économie grâce à la remise.
-			$data['cout_economie']  = ( (int) $data['cout_personnel'] + (int) $data['cout_repas'] ) * ( (int) $data['remise'] ) / 100;
-			$data['repartition_antenne']  = ( (int) $data['cout_remise'] ) * ( 100 - $taux['repartition'] ) / 100;
-			$data['repartition_adpc']  = ( (int) $data['cout_remise'] ) * $taux['repartition'] / 100;
-			$data['lot_a'] = (int) $data['lot_a'];
-			$data['lot_b'] = (int) $data['lot_b'];
-			$data['lot_c'] = (int) $data['lot_c'];
 			$data['effectif'] = (int) $data['effectif'];
 			$data['position'] = isset($data['position']) ? $data['position'] : 'A l\'adresse indiquée';
-
 		}
 
 		return $data;
@@ -609,6 +539,7 @@ class EquipesTable extends Table
      */
     public function equipes( $equipiers = 0 )
     {
+        Log::write('debug','$equipiers - '.$equipiers);
 		$equipiers = (int) $equipiers;
 
 		if(empty($equipiers)){
@@ -670,37 +601,17 @@ class EquipesTable extends Table
 
 			$indicatif++;
 
-			$publics = $this->equipes($dispositif->personnels_public);
-			$acteurs = $this->equipes($dispositif->personnels_acteurs);
+			$publics = $this->equipes($dispositif->nb_is_total);
+			//$acteurs = $this->equipes($dispositif->personnels_acteurs);
 
 			if(empty($exists)){
 
 				$equipes = 0;
-
 				$equipes = $this->generateBoucle( $publics , $dispositif->id , $equipes , $indicatif , 'Attaché au dispositif dédié au public' , $dates );
-				$equipes = $this->generateBoucle( $acteurs , $dispositif->id , $equipes , $indicatif , 'Attaché au dispositif dédié aux acteurs' , $dates );
+				//$equipes = $this->generateBoucle( $acteurs , $dispositif->id , $equipes , $indicatif , 'Attaché au dispositif dédié aux acteurs' , $dates );
 
 			} else {
-
 				$this->effectifs($dates,$publics,$acteurs,$dispositif,$indicatif);
-
-				//$teams = $teams * (count($publics)+count($acteurs));
-/*
-				$exist = Hash::extract($dispositif,'equipes.{n}.strtotime_place');
-
-
-
-				if($exists < $compteur){
-
-					$ecart = $compteur - $exists;
-*/
-					//$generiques = $this->equipes($ecart);
-
-					//$equipes = $count;
-
-					//$equipes = $this->generateBoucle( $generiques , $dispositif->id , $equipes , $indicatif , '' , $dates );
-
-				//}
 			}
 		}
 
@@ -715,7 +626,8 @@ class EquipesTable extends Table
      */
     public function generateBoucle( $boucles = [] , $id = 0 , $equipes = 0 , $indicatif = '' , $comment = '' , $dates = [] )
     {
-
+        Log::write('debug','generateBoucle - '.$boucles.'|'.$id.'|'.$equipes);
+        print_r($boucles);
 		$dates = (array) $dates;
 
 		if($boucles){

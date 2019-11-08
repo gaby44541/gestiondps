@@ -156,9 +156,6 @@ class DemandesController extends AppController {
 		if(! $demande->id ){
 			return $this->redirect(['action'=>'index']);
 		}
-        Log::write('debug', 'DemandesController - demandes = '.$demande);
-
-
 		if($demande->config_etat->ordre > 4 && $demande->config_etat->ordre != 10){
 			$this->set('readonly', true);
 		} else {
