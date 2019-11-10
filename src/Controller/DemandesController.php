@@ -285,6 +285,24 @@ class DemandesController extends AppController {
             'error' => __('Impossible de passer à l\'étape d\'après pour des raisons techniques.')
         ];
         $this->_traitementSteps($id,4,3,$messages);
+        $demande = $this->Demandes->get($id, [
+            'contain' => ['ConfigEtats', 'Organisateurs', 'Dimensionnements.Dispositifs.Equipes', 'Antennes']
+        ]);
+        Log::write('debug','$demande : '.$demande);
+        Log::write('debug','$demande.organisateur : '.$demande->organisateur);
+		$mail = [
+			'replyTo' => [$demande->gestionnaire_mail => 'Protection Civile - '.$demande->gestionnaire_nom],
+			'from' => [$demande->gestionnaire_mail => 'Protection Civile - '.$demande->gestionnaire_nom],
+			'to' => [
+					$demande->organisateur->mail => $demande->organisateur->representant,
+					$demande->gestionnaire_mail => 'Protection Civile - '.$demande->gestionnaire_nom,
+					$demande->antenne->technique_mail => $demande->antenne->technique_nom
+			],
+			'attachements' => []
+		];
+
+		$this->_traitementMails($mail,$demande,'demande-coa');
+
 
         Log::write('debug', 'Demander COA ');
    		return $this->redirect(['controller' => 'demandes', 'action' => 'view',$id]);
@@ -956,6 +974,7 @@ class DemandesController extends AppController {
 		$bcc[] = 'gabriel.boursier@loire-atlantique.protection-civile.org';
 
 		$email = new Email('default');
+        Log::write('debug','Envoi du mail - $from : '.print_r($from).' - $format : '.print_r($format).' - $to : '.print_r($to).' - $cc : '.print_r($cc).' - $bcc : '.print_r($bcc).' - $attachements : '.print_r($attachements).' - $subject : '.$subject.' - $from : '.print_r($from).' - $replyTo : '.print_r($replyTo).' - $message : '.$message);
 
 		$email->setTransport('smtpGmail')
 			->setFrom($from)
@@ -963,9 +982,11 @@ class DemandesController extends AppController {
 			->setEmailFormat($format)
 			->setTo($to)
 			->setCc($cc)
-			->setBcc($bcc)
-			->setAttachments($attachements)
-			->setSubject($subject)
+			->setBcc($bcc);
+		if(!empty($attachements)){
+		    $email->setAttachments($attachements);
+		}
+		$email->setSubject($subject)
 			->setReadReceipt($from)
 			->setReturnPath($from)
 			->setReplyTo($replyTo)

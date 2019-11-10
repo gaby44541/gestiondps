@@ -63,22 +63,24 @@ class Antenne extends Entity
 		'technique_nom' => true,
 		'technique_mail' => true,
 		'tresorier_nom' => true,
-		'tresorier_mail' => true
+		'tresorier_mail' => true,
+		'chef_secteur_nom' => true,
+		'chef_secteur_mail' => true,
     ];
-	
+
 	protected $_virtual = [
 		'cp_ville',
 		'coordonnees',
 		'bloc_adresse'
 	];
-	
+
 	protected function _getBlocAdresse()
     {
 		$array[] = $this->_properties['antenne'];
 		$array[] = $this->_properties['adresse'];
 		$array[] = $this->_properties['adresse_suite'];
 		$array[] = $this->strcompose($this->_properties['code_postal'].' '.$this->_properties['ville']);
-		
+
         return implode(PHP_EOL,$array).PHP_EOL;
     }
 
@@ -86,7 +88,7 @@ class Antenne extends Entity
     {
         return str_replace(' - ','-',ucwords(strtolower(str_replace('-',' - ',$this->_properties['ville']))));
     }
-	
+
 	protected function _getTelephone()
     {
         return str_replace(' ','',$this->_properties['telephone']);
@@ -98,7 +100,7 @@ class Antenne extends Entity
 	protected function _getFax()
     {
         return str_replace(' ','',$this->_properties['fax']);
-    }	
+    }
     protected function _getCpVille()
     {
         return str_replace(' - ','-',ucwords(strtolower($this->_properties['code_postal'].' '.str_replace('-',' - ',$this->_properties['ville']))));
@@ -109,9 +111,9 @@ class Antenne extends Entity
 		$array[] = $this->_properties['adresse'];
 		$array[] = $this->_properties['adresse_suite'];
 		$array[] = str_replace(' - ','-',ucwords(strtolower($this->_properties['code_postal'].' '.str_replace('-',' - ',$this->_properties['ville']))));
-		
+
         return implode(' ',$array);
-    }	
+    }
     protected function _getTresorierMail()
     {
 		return $this->strmail($this->_properties['tresorier_mail']);
@@ -123,7 +125,7 @@ class Antenne extends Entity
 	// Functions
 	protected function strmail($mail = '')
 	{
-		$mail = strtr( $mail, 
+		$mail = strtr( $mail,
 						'ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ:',
 						'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy-'
 					);

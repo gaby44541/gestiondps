@@ -291,9 +291,6 @@
                 echo '</td>';
             echo '</tr>';
         echo '</table>';
-		if(!$readonly) {
-			echo $this->Form->button(__('Adapter la tarification'),['class' => 'btn btn-xs btn-danger']);
-		}
 		echo $this->Form->end();
 		echo $this->Panel->end();
 		}

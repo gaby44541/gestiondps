@@ -30,9 +30,9 @@ $this->prepend( 'css' , $this->Html->css('bootstrap-datetimepicker.min',['media'
 	?>
     <?= $this->Form->create($antenne, ['horizontal' => true]) ?>
     <fieldset>
-        
+
 		<div class="col-lg-6 col-md-12 columns">
-		<h3><?= __('Coordonnées') ?></h3>        
+		<h3><?= __('Coordonnées') ?></h3>
         <?php
 
             echo $this->Form->control('antenne', ['class' => 'form-control','help' => __('')]);
@@ -43,19 +43,21 @@ $this->prepend( 'css' , $this->Html->css('bootstrap-datetimepicker.min',['media'
             echo $this->Form->control('telephone', ['class' => 'form-control','help' => __('')]);
             echo $this->Form->control('portable', ['class' => 'form-control','help' => __('')]);
             echo $this->Form->control('mail', ['class' => 'form-control','help' => __('')]);
-            echo $this->Form->control('fax', ['class' => 'form-control','help' => __('')]);          
+            echo $this->Form->control('fax', ['class' => 'form-control','help' => __('')]);
 		?>
-		<h3><?= __('Personnes ressources') ?></h3>  
-		<?php      
+		<h3><?= __('Personnes ressources') ?></h3>
+		<?php
 			echo $this->Form->control('technique_nom', ['class' => 'form-control','help' => __('Nom et Prénom')]);
 			echo $this->Form->control('technique_mail', ['class' => 'form-control','help' => __('')]);
 			echo $this->Form->control('tresorier_nom', ['class' => 'form-control','help' => __('Nom et Prénom')]);
 			echo $this->Form->control('tresorier_mail', ['class' => 'form-control','help' => __('')]);
+			echo $this->Form->control('chef_secteur_nom', ['class' => 'form-control','help' => __('Nom et Prénom')]);
+			echo $this->Form->control('chef_secteur_mail', ['class' => 'form-control','help' => __('')]);
 		?>
 		</div>
 		<div class="col-lg-6 col-md-12 columns">
-		<h3><?= __('Finances') ?></h3>  
-		<?php            
+		<h3><?= __('Finances') ?></h3>
+		<?php
 			echo $this->Form->control('rib_etablissemnt', ['class' => 'form-control','help' => __('')]);
 			echo $this->Form->control('rib_guichet', ['class' => 'form-control','help' => __('')]);
             echo $this->Form->control('rib_compte', ['class' => 'form-control','help' => __('')]);
@@ -65,8 +67,8 @@ $this->prepend( 'css' , $this->Html->css('bootstrap-datetimepicker.min',['media'
             echo $this->Form->control('rib_iban', ['class' => 'form-control','help' => __('')]);
             echo $this->Form->control('cheque', ['class' => 'form-control','help' => __('')]);
 		?>
-		<h3><?= __('Activité') ?></h3>  
-		<?php    
+		<h3><?= __('Activité') ?></h3>
+		<?php
             echo $this->Form->control('etat', ['options'=>['ACTIF'=>'Active','INACTIF'=>'Non active'],'class' => 'form-control','help' => __('')]);
             echo $this->Form->control('personnels._ids', ['options' => $personnels]);
         ?>

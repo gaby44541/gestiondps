@@ -207,13 +207,9 @@ class GestionDemandesComponent extends Component
 
 	}
 
-	/**
-     * Add method
-     *
-     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
-     */
-    public function _traitementMails($parametres=[],$demande=[],$type='mail-etude') {
 
+    public function _traitementMails($parametres=[],$demande=[],$type='mail-etude') {
+        Log::write('debug','_traitementMails. $parametres : '.$parametres.',$demande : '.$demande.', $type : '.$type);
 		// Procéder à une vérification ordre corresponds à mail avant ?
 
 		$mails = (array) $this->getConfig('mails');
@@ -264,6 +260,8 @@ class GestionDemandesComponent extends Component
 
 				$email = new Email('default');
 
+                Log::write('debug','Envoi du mail - $from : '.$from.' - $setEmailFormat : '.$setEmailFormat.' - $to : '.$to.' - $cc : '.$cc.' - $bcc : '.$bcc.' - $attachements : '.$attachements.' - $subject : '.$subject.' - $from : '.$from.' - $replyTo : '.$replyTo.' - $message : '.$message);
+
 				$email->setTransport('smtpGmail')
 					->setFrom($from)
 					->setTemplate('default','default')
@@ -277,7 +275,6 @@ class GestionDemandesComponent extends Component
 					->setReturnPath($from)
 					->setReplyTo($replyTo)
 					->send($message);
-
 			}
 		}
 
