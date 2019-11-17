@@ -2,7 +2,7 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Demande $demande
- */ 
+ */
 class xtcpdf extends TCPDF {
 
     //Page header
@@ -241,7 +241,7 @@ $pdf->SetFont('helvetica', '', 10);
 $pdf->MultiCell(30, 0, 'Transports', 0, 'L', 1, 0, '', '', true, 1, false, true, 40, 'T');
 $pdf->SetFont('helvetica', '', 8);
 $pdf->SetTextColor(105);
-$pdf->MultiCell(170, 0, 'Les modalités de transport vers une structure hospitalière sont précisées dans le détails de chaque dimensionnement ci-après. 
+$pdf->MultiCell(170, 0, 'Les modalités de transport vers une structure hospitalière sont précisées dans le détails de chaque dimensionnement ci-après.
 Par défaut nous n\'effectuons aucun transport vers structure hospitalière, sauf cas particulier. Si un transport doit être effectué hors du cadre de la convention, le cadre d\'astreinte doit être immédiatement avisé.
 
 Respectez scrupuleusement les consignes inscrites dans les annexes.
@@ -253,7 +253,7 @@ $pdf->SetFont('helvetica', '', 10);
 $pdf->MultiCell(30, 0, 'A charge de l\'organisateur', 0, 'L', 1, 0, '', '', true, 1, false, true, 40, 'T');
 $pdf->SetFont('helvetica', '', 8);
 $pdf->SetTextColor(105);
-$pdf->MultiCell(170, 0, 'Matin : '.$demande->total_repas_matin.' repas -- Midi : '.$demande->total_repas_midi.' repas (dont 2 sans porc) -- Soir : '.$demande->total_repas_soir.' repas (dont 2 sans porc)
+//$pdf->MultiCell(170, 0, 'Matin : '.$demande->total_repas_matin.' repas -- Midi : '.$demande->total_repas_midi.' repas (dont 2 sans porc) -- Soir : '.$demande->total_repas_soir.' repas (dont 2 sans porc)
 
 En cas de problématique avec les repas, en aviser immédiatement le cadre d\'astreinte ou le chef de dispositif.
 ' , 0, 'J', 1, 1, '', '', true,1, false, true, 40, 'T');

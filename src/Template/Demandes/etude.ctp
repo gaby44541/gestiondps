@@ -194,7 +194,7 @@ $pdf->SetFont('helvetica', '', 10);
 $pdf->MultiCell(30, 0, 'A votre charge', 0, 'L', 1, 0, '', '', true, 1, false, true, 40, 'T');
 $pdf->SetFont('helvetica', '', 8);
 $pdf->SetTextColor(105);
-$pdf->MultiCell(170, 0, 'Matin : '.$demande->total_repas_matin.' repas -- Midi : '.$demande->total_repas_midi.' repas (prévoir 2 sans porc) -- Soir :'.$demande->total_repas_soir.' repas (prévoir 2 sans porc)
+//$pdf->MultiCell(170, 0, 'Matin : '.$demande->total_repas_matin.' repas -- Midi : '.$demande->total_repas_midi.' repas (prévoir 2 sans porc) -- Soir :'.$demande->total_repas_soir.' repas (prévoir 2 sans porc)
 Vous trouverez en annexe le détails, par journée et par équipe, des repas à prévoir. Suite à quelques organisateurs indélicats nous vous informons que toute difficulté rencontrée sur site au sujet des repas entraînera une majoration de la facturation par la suite afin de couvrir les frais supplémentaires engendrés.
 ' , 0, 'J', 1, 1, '', '', true,1, false, true, 40, 'T');
 
@@ -205,7 +205,7 @@ if($demande->total_cout != $demande->total_remise){
 $pdf->MultiCell(40, 0, 'Valeur de la prestation : '.$this->Number->format( $demande->total_cout ) .' €', 0, 'L', 1, 0, '', '', true, 1, false, true, 40, 'T');
 } else {
 $pdf->MultiCell(40, 0, 'Facturation de la prestation : '.$this->Number->format( $demande->total_cout ) .' €', 0, 'L', 1, 0, '', '', true, 1, false, true, 40, 'T');
-	
+
 }
 $pdf->SetFont('helvetica', '', 8);
 $pdf->SetTextColor(105);
@@ -221,8 +221,8 @@ $pdf->SetFont('helvetica', '', 10);
 $pdf->MultiCell(40, 0, 'Facturation de la prestation : '.$this->Number->format( $demande->total_remise ) .' €', 0, 'L', 1, 0, '', '', true, 1, false, true, 40, 'T');
 $pdf->SetFont('helvetica', '', 8);
 $pdf->SetTextColor(105);
-$pdf->MultiCell(160, 0, 'Le dispositif dimensionné vous aurait normalement coûté '. $this->Number->format( $demande->total_cout ).' €, toutefois vous serez facturé de '.$this->Number->format( $demande->total_remise ).' €. Cette adaptation du tarif est entre autre motivée par : 
-'.$demande->remise_justification.PHP_EOL.' 
+$pdf->MultiCell(160, 0, 'Le dispositif dimensionné vous aurait normalement coûté '. $this->Number->format( $demande->total_cout ).' €, toutefois vous serez facturé de '.$this->Number->format( $demande->total_remise ).' €. Cette adaptation du tarif est entre autre motivée par :
+'.$demande->remise_justification.PHP_EOL.'
 ', 0, 'J', 1, 1, '', '', true,1, false, true, 40, 'T');
 }
 $pdf->Cell(0, 0, '', 0, 1, 'C', 0, '', 0);

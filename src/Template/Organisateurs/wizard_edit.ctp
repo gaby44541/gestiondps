@@ -11,7 +11,7 @@ $this->prepend( 'css' , $this->Html->css('bootstrap-datetimepicker.min',['media'
 ?>
 <div class="container-fluid">
 	<h1>
-	<?= __('Modifier les informations de cet organisateurs') ?>
+	<?= __('Modifier les informations de cet organisateur') ?>
 	</h1>
 	<?php
 	$this->Form->setConfig('columns', [

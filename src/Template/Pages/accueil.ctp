@@ -37,7 +37,7 @@
 			<div class="col-md-4">
 			<?php
                 echo $this->Panel->create('i:menu-hamburger 4. Attente de la signature de l\'étude', ['type' => 'warning']);
-				?>
+				?><!--
 				<div id="countdown" class="panel panel-warning">
 					<div class=" panel-heading">
 						<span id="countdown_day" >--</span> jours
@@ -46,7 +46,7 @@
 						<span id="countdown_sec" >--</span> secondes<br/>
 						avant annulation automatique de ces dossiers
 					</div>
-				</div>
+				</div>-->
 				<?php
 				echo $this->element('demandes',['mini'=>6,'maxi'=>6,'type' => 'warning','icon'=>[]]);
 				echo $this->Panel->end();

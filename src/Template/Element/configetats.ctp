@@ -121,7 +121,7 @@ foreach ($dimensionnements->dispositif->equipes as $equipe):
     $pdf->Cell($w[7], 6, $this->Time->format($equipe->horaires_convocation,'dd-MM-yyyy hh:mm'), 0, 0, 'C', $fill);
     $pdf->Cell($w[8], 6, $this->Time->format($equipe->horaires_place,'dd-MM hh:mm'), 0, 0, 'C', $fill);
 	$pdf->Cell($w[9], 6, $this->Time->format($equipe->horaires_fin,'dd-MM hh:mm'), 0, 0, 'C', $fill);
-	$pdf->Cell($w[10], 6, ($equipe->repas_charge * $equipe->repas_matin).' Mat. '.($equipe->repas_charge * $equipe->repas_midi).' Mid. '.($equipe->repas_charge * $equipe->repas_soir).' Soir', 0, 0, 'R', $fill);
+	//$pdf->Cell($w[10], 6, ($equipe->repas_charge * $equipe->repas_matin).' Mat. '.($equipe->repas_charge * $equipe->repas_midi).' Mid. '.($equipe->repas_charge * $equipe->repas_soir).' Soir', 0, 0, 'R', $fill);
     $pdf->Ln();
 	$fill=!$fill;
 endforeach;

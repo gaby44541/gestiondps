@@ -305,7 +305,7 @@ class EquipesTable extends Table
     public function repas($start=0,$end=0,$effectif=0,$data=[])
     {
 
-		$start 	= strtotime($start);
+	/*	$start 	= strtotime($start);
 		$end 	= strtotime($end);
 
 		$debut = (int) date('H',$start);
@@ -340,7 +340,8 @@ class EquipesTable extends Table
 		$data['repas_midi'] = $effectif * $data['repas_midi'];
 		$data['repas_soir'] = $effectif * $data['repas_soir'];
 
-		return $data;
+		return $data;*/
+		return 0;
 
 	}
 

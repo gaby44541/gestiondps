@@ -63,7 +63,6 @@
 				<td><?= __('Convocation') ?></td>
 				<td><?= __('En place') ?></td>
 				<td><?= __('Termine à') ?></td>
-				<td><?= __('Repas à votre charge') ?></td>
 			</tr>
 <?php foreach ($dimensionnements->dispositif->equipes as $equipe): ?>
 			<tr>
@@ -93,11 +92,6 @@
 				</td>
 				<td>
 					<?= $this->Time->format($equipe->horaires_fin,\IntlDateFormatter::SHORT) ?>
-				</td>
-				<td>
-					<?= h($equipe->repas_charge * $equipe->repas_matin) ?> Matin<br/>
-					<?= h($equipe->repas_charge * $equipe->repas_midi) ?> Midi<br/>
-					<?= h($equipe->repas_charge * $equipe->repas_soir) ?> Soir
 				</td>
 			</tr>
 <?php endforeach; ?>

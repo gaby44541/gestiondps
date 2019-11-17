@@ -24,16 +24,6 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\FrozenTime $horaires_retour
  * @property int $duree
  * @property string $remarques
- * @property float $cout_personnel
- * @property float $cout_kilometres
- * @property float $cout_repas
- * @property float $cout_remise
- * @property float $repartition_antenne
- * @property float $repartition_adpc
- * @property int $repas_matin
- * @property int $repas_midi
- * @property int $repas_soir
- * @property bool $repas_charge
  *
  * @property \App\Model\Entity\Dispositif $dispositif
  * @property \App\Model\Entity\Personnel[] $personnels
