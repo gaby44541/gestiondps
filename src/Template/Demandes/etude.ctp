@@ -194,7 +194,7 @@ $pdf->SetFont('helvetica', '', 10);
 $pdf->MultiCell(30, 0, 'A votre charge', 0, 'L', 1, 0, '', '', true, 1, false, true, 40, 'T');
 $pdf->SetFont('helvetica', '', 8);
 $pdf->SetTextColor(105);
-//$pdf->MultiCell(170, 0, 'Matin : '.$demande->total_repas_matin.' repas -- Midi : '.$demande->total_repas_midi.' repas (prévoir 2 sans porc) -- Soir :'.$demande->total_repas_soir.' repas (prévoir 2 sans porc)
+$pdf->MultiCell(170, 0, 'Matin : '.$demande->total_repas_matin.' repas -- Midi : '.$demande->total_repas_midi.' repas (prévoir 2 sans porc) -- Soir :'.$demande->total_repas_soir.' repas (prévoir 2 sans porc)
 Vous trouverez en annexe le détails, par journée et par équipe, des repas à prévoir. Suite à quelques organisateurs indélicats nous vous informons que toute difficulté rencontrée sur site au sujet des repas entraînera une majoration de la facturation par la suite afin de couvrir les frais supplémentaires engendrés.
 ' , 0, 'J', 1, 1, '', '', true,1, false, true, 40, 'T');
 
