@@ -92,8 +92,10 @@ class Dimensionnement extends Entity
         'acces' => true,
         'besoins_particuliers' => true,
         'pompier' => true,
+        'id_caserne' => true,
         'pompier_delai' => true,
         'hopital' => true,
+        'id_hopital' => true,
         'hopital_delai' => true,
         'medecin' => true,
         'medecin_telephone' => true,
@@ -107,7 +109,8 @@ class Dimensionnement extends Entity
         'autres_public' => true,
         'autres' => true,
         'demande' => true,
-        'dispositif' => true
+        'dispositif' => true,
+        'caserne' => true
     ];
 
 	protected $_virtual = [

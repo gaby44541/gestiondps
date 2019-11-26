@@ -52,6 +52,12 @@ class DimensionnementsTable extends Table
 			'dependent' => true,
             'foreignKey' => 'dimensionnement_id'
         ]);
+        $this->belongsTo('Caserne', [
+            'foreignKey' => 'dimensionnement_id'
+        ]);
+        $this->belongsTo('Hopital', [
+            'foreignKey' => 'dimensionnement_id'
+        ]);
     }
 
     /**
@@ -171,11 +177,21 @@ class DimensionnementsTable extends Table
             ->notEmpty('pompier');
 
         $validator
+            ->scalar('id_pompier')
+            ->maxLength('pompier', 255)
+            ->notEmpty('pompier');
+
+        $validator
             ->integer('pompier_delai')
             ->notEmpty('pompier_delai');
 
         $validator
             ->scalar('hopital')
+            ->maxLength('hopital', 255)
+            ->notEmpty('hopital');
+
+        $validator
+            ->scalar('id_hopital')
             ->maxLength('hopital', 255)
             ->notEmpty('hopital');
 

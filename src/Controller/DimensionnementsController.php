@@ -173,8 +173,9 @@ class DimensionnementsController extends AppController
 
 		$navigation = $this->navigation;
 		$environnements = $dimensionnement->get('environnements');
-
-        $this->set(compact('dimensionnement', 'demandes','navigation','environnements'));
+        $casernes = $this->Dimensionnements->Caserne->find('list',['keyField' => 'id','valueField' => 'nom']);
+        $hopitaux = $this->Dimensionnements->Hopital->find('list',['keyField' => 'id','valueField' => 'nom']);
+        $this->set(compact('dimensionnement', 'demandes','navigation','environnements','casernes','hopitaux'));
     }
 
     /**
