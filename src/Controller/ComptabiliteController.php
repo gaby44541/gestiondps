@@ -15,7 +15,7 @@ use Cake\Log\Log;
  */
 class ComptabiliteController extends AppController
 {
-	var $navigation = [];
+	var $navigation = [[ 'label' => 'Recherche DPS', 'config' => [ 'controller' => 'RechercheDps', 'action' => 'index' ]]];
 
     /**
      * Index method
@@ -27,7 +27,11 @@ class ComptabiliteController extends AppController
         $demande = TableRegistry::get('Demandes');
         $demandes = $demande->find('all',['contain'=>['ConfigEtats','Organisateurs','Dimensionnements'=>[
                                                    				'sort' => ['Dimensionnements.horaires_debut' => 'ASC']],'Antennes']]);
-        $this->set(compact('demandes','navigation'));
+        $demandesFacturees = $demande->find('all',['contain'=>['ConfigEtats','Organisateurs','Dimensionnements'=>[
+                                                                'sort' => ['Dimensionnements.horaires_debut' => 'ASC']],'Antennes']])->where ('ordre = 13');
+        $demandesAttenteFacture = $demande->find('all',['contain'=>['ConfigEtats','Organisateurs','Dimensionnements'=>[
+                                                                'sort' => ['Dimensionnements.horaires_debut' => 'ASC']],'Antennes']])->where ('ordre = 10');
+        $this->set(compact('demandes','demandesFacturees','demandesAttenteFacture','navigation'));
 
     }
 
